@@ -1,19 +1,13 @@
-import * as React from "react"
+import * as React from 'react';
 import {
   BrowserRouter,
-  Route,
-  Routes,
-  Link
-} from "react-router-dom"
+} from 'react-router-dom';
 
-import CompeteView from "../CompeteView/CompeteView"
-import Navbar from "../Navbar/Navbar"
-import './App.css'
-
+import CompeteView from '../CompeteView/CompeteView';
+import Navbar from '../Navbar/Navbar';
+import './App.css';
 
 function App() {
-
-
   return (
     <div className="app">
       <BrowserRouter>
@@ -22,7 +16,7 @@ function App() {
 
       </BrowserRouter>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,39 +1,36 @@
-import * as React from "react"
-import { useRef } from "react"
-import './QuestionSpeaker.css'
+import * as React from 'react';
+import './QuestionSpeaker.css';
 
 export default function QuestionSpeaker(props) {
+  const audioRef = React.useRef(new Audio(`../../testdata/game-1/q${props.questionNumber}.m4a`));
 
-    let [isPlaying, setIsPlaying] = React.useState(false);
+  React.useEffect(() => {
+    audioRef.current = new Audio(`../../testdata/game-1/q${props.questionNumber}.m4a`);
+  }, [props.questionNumber]);
 
-    let audioRef = React.useRef(new Audio(`../../testdata/game-1/q${props.questionNumber}.m4a`));
+  const play = () => {
+    audioRef.current.play();
+    props.setBuzzTimings(
+      { ...props.buzzTimings, duration: audioRef.current.duration, play: Date.now() },
+    );
+    props.setReadingMode('readactive');
+  };
 
-    React.useEffect(() => {
-        audioRef.current = new Audio(`../../testdata/game-1/q${props.questionNumber}.m4a`);
-    }, [props.questionNumber])
+  const buzz = () => {
+    audioRef.current.pause();
+    props.setBuzzTimings(
+      { ...props.buzzTimings, duration: audioRef.current.duration, buzz: Date.now() },
+    );
 
-    const play = () => {
-        setIsPlaying(true);
-        audioRef.current.play();
-        props.setBuzzTimings({...props.buzzTimings, duration:audioRef.current.duration, play:Date.now()});
-        props.setReadingMode("readactive");
-    }
+    props.setReadingMode('waitforans');
+  };
 
-    const buzz = () => {
-        setIsPlaying(false);
+  return (
+    <div className="question-speaker">
 
-        audioRef.current.pause();
-        props.setBuzzTimings({...props.buzzTimings, duration:audioRef.current.duration, buzz:Date.now()});
+      {(props.readingMode === 'waitforstrt') && <button type="button" onClick={play}>Play</button>}
+      {(props.readingMode === 'readactive') && <button type="button" onClick={buzz}>Buzz</button>}
 
-        props.setReadingMode("waitforans");
-    }
-
-    return (
-        <div className="question-speaker">
-            
-            {(props.readingMode == "waitforstrt") && <button onClick={play}>Play</button>}
-            {(props.readingMode == "readactive") && <button onClick={buzz}>Buzz</button>}
-
-        </div>
-    )
+    </div>
+  );
 }
