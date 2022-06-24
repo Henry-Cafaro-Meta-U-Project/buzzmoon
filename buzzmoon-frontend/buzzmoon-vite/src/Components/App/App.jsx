@@ -1,11 +1,12 @@
 import * as React from "react"
 import './App.css'
+import CompeteView from "../CompeteView/CompeteView"
 
 function App() {
 
 
   return (
-    <div className="hello">Test</div>
+    <CompeteView />
   )
 }
 
