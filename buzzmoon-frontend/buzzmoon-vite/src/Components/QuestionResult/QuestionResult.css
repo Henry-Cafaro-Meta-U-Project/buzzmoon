@@ -1,0 +1,11 @@
+.question-result {
+    background-color: #d3d3d3;
+    padding: 0 10px 0 10px;
+    border: 1px solid black;
+    max-width: 40%
+}
+
+.question-number {
+    font-weight: bold;
+    margin-bottom: 5px;
+}

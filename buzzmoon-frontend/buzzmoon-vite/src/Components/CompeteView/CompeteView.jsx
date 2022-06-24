@@ -5,6 +5,9 @@ import Game from "../Game/Game";
 
 export default function CompeteView(props) {
     return (
-        <Game />
+        <div className="compete-view">
+            <Game />
+        </div>
+       
     )
 }

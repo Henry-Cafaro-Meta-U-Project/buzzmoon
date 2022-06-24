@@ -25,17 +25,15 @@ export default function QuestionSpeaker(props) {
         audioRef.current.pause();
         props.setBuzzTimings({...props.buzzTimings, duration:audioRef.current.duration, buzz:Date.now()});
 
-        props.setReadingMode("waitfornxt");
+        props.setReadingMode("waitforans");
     }
 
     return (
-        <div className="play-audio-button">
+        <div className="question-speaker">
             
             {(props.readingMode == "waitforstrt") && <button onClick={play}>Play</button>}
             {(props.readingMode == "readactive") && <button onClick={buzz}>Buzz</button>}
 
-            
-            {isPlaying ? "Playing" : "Paused"}
         </div>
     )
 }

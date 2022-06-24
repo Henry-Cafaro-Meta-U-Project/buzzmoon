@@ -1,12 +1,27 @@
 import * as React from "react"
-import './App.css'
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  Link
+} from "react-router-dom"
+
 import CompeteView from "../CompeteView/CompeteView"
+import Navbar from "../Navbar/Navbar"
+import './App.css'
+
 
 function App() {
 
 
   return (
-    <CompeteView />
+    <div className="app">
+      <BrowserRouter>
+        <Navbar />
+        <CompeteView />
+
+      </BrowserRouter>
+    </div>
   )
 }
 
