@@ -3,7 +3,7 @@ import {
   BrowserRouter,
 } from 'react-router-dom';
 
-import CompeteView from '../CompeteView/CompeteView';
+import Home from '../Home/Home';
 import Navbar from '../Navbar/Navbar';
 import './App.css';
 
@@ -12,7 +12,7 @@ function App() {
     <div className="app">
       <BrowserRouter>
         <Navbar />
-        <CompeteView />
+        <Home />
 
       </BrowserRouter>
     </div>
