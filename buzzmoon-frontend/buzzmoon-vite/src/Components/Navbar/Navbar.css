@@ -1,5 +1,15 @@
 .navbar {
     width: 100%;
     border-bottom: 2px solid black;
-    text-align: center;
+    text-align: left;
+    padding-left: 10%;
+}
+
+a {
+    text-decoration:none;
+    color: inherit;
+}
+
+.navbar .fa-solid {
+    font-size: 64px;
 }

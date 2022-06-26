@@ -1,10 +1,13 @@
 import * as React from 'react';
 import QuestionResult from '../QuestionResult/QuestionResult';
 import QuestionSpeaker from '../QuestionSpeaker/QuestionSpeaker';
+import { useParams } from 'react-router-dom';
+import BackendActor from '../BackendActor/backend-actor';
 import './Game.css';
 
-export default function Game() {
-  // const [gameID, setGameID] = React.useState(1); // placeholder
+export default function Game(props) {
+  const {gameID} = useParams();
+
   const [questionNumber, setQuestionNumber] = React.useState(0);
   const [prevQuestionDetails, setPrevQuestionDetails] = React.useState(null);
   const [buzzTimings, setBuzzTimings] = React.useState({ play: 0, buzz: 0, duration: 0 });
@@ -16,7 +19,8 @@ export default function Game() {
   //           waitforans: wait for user to type answer to question
 
   const processAnswer = () => {
-    fetch(`../../testdata/game-1/q${questionNumber}.json`)
+    
+    fetch(BackendActor.getQuestionDataURL(gameID, questionNumber))
       .then((response) => (response.json()))
       .then((json) => {
         const celerity = Math.max(
@@ -55,6 +59,7 @@ export default function Game() {
 
           {(readingMode !== 'waitfornxt') && (
           <QuestionSpeaker
+            gameID={gameID}
             questionNumber={questionNumber}
             buzzTimings={buzzTimings}
             setBuzzTimings={setBuzzTimings}

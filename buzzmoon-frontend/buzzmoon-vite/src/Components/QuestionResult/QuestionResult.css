@@ -2,7 +2,11 @@
     background-color: #d3d3d3;
     padding: 0 10px 0 10px;
     border: 1px solid black;
-    max-width: 40%
+    max-width: 40%;
+    max-height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .question-number {

@@ -1,11 +1,13 @@
 import * as React from 'react';
+import BackendActor from '../BackendActor/backend-actor';
 import './QuestionSpeaker.css';
 
 export default function QuestionSpeaker(props) {
-  const audioRef = React.useRef(new Audio(`../../testdata/game-1/q${props.questionNumber}.m4a`));
+  
+  const audioRef = React.useRef(new Audio(BackendActor.getAudioURL(props.gameID, props.questionNumber)));
 
   React.useEffect(() => {
-    audioRef.current = new Audio(`../../testdata/game-1/q${props.questionNumber}.m4a`);
+    audioRef.current = new Audio(BackendActor.getAudioURL(props.gameID, props.questionNumber));
   }, [props.questionNumber]);
 
   const play = () => {
