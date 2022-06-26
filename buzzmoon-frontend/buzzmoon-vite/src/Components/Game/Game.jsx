@@ -4,12 +4,15 @@ import QuestionSpeaker from '../QuestionSpeaker/QuestionSpeaker';
 import { useParams } from 'react-router-dom';
 import BackendActor from '../BackendActor/backend-actor';
 import './Game.css';
+import GameScore from '../GameScore/GameScore';
 
 export default function Game(props) {
   const {gameID} = useParams();
 
   const [questionNumber, setQuestionNumber] = React.useState(0);
   const [prevQuestionDetails, setPrevQuestionDetails] = React.useState(null);
+  const [cumulativeScore, setCumulativeScore] = React.useState(0);
+  const [cumulativeResults, setCumulativeResults] = React.useState([]);
   const [buzzTimings, setBuzzTimings] = React.useState({ play: 0, buzz: 0, duration: 0 });
   const [answerInputText, setAnswerInputText] = React.useState('');
   const [readingMode, setReadingMode] = React.useState('waitfornxt');
@@ -18,27 +21,19 @@ export default function Game(props) {
   //           waitforstrt: wait for question audio to be read
   //           waitforans: wait for user to type answer to question
 
-  const processAnswer = () => {
-    
-    fetch(BackendActor.getQuestionDataURL(gameID, questionNumber))
-      .then((response) => (response.json()))
-      .then((json) => {
-        const celerity = Math.max(
-          0.0,
-          1.0 - (buzzTimings.buzz - buzzTimings.play) / (1000 * buzzTimings.duration),
-        );
-        const givenAnswer = answerInputText;
-        setPrevQuestionDetails(
-          { question: json, celerity, givenAnswer },
-        );
-      });
+  const processAnswer = async () => {
+    let questionResults = await BackendActor.getQuestionResults(gameID, questionNumber, answerInputText, buzzTimings);
+    setCumulativeScore(cumulativeScore + questionResults.points);
+    setPrevQuestionDetails(questionResults);
   };
 
   return (
     <div className="game">
       <div className="game-header">
-        Question #
-        {questionNumber}
+        <div className='game-question-number'>
+          {`Question #${questionNumber}`}
+        </div>
+        <GameScore cumulativeScore={cumulativeScore}/>
       </div>
 
       <div className="game-body">
