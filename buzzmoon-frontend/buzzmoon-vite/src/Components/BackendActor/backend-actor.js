@@ -13,6 +13,8 @@ export default class BackendActor {
         )} has signed in`);
 
         setCurrentUser(loggedInUser);
+        localStorage.setItem('user', loggedInUser);
+
 
     } catch (error) {
       alert(`error: ${error.message}`);

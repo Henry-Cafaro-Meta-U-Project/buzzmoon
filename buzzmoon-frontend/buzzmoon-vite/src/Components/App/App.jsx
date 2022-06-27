@@ -19,6 +19,14 @@ Parse.serverURL = 'https://parseapi.back4app.com/';
 function App() {
   let [currentUser, setCurrentUser] = React.useState(null);
 
+  React.useEffect(() => {
+    const user = localStorage.getItem('user');
+
+    if(user){
+      setCurrentUser(user);
+    }
+  }, []);
+
   if(currentUser == null){
     return (<Auth setCurrentUser={setCurrentUser}/>)
   }
