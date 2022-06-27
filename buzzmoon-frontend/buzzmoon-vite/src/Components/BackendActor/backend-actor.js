@@ -5,6 +5,21 @@ Parse.serverURL = 'https://parseapi.back4app.com/';
 
 
 export default class BackendActor {
+  static async handleLogin(username, password, setCurrentUser){
+    try {
+      const loggedInUser = await Parse.User.logIn(username, password);
+      console.log(`Successful login: user ${loggedInUser.get(
+          'username'
+        )} has signed in`);
+
+        setCurrentUser(loggedInUser);
+
+    } catch (error) {
+      alert(`error: ${error.message}`);
+    }
+
+  }
+
   static getAudioURL(gameID, questionNumber){
     return `../../testdata/game-${gameID}/q${questionNumber}.m4a`;
   }
