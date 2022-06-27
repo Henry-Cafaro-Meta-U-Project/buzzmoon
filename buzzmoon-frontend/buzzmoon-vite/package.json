@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@parse/react": "^0.0.1-alpha.18",
+    "parse": "^3.4.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.3.0"
