@@ -22,6 +22,17 @@ export default class BackendActor {
 
   }
 
+  static async handleLogOut(setCurrentUser) {
+    try {
+      await Parse.User.logOut();
+      setCurrentUser(null);
+      localStorage.setItem('user', null);
+    } catch (error) {
+      console.log('error: ', error);
+      
+    }
+  }
+
   static getAudioURL(gameID, questionNumber){
     return `../../testdata/game-${gameID}/q${questionNumber}.m4a`;
   }

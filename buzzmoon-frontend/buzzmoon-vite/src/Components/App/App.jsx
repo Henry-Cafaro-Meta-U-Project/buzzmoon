@@ -27,6 +27,16 @@ function App() {
     }
   }, []);
 
+  const handleLogOut = async () => {
+    try {
+      await Parse.User.logOut();
+      setCurrentUser(null);
+    } catch (error) {
+      console.log('error: ', error);
+      
+    }
+  }
+
   if(currentUser == null){
     return (<Auth setCurrentUser={setCurrentUser}/>)
   }
@@ -36,7 +46,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navigate to="/compete" />}></Route>
-          <Route path="/compete/*"  element={<Home />}></Route>
+          <Route path="/compete/*"  element={<Home setCurrentUser={setCurrentUser}/>}></Route>
         </Routes>
 
       </BrowserRouter>
