@@ -107,11 +107,11 @@ As a creator, I want to be able to manually review answers by competitors in my 
   - (GET) get question data, url to question audio;
   - (POST) send user answer to backend
 - Game Leaderboard 
-  -(GET) get game results
+  - (GET) get game results
 - Create View
-  -(GET) get list of user's created games
+  - (GET) get list of user's created games
 - Create Game View
-  -(POST) send question data and game data to backend, receive as answer cloud storage url to upload audio to
-  -(POST) send question audio to url storage
+  - (POST) send question data and game data to backend, receive as answer cloud storage url to upload audio to
+  - (POST) send question audio to url storage
    
 
