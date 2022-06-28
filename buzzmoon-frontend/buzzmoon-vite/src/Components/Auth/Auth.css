@@ -1,0 +1,28 @@
+.auth-form{
+  display: flex;
+  justify-content: center;
+}
+
+.flex-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  list-style: none;
+  padding: 10px;
+
+  border: 2px solid black;
+}
+
+.flex-form li{
+  margin: 5px 0 5px 0;
+
+}
+
+.auth{
+  margin-top: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
