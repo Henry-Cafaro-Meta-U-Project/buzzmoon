@@ -92,6 +92,30 @@ As a creator, I want to be able to manually review answers by competitors in my 
 ## Schema 
 ### Models
 ### Database Classes
+- Question
+   - gameID (unique id of game containing this question)
+   - questionNumber (ordinal number of question within game)
+   - audioURL (address of audio for question in cloud storage)
+   - acceptableAnswers (array of acceptable answers)
+   - tags (stretch feature, tags are like "science" "history" "pop culture", etc.)
+
+- Game
+   - gameID (unique gameID)
+   - author (userID of author)
+   - title
+   - description
+   - numQuestions (number of questions in game)
+   - players (array of userID who played this game)
+
+- User
+   - Parse stuff (userID, username, email, password, etc.)
+   - gamesCreated (array of gameID created by this user)
+   - gamesPlayed (array of gameID played by this user)
+
+- Answer (pair of one User and one Question, represents that Users response to a single question)
+   - question (pointer to question)
+   - user (pointer to user)
+   - result (points from question, celerity, given answer, etc. Anything needed to reconstruct results of game) 
 
 
    
