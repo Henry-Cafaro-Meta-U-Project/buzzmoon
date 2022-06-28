@@ -21,16 +21,16 @@ Placeholder
 
 ## Product Spec
 
-###User Roles
+### User Roles
 
 Competitor-a user who is competing on rounds with other competitors
 
 Creator-a user who is creating rounds of questions for other users to compete on
 
-###User Personas
+### User Personas
 
 
-###User Stories
+### User Stories
 
 As a competitor, I want to be able to compare my results and see where I rank against my friends
 
