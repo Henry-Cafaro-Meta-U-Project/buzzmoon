@@ -98,18 +98,19 @@ As a creator, I want to be able to manually review answers by competitors in my 
 ### Networking
 #### List of network requests by screen
 
--Login
+- Login
   - authenticate login user, sign up new user
--Compete View
+  
+- Compete View
   - (GET) get list of available games
--Game View
+- Game View
   - (GET) get question data, url to question audio;
   - (POST) send user answer to backend
--Game Leaderboard 
+- Game Leaderboard 
   -(GET) get game results
--Create View
+- Create View
   -(GET) get list of user's created games
--Create Game View
+- Create Game View
   -(POST) send question data and game data to backend, receive as answer cloud storage url to upload audio to
   -(POST) send question audio to url storage
    
