@@ -19,7 +19,7 @@ export default  function CreateView(props) {
 
             <Link to="/create/new">
               <button type="button" className='create-new-button'>
-                <i class="fa-solid fa-plus"></i> Create New
+                <i className="fa-solid fa-plus"></i> Create New
               </button>
             </Link>
           </div>}>

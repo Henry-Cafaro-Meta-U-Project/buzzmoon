@@ -1,0 +1,23 @@
+.create-question {
+  padding: 10px;
+  margin: 10px;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+
+.create-question-answers textarea{
+  width: 95%;
+}
+
+.create-question-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.create-question-header button{
+  font-size: 24px;
+  background-color: transparent;
+  padding: 0px;
+  border: none;
+}
