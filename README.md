@@ -85,7 +85,20 @@ As a creator, I want to be able to manually review answers by competitors in my 
 
 ## Wireframes
 
+Compete View
+![IMG_1419](https://user-images.githubusercontent.com/107445434/176535702-831660f5-34da-43cb-bce7-97af555acc5d.jpg)
 
+Game View
+![IMG_1420](https://user-images.githubusercontent.com/107445434/176535709-9ab14b58-6ef6-49a7-8c49-489e9bbf62e5.jpg)
+
+Game Leaderboard
+![IMG_1421](https://user-images.githubusercontent.com/107445434/176535715-cec2dbed-ad63-4cc3-83ea-4dbb1bb412f6.jpg)
+
+Create View
+![IMG_1422](https://user-images.githubusercontent.com/107445434/176535716-9766b402-7d7d-4d38-9e8d-ecfa94a8a585.jpg)
+
+Create Game View
+![IMG_1423](https://user-images.githubusercontent.com/107445434/176535720-2b401793-f1dc-4531-ad2e-b0f1fbb15316.jpg)
 
 
 
@@ -137,5 +150,3 @@ As a creator, I want to be able to manually review answers by competitors in my 
 - Create Game View
   - (POST) send question data and game data to backend, receive as answer cloud storage url to upload audio to
   - (POST) send question audio to url storage
-   
-
