@@ -11,7 +11,9 @@ import * as Parse from 'parse/dist/parse.min.js'
 import Home from '../Home/Home';
 import Navbar from '../Navbar/Navbar';
 import Auth from '../Auth/Auth';
+import CreateView from '../CreateView/CreateView';
 import './App.css';
+import CompeteView from '../CompeteView/CompeteView';
 
 Parse.initialize(`nUrzDufzLEaJ3sjzvcvNHvw1hD46jOt4yEipaWHs`, `juaO5lbdY5jTtDXGpzEr2mGtggC0wf2Es11cEruf`);
 Parse.serverURL = 'https://parseapi.back4app.com/';
@@ -43,9 +45,11 @@ function App() {
     return (
       <div className="app">
         <BrowserRouter>
+          <Navbar setCurrentUser={setCurrentUser} />
           <Routes>
             <Route path="/" element={<Navigate to="/compete" />}></Route>
-            <Route path="/compete/*"  element={<Home setCurrentUser={setCurrentUser}/>}></Route>
+            <Route path="/compete/*"  element={<CompeteView />}></Route>
+            <Route path="/create/*"  element={<CreateView />}></Route>
           </Routes>
 
         </BrowserRouter>
