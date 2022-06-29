@@ -22,7 +22,7 @@ function App() {
   React.useEffect(() => {
     const user = localStorage.getItem('user');
 
-    if(user){
+    if(user !== "null"){
       setCurrentUser(user);
     }
   }, []);
@@ -39,19 +39,22 @@ function App() {
 
   if(currentUser == null){
     return (<Auth setCurrentUser={setCurrentUser}/>)
+  }else{
+    //console.log('currentUser: ', typeof currentUser);
+    return (
+      <div className="app">
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Navigate to="/compete" />}></Route>
+            <Route path="/compete/*"  element={<Home setCurrentUser={setCurrentUser}/>}></Route>
+          </Routes>
+
+        </BrowserRouter>
+      </div>
+    );
   }
 
-  return (
-    <div className="app">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Navigate to="/compete" />}></Route>
-          <Route path="/compete/*"  element={<Home setCurrentUser={setCurrentUser}/>}></Route>
-        </Routes>
-
-      </BrowserRouter>
-    </div>
-  );
+  
 }
 
 export default App;

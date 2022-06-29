@@ -7,9 +7,8 @@ export default function Auth(props) {
   let [password, setPassword] = React.useState('');
 
   const handleLogin = async  () => {
-    console.log(1);
+    
     await BackendActor.handleLogin(username, password, props.setCurrentUser);
-    console.log('username: ', username);
     setPassword('');
     setUsername('');
   }
@@ -20,13 +19,13 @@ export default function Auth(props) {
       <form className='auth-form'>
         <div className='flex-form'>
           <li>
-            <label for="username">Username </label>
+            <label htmlFor="username">Username </label>
             <input type="text" name="username" value={username} 
               onChange={(event) => {setUsername(event.target.value)}}>
             </input>
           </li>
           <li>
-            <label for="password">Password </label>
+            <label htmlFor="password">Password </label>
             <input type="password" name="password" value={password} 
               onChange={(event) => {setPassword(event.target.value)}}></input>  
           </li>
