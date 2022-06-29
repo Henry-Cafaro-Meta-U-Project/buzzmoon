@@ -4,10 +4,15 @@ import './QuestionSpeaker.css';
 
 export default function QuestionSpeaker(props) {
   
-  const audioRef = React.useRef(new Audio(BackendActor.getAudioURL(props.gameID, props.questionNumber)));
+  const audioRef = React.useRef();
 
   React.useEffect(() => {
-    audioRef.current = new Audio(BackendActor.getAudioURL(props.gameID, props.questionNumber));
+    const updateAudio = async () => {
+      const audioURL = await BackendActor.getServerAudioURL(props.gameID, props.questionNumber);
+      audioRef.current = new Audio(audioURL);
+    }
+    
+    updateAudio();
   }, [props.questionNumber]);
 
   const play = () => {

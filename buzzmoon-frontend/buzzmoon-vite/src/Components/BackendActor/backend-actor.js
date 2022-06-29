@@ -33,9 +33,17 @@ export default class BackendActor {
     }
   }
 
-  static getAudioURL(gameID, questionNumber){
-    return `../../testdata/game-${gameID}/q${questionNumber}.m4a`;
+  static async getServerAudioURL(gameID, questionNumber) {
+    const query = new Parse.Query("Question");
+    query.equalTo("gameID", parseInt(gameID)).equalTo("questionNumber", parseInt(questionNumber));
+
+
+    const responses = await query.find();
+    const data = responses[0].attributes;
+
+    return data.audio._url;
   }
+
 
   static async getQuestionResults(gameID, questionNumber, givenAnswer, buzzTimings){
     const query = new Parse.Query("Question");
