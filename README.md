@@ -67,6 +67,14 @@ As a creator, I want to be able to manually review answers by competitors in my 
 
 ### 3. Navigation
 
+**React Router**
+* / - login screen, redirects to /compete when logged in
+* /compete - Compete View
+* /compete/:gameID - Game View
+* /compete/results/:gameID - Game Leaderboard
+* /create - Create View
+* /create/new - Create Game View
+
 **Tab Navigation** (Tab to Screen)
 
 * Compete {arena icon}
