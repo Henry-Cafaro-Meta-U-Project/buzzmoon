@@ -40,7 +40,6 @@ function App() {
   if(currentUser == null){
     return (<Auth setCurrentUser={setCurrentUser}/>)
   }else{
-    //console.log('currentUser: ', typeof currentUser);
     return (
       <div className="app">
         <BrowserRouter>
