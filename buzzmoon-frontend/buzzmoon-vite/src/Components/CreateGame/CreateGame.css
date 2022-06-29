@@ -1,0 +1,12 @@
+.create-game{
+  width: 60%;
+}
+.game-details {
+  padding: 6px;
+  width: auto;
+}
+
+.game-details textarea[name="description"] {
+  width: 95%;
+  height: 100px;
+}
