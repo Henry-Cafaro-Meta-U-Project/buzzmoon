@@ -5,6 +5,7 @@ Parse.serverURL = 'https://parseapi.back4app.com/';
 
 
 export default class BackendActor {
+
   static async handleLogin(username, password, setCurrentUser){
     try {
       const loggedInUser = await Parse.User.logIn(username, password);
@@ -35,7 +36,7 @@ export default class BackendActor {
 
   static async getServerAudioURL(gameID, questionNumber) {
     const query = new Parse.Query("Question");
-    query.equalTo("gameID", parseInt(gameID)).equalTo("questionNumber", parseInt(questionNumber));
+    query.equalTo("gameID", gameID).equalTo("questionNumber", parseInt(questionNumber));
 
 
     const responses = await query.find();
@@ -44,10 +45,15 @@ export default class BackendActor {
     return data.audio._url;
   }
 
+  static async getGames() {
+    const query = new Parse.Query("Game");
+    const responses = await query.find();
+    return responses;
+  }
 
   static async getQuestionResults(gameID, questionNumber, givenAnswer, buzzTimings){
     const query = new Parse.Query("Question");
-    query.equalTo("gameID", parseInt(gameID)).equalTo("questionNumber", parseInt(questionNumber));
+    query.equalTo("gameID", gameID).equalTo("questionNumber", parseInt(questionNumber));
 
 
     const responses = await query.find();
