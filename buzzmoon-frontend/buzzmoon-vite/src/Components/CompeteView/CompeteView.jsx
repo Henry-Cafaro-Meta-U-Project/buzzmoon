@@ -56,7 +56,7 @@ export default function CompeteView() {
 
 
 function GameListItem(props) {
-  console.log('props: ', props);
+  //console.log('props: ', props);
   return  (
     <div className='game-list-item'>
       {props.game.attributes.title} <Link to={`/compete/${props.game.id}`}> Enter</Link>

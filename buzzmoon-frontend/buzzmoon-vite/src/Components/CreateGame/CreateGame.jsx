@@ -2,10 +2,20 @@ import * as React from 'react';
 import CreateQuestion from '../CreateQuestion/CreateQuestion';
 import './CreateGame.css';
 
+let uniqueQuestions = 0;
+
+// this function used for the purpose of giving each question box a unique key
+// so React preserves state correctly
+const getUniqueKey = () => {
+  uniqueQuestions += 1;
+  return uniqueQuestions;
+}
+
 export default function CreateGame() {
   let [title, setTitle] = React.useState("");
   let [desc, setDesc] = React.useState("");
   let [questions, setQuestions] = React.useState([]);
+
 
   const deleteQuestion = (questionNumber) => {
     setQuestions(questions.filter((e) => (e.number !== questionNumber)).map((e, idx) => ({...e, number:idx+1})));
@@ -31,15 +41,20 @@ export default function CreateGame() {
         <h2>Questions</h2>
         <div className='question-list'>
           {questions.map((q, ind) => (
-            <CreateQuestion key={ind} question={q} questions={questions} setQuestions={setQuestions} 
+            <CreateQuestion key={q.id} question={q} questions={questions} setQuestions={setQuestions} 
               deleteQuestion={deleteQuestion} modifyQuestion={modifyQuestion}/>
           ))}
         </div>
         <button type="button" className='add-question-button' onClick={() => {
           setQuestions(questions.concat(
-            [{
+            [
+              {
+              id:getUniqueKey(),
               number:questions.length+1,
-              answers:""}]));
+              answers:"",
+              audioFile:null
+              }
+            ]));
         }}>New Question</button>
         
       </div>
