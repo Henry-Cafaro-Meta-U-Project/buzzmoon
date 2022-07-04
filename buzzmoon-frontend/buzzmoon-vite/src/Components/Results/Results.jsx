@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import BackendActor from '../BackendActor/backend-actor';
 import './Results.css';
 
+//placeholder results page
 export default function Results(props) {
   const {gameID} = useParams();
 
