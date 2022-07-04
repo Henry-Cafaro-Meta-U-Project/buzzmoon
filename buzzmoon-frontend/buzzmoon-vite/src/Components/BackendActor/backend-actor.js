@@ -144,6 +144,25 @@ export default class BackendActor {
       this.validateGameData(gameData);
       const response = await Parse.Cloud.run("createGame", gameData);
       console.log("response: ", response);
+      // upload was succesful: we now need to upload the audio files
+
+      await gameData.questions.map(async (q) => {
+        const query = new Parse.Query("Question");
+        query.equalTo("gameID", response.newGameId).equalTo("questionNumber", parseInt(q.questionNumber));
+        const responses = await query.find();
+
+        const audioFile = new Parse.File(q.audioFile.name, q.audioFile);
+        
+        const savedFile = await audioFile.save();
+
+        responses[0].set("audio", savedFile);
+
+        await responses[0].save();
+
+
+      })
+
+
     } catch (error) {
       alert(`error: ${error}`);
     }
