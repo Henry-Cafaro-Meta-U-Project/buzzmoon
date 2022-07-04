@@ -59,8 +59,9 @@ export default function Game(props) {
                         if(questionNumber == gameData.numQuestions){
                           navigate("./results");
                         } else {
-                          setReadingMode('waitforstrt');
+                          
                           setQuestionNumber(questionNumber + 1);
+                          setReadingMode('waitforstrt');
                         }
                       }}
                     >

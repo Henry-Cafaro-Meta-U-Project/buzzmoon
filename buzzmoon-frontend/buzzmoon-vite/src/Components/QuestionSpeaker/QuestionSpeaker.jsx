@@ -3,20 +3,25 @@ import BackendActor from '../BackendActor/backend-actor';
 import './QuestionSpeaker.css';
 
 export default function QuestionSpeaker(props) {
+  let [isLoading, setIsLoading] = React.useState("loading");
   
   const audioRef = React.useRef();
 
   React.useEffect(() => {
     const updateAudio = async () => {
+      setIsLoading("loading");
       const audioURL = await BackendActor.getServerAudioURL(props.gameID, props.questionNumber);
-      audioRef.current = new Audio(audioURL);
+      audioRef.current = await new Audio(audioURL);
+      await audioRef.current.load();
+      setIsLoading("ready");
     }
-    
+
     updateAudio();
   }, [props.questionNumber]);
 
-  const play = () => {
-    audioRef.current.play();
+
+  const play = async () => {
+    await audioRef.current.play();
     props.setBuzzTimings(
       { ...props.buzzTimings, duration: audioRef.current.duration, play: Date.now() },
     );
@@ -25,6 +30,7 @@ export default function QuestionSpeaker(props) {
 
   const buzz = () => {
     audioRef.current.pause();
+    audioRef.current.muted = true;
     props.setBuzzTimings(
       { ...props.buzzTimings, duration: audioRef.current.duration, buzz: Date.now() },
     );
@@ -32,11 +38,15 @@ export default function QuestionSpeaker(props) {
     props.setReadingMode('waitforans');
   };
 
+
   return (
     <div className="question-speaker">
 
-      {(props.readingMode === 'waitforstrt') && <button type="button" onClick={play}>Play</button>}
-      {(props.readingMode === 'readactive') && <button type="button" onClick={buzz}>Buzz</button>}
+      {(isLoading === "loading") && <span className='loading-header'>
+        <i class="fa-solid fa-spinner fa-spin"></i>
+      </span>}
+      {(props.readingMode === 'waitforstrt' && isLoading === "ready") && <button type="button" onClick={play}>Play</button>}
+      {(props.readingMode === 'readactive' && isLoading === "ready") && <button type="button" onClick={buzz}>Buzz</button>}
 
     </div>
   );
