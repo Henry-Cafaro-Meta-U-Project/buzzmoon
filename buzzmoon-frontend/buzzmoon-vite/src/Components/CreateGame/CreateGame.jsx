@@ -2,6 +2,8 @@ import * as React from 'react';
 import BackendActor from '../BackendActor/backend-actor';
 import CreateQuestion from '../CreateQuestion/CreateQuestion';
 import './CreateGame.css';
+import { useNavigate } from "react-router-dom";
+
 
 let uniqueQuestions = 0;
 
@@ -16,6 +18,8 @@ export default function CreateGame() {
   const [title, setTitle] = React.useState('');
   const [desc, setDesc] = React.useState('');
   const [questions, setQuestions] = React.useState([]);
+
+  const navigate = useNavigate();
 
   const deleteQuestion = (questionNumber) => {
     setQuestions(questions.filter((e) => (e.number !== questionNumber))
@@ -89,9 +93,12 @@ export default function CreateGame() {
       </div>
       <div className="submit-details">
         <button type="button" name="upload-game-button" 
-          onClick={() => {
-            //console.log(BackendActor.prepareGameData(title,desc,questions));
-            BackendActor.uploadGame(BackendActor.prepareGameData(title, desc, questions));
+          onClick={async () => {
+            const message = await BackendActor.uploadGame(BackendActor.prepareGameData(title, desc, questions));
+
+            if(message === "Success"){
+              navigate("/compete");
+            }
           }}>
           Upload to Server
         </button>
