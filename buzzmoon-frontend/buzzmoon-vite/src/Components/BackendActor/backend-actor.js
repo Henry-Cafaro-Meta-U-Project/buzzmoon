@@ -89,8 +89,8 @@ export default class BackendActor {
   //the object represents contains all the metadata, question anwers, and audio to create the game on the backend
   static prepareGameData(title, description, questions) {
     return {
-      title: title,
-      description: description,
+      title: title.trim(),
+      description: description.trim(),
       questionCount: questions.length,
       questions:
         (questions.map((q) => 
@@ -104,6 +104,7 @@ export default class BackendActor {
 
   // duplicates the validation of game data that occurs on the backend, to prevent unnecessary bandwidth usage
   static validateGameData(gameData) {
+    console.log("Gamedata: ", gameData);
       
       if(!gameData.title || gameData.title.trim() === ""){
         throw "No title provided";
@@ -144,7 +145,7 @@ export default class BackendActor {
       const response = await Parse.Cloud.run("createGame", gameData);
       console.log("response: ", response);
     } catch (error) {
-      console.log("error: ", error);
+      alert(`error: ${error}`);
     }
   }
 
