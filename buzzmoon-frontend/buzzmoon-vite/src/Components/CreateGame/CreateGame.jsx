@@ -1,4 +1,5 @@
 import * as React from 'react';
+import BackendActor from '../BackendActor/backend-actor';
 import CreateQuestion from '../CreateQuestion/CreateQuestion';
 import './CreateGame.css';
 
@@ -86,7 +87,15 @@ export default function CreateGame() {
         </button>
 
       </div>
-      <div className="submit-details" />
+      <div className="submit-details">
+        <button type="button" name="upload-game-button" 
+          onClick={() => {
+            //console.log(BackendActor.prepareGameData(title,desc,questions));
+            BackendActor.uploadGame(BackendActor.prepareGameData(title, desc, questions));
+          }}>
+          Upload to Server
+        </button>
+      </div>
     </div>
   );
 }
