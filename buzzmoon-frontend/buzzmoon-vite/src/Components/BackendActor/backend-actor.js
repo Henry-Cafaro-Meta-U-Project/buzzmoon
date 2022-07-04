@@ -78,5 +78,15 @@ export default class BackendActor {
     return 10 + Math.floor(Math.sqrt(celerity) / 0.1);
   }
 
+  static async getGameMetadata(gameID){
+    if(gameID){
+      const query = new Parse.Query("Game");
+      const game = await(query.get(gameID));
+
+      return game.attributes;
+    }
+
+  }
+
 }
 
