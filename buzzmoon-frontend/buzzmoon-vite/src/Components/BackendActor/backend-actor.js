@@ -153,7 +153,6 @@ export default class BackendActor {
       alert(`error: ${error}`);
     }
   }
-}
 
   static async getGameMetadata(gameID){
     if(gameID){
