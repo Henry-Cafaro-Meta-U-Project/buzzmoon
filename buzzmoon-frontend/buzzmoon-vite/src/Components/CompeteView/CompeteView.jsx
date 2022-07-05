@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './CompeteView.css';
 import Game from '../Game/Game';
+import Results from '../Results/Results';
 import { BrowserRouter,
   Route,
   Routes,
@@ -48,6 +49,7 @@ export default function CompeteView() {
             </div>}>
         </Route>
         <Route path="/:gameID" element={<Game />}></Route>
+        <Route path="/:gameID/results" element={<Results />}></Route>
       </Routes>
       
     </div>

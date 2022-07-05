@@ -154,3 +154,15 @@ export default class BackendActor {
     }
   }
 }
+
+  static async getGameMetadata(gameID){
+    if(gameID){
+      const query = new Parse.Query("Game");
+      const game = await(query.get(gameID));
+
+      return game.attributes;
+    }
+
+  }
+
+}
