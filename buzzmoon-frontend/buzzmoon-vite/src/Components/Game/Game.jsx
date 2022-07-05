@@ -1,14 +1,16 @@
 import * as React from 'react';
 import QuestionResult from '../QuestionResult/QuestionResult';
 import QuestionSpeaker from '../QuestionSpeaker/QuestionSpeaker';
-import { useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import BackendActor from '../BackendActor/backend-actor';
 import './Game.css';
 import GameScore from '../GameScore/GameScore';
 
 export default function Game(props) {
   const {gameID} = useParams();
+  const navigate = useNavigate();
 
+  const [gameData, setGameData] = React.useState({});
   const [questionNumber, setQuestionNumber] = React.useState(0);
   const [prevQuestionDetails, setPrevQuestionDetails] = React.useState(null);
   const [cumulativeScore, setCumulativeScore] = React.useState(0);
@@ -27,6 +29,16 @@ export default function Game(props) {
     setPrevQuestionDetails(questionResults);
   };
 
+  React.useEffect(() => {
+    const updateGameData = async () => {
+      const fetchedGameData = await BackendActor.getGameMetadata(gameID);
+      setGameData(fetchedGameData);
+    }
+
+    updateGameData();
+  }, []);
+
+
   return (
     <div className="game">
       <div className="game-header">
@@ -44,8 +56,13 @@ export default function Game(props) {
                       type="button"
                       className="next-question"
                       onClick={() => {
-                        setReadingMode('waitforstrt');
-                        setQuestionNumber(questionNumber + 1);
+                        if(questionNumber == gameData.numQuestions){
+                          navigate("./results");
+                        } else {
+                          
+                          setQuestionNumber(questionNumber + 1);
+                          setReadingMode('waitforstrt');
+                        }
                       }}
                     >
                       Next
