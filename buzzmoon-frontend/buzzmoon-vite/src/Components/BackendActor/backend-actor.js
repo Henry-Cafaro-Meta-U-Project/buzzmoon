@@ -48,8 +48,8 @@ export default class BackendActor {
     return responses;
   }
 
-  static async getQuestionResults(gameID, questionNumber, givenAnswer, buzzTimings) {
-    const response = await Parse.Cloud.run("getQuestionResults", {gameID, questionNumber, givenAnswer, buzzTimings});
+  static async getQuestionResults(gameID, resultKey, questionNumber, givenAnswer, buzzTimings) {
+    const response = await Parse.Cloud.run("getQuestionResults", {gameID, resultKey, questionNumber, givenAnswer, buzzTimings});
     return response;
   
   }
@@ -138,7 +138,6 @@ export default class BackendActor {
 
   static async checkEntryMode(gameID) {
     const response = await Parse.Cloud.run("checkEntryMode", {gameID});
-    console.log("🚀 ~ file: backend-actor.js ~ line 169 ~ BackendActor ~ checkEntryMode ~ response", response)
     return response;
   }
 

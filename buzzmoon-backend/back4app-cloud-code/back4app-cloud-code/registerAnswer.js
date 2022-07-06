@@ -46,7 +46,7 @@ Parse.Cloud.define("registerGameEntry", async (request) => {
 
 
 Parse.Cloud.define("getQuestionResults", async (request) => {
-  const {gameID, questionNumber, buzzTimings, givenAnswer} = request.params;
+  const {gameID, resultKey, questionNumber, buzzTimings, givenAnswer} = request.params;
   const query = new Parse.Query('Question');
   query.equalTo('gameID', gameID).equalTo('questionNumber', parseInt(questionNumber));
 
@@ -59,6 +59,18 @@ Parse.Cloud.define("getQuestionResults", async (request) => {
     );
   
   const isCorrect = checkAnswerCorrectness(givenAnswer, answers);
+  
+  const resultQuery = new Parse.Query("GameResult");
+  const resultRef = await resultQuery.get(resultKey);
+  
+  const gameQuery = new Parse.Query("Game");
+  const gameRef = await gameQuery.get(gameID);
+  
+  if(resultRef.get("player").id === request.user.id){
+    if(resultRef.get("game").id === gameRef.id){
+      registerQuestionResult({questionNumber, givenAnswer, buzzTimings}, resultKey);
+    }
+  }
 
   return {
       question,
@@ -69,6 +81,21 @@ Parse.Cloud.define("getQuestionResults", async (request) => {
     };  
     
 });
+
+
+// registers the result of a single question
+async function registerQuestionResult(resultData, resultKey) {
+  const resultQuery = new Parse.Query("GameResult");
+  const resultRef = await resultQuery.get(resultKey);
+  console.log(resultRef);
+  
+  const answers = resultRef.get("answers");
+  
+  
+  resultRef.set("answers", answers.concat([resultData]));
+  
+  resultRef.save(null, { useMasterKey: true });
+}
 
 // checks the correctness of a given answer by comparing to a list of acceptable answers
 function checkAnswerCorrectness(givenAnswer, acceptableAnswers) {

@@ -14,7 +14,6 @@ function pointsFromCelerity(celerity) {
 }
 
 export default function QuestionResult(props) {
-  console.log("🚀 ~ file: QuestionResult.jsx ~ line 17 ~ QuestionResult ~ props", props)
   return (
     <div className="question-result">
       <div className="question-number">

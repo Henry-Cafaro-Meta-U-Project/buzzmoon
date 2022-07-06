@@ -7,7 +7,7 @@ import './Game.css';
 import GameScore from '../GameScore/GameScore';
 
 export default function Game(props) {
-  const {gameID} = useParams();
+  const {gameID, resultKey} = useParams();
   const navigate = useNavigate();
   const path = useLocation();
 
@@ -25,7 +25,7 @@ export default function Game(props) {
   //           waitforans: wait for user to type answer to question
 
   const processAnswer = async () => {
-    let questionResults = await BackendActor.getQuestionResults(gameID, questionNumber, answerInputText, buzzTimings);
+    let questionResults = await BackendActor.getQuestionResults(gameID, resultKey, questionNumber, answerInputText, buzzTimings);
     setCumulativeScore(cumulativeScore + questionResults.points);
     setPrevQuestionDetails(questionResults);
   };
