@@ -165,9 +165,13 @@ export default class BackendActor {
   }
 
   static async checkEntryMode(gameID) {
-    const response = await Parse.Cloud.run("checkEntryMode", gameID);
+    const response = await Parse.Cloud.run("checkEntryMode", {gameID});
     console.log("🚀 ~ file: backend-actor.js ~ line 169 ~ BackendActor ~ checkEntryMode ~ response", response)
     return response;
+  }
+
+  static async registerGameEntry(gameID) {
+    await Parse.Cloud.run("registerGameEntry", {gameID});
   }
 
 }

@@ -43,7 +43,7 @@ export default function QuestionSpeaker(props) {
     <div className="question-speaker">
 
       {(isLoading === "loading") && <span className='loading-header'>
-        <i class="fa-solid fa-spinner fa-spin"></i>
+        <i className="fa-solid fa-spinner fa-spin"></i>
       </span>}
       {(props.readingMode === 'waitforstrt' && isLoading === "ready") && <button type="button" onClick={play}>Play</button>}
       {(props.readingMode === 'readactive' && isLoading === "ready") && <button type="button" onClick={buzz}>Buzz</button>}

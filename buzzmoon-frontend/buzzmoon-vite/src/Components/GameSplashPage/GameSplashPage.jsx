@@ -23,9 +23,19 @@ export default function GameSplashPage() {
 
   return (
     <div className='game-splash-page'>
-      {enterMode === "loading" && <i class="fa-solid fa-spinner fa-spin"></i>}
-      {enterMode === "play" && <button type="button" onClick={() => {navigate("./play");}}>Enter</button>}
-      {enterMode === "results" && <button type="button" onClick={() => {navigate("./results");}}>Enter</button>}
+      {enterMode === "loading" && <i className="fa-solid fa-spinner fa-spin"></i>}
+      {enterMode === "play" && 
+        <button 
+          type="button" onClick={async () => {
+            try {
+              await BackendActor.registerGameEntry(gameID);
+              navigate("./play");
+            } catch (error) {
+              alert(error);
+            }
+            
+            }}>Enter</button>}
+      {enterMode === "results" && <button type="button" onClick={() => {navigate("./results");}}>Results</button>}
     </div>
   )
 }
