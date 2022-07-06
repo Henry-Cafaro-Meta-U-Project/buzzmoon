@@ -8,6 +8,7 @@ export default function Results(props) {
   const {gameID} = useParams();
   const [gameData, setGameData] = React.useState();
   const [resultsCat, setResultsCat] = React.useState("normal");
+  const [table, setTable] = React.useState([]);
 
   React.useEffect(() => {
     const updateGameData = async () => {
@@ -18,8 +19,8 @@ export default function Results(props) {
       // here we should validate if the user has played the game, or if they should be kicked from results page
 
       const playerResults = await BackendActor.fetchGameResults(gameID);
-      console.log("🚀 ~ file: Results.jsx ~ line 21 ~ updateGameData ~ playerResults", playerResults)
-
+      const table = BackendActor.resultsToStandardTable(playerResults);
+      setTable(table);    
     }
 
     updateGameData();
@@ -42,7 +43,28 @@ export default function Results(props) {
       <div className='game-results-categories'>
       
       </div>
-      <div className='game-results-table'></div>
+      <div className='game-results-table'>
+        <table>
+          <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Points</th>
+            <th># Correct</th>
+          </tr>
+          </thead>
+          <tbody>
+          {table.map((e, idx) => (
+            <tr key={idx}>
+              <td>{idx+1}</td>
+              <td>{e.name}</td>
+              <td>{e.points}</td>
+              <td>{e.numCorrect}</td>
+            </tr>
+          ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
