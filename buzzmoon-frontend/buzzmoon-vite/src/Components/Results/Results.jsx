@@ -44,7 +44,7 @@ export default function Results(props) {
       
       </div>
       <div className='game-results-table'>
-        <table>
+        <table className='results-table'>
           <thead>
           <tr>
             <th>Rank</th>
