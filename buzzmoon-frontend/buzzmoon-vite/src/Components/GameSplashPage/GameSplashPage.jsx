@@ -28,8 +28,8 @@ export default function GameSplashPage() {
         <button 
           type="button" onClick={async () => {
             try {
-              await BackendActor.registerGameEntry(gameID);
-              navigate("./play");
+              const response = await BackendActor.registerGameEntry(gameID);
+              navigate(`./play/${response.resultKey}`);
             } catch (error) {
               alert(error);
             }

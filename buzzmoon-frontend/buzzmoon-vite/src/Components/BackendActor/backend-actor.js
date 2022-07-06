@@ -143,7 +143,8 @@ export default class BackendActor {
   }
 
   static async registerGameEntry(gameID) {
-    await Parse.Cloud.run("registerGameEntry", {gameID});
+    const response = await Parse.Cloud.run("registerGameEntry", {gameID});
+    return response;
   }
 
 }

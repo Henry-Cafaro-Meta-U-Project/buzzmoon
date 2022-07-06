@@ -40,7 +40,7 @@ Parse.Cloud.define("registerGameEntry", async (request) => {
   
   await newGameResult.save(null, { useMasterKey: true });
   
-  return {message:"successful entry"};
+  return {message:"successful entry", resultKey:newGameResult.id};
   
 });
 

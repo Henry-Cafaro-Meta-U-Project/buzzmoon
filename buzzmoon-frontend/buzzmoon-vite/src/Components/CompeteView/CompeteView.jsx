@@ -50,7 +50,7 @@ export default function CompeteView() {
             </div>}>
         </Route>
         <Route path="/:gameID" element={<GameSplashPage />}></Route>
-        <Route path="/:gameID/play" element={<Game />}></Route>
+        <Route path="/:gameID/play/:resultKey" element={<Game />}></Route>
 
         <Route path="/:gameID/results" element={<Results />}></Route>
       </Routes>
