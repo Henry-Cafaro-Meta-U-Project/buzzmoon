@@ -68,7 +68,7 @@ Parse.Cloud.define("getQuestionResults", async (request) => {
   
   if(resultRef.get("player").id === request.user.id){
     if(resultRef.get("game").id === gameRef.id){
-      registerQuestionResult({questionNumber, givenAnswer, buzzTimings}, resultKey);
+      registerQuestionResult({questionNumber, givenAnswer, buzzTimings, celerity, isCorrect}, resultKey);
     }
   }
 
