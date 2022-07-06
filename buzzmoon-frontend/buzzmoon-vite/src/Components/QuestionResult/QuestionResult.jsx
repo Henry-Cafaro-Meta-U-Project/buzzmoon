@@ -14,11 +14,12 @@ function pointsFromCelerity(celerity) {
 }
 
 export default function QuestionResult(props) {
+  console.log("🚀 ~ file: QuestionResult.jsx ~ line 17 ~ QuestionResult ~ props", props)
   return (
     <div className="question-result">
       <div className="question-number">
         {'Result for Question # '}
-        {props.results.question.questionNumber}
+        {props.results.question.attributes.questionNumber}
         {` : ${props.results.isCorrect ? "Correct" : "Incorrect"}`}
       </div>
       <div className="celerity">
@@ -35,7 +36,7 @@ export default function QuestionResult(props) {
       </div>
       <div className="answer-list">
         {'Acceptable Answers: '}
-        {props.results.question.answers.join(', ')}
+        {props.results.question.attributes.answers.join(', ')}
       </div>
     </div>
   );

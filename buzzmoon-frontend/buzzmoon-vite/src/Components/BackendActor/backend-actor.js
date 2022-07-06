@@ -48,38 +48,10 @@ export default class BackendActor {
     return responses;
   }
 
-  // fetches the results of a question, given the user's answer and timings
   static async getQuestionResults(gameID, questionNumber, givenAnswer, buzzTimings) {
-    const query = new Parse.Query('Question');
-    query.equalTo('gameID', gameID).equalTo('questionNumber', parseInt(questionNumber));
-
-    const responses = await query.find();
-    const data = responses[0].attributes;
-
-    const celerity = Math.max(
-      0.0,
-      1.0 - (buzzTimings.buzz - buzzTimings.play) / (1000 * buzzTimings.duration),
-    );
-
-    const isCorrect = this.checkAnswerCorrectness(givenAnswer, data.answers);
-    return {
-      question: data,
-      celerity: celerity,
-      points:(isCorrect ? this.pointsFromCelerity(celerity) : 0),
-      givenAnswer: givenAnswer,
-      isCorrect:isCorrect
-    };
-  }
-
-  // checks the correctness of a given answer by comparing to a list of acceptable answers
-  static checkAnswerCorrectness(givenAnswer, acceptableAnswers) {
-    let answerChecks = acceptableAnswers.map((ans) => (ans.toLowerCase() == givenAnswer.toLowerCase()));
-    return answerChecks.reduce((acc, elem) => (acc || elem), false);
-  }
-
-  // determines how many points a user earns by the percentage of the question that was read at the time they buzzed
-  static pointsFromCelerity(celerity) {
-    return 10 + Math.floor(Math.sqrt(celerity) / 0.1);
+    const response = await Parse.Cloud.run("getQuestionResults", {gameID, questionNumber, givenAnswer, buzzTimings});
+    return response;
+  
   }
 
   // prepares an object to be the argument for a POST request to the server
