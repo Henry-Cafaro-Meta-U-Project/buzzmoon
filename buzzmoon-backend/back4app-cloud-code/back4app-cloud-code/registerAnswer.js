@@ -21,16 +21,18 @@ Parse.Cloud.define("getQuestionResults", async (request) => {
   const gameQuery = new Parse.Query("Game");
   const gameRef = await gameQuery.get(gameID);
   
+  const points = (isCorrect ? pointsFromCelerity(celerity) : 0);
+  
   if(resultRef.get("player").id === request.user.id){
     if(resultRef.get("game").id === gameRef.id){
-      registerQuestionResult({questionNumber, givenAnswer, buzzTimings, celerity, isCorrect}, resultKey);
+      registerQuestionResult({questionNumber, givenAnswer, buzzTimings, points, celerity, isCorrect}, resultKey);
     }
   }
 
   return {
       question,
       celerity,
-      points:(isCorrect ? pointsFromCelerity(celerity) : 0),
+      points,
       givenAnswer,
       isCorrect
     };  
