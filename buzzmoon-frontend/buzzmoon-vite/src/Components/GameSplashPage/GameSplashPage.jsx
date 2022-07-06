@@ -23,6 +23,8 @@ export default function GameSplashPage() {
 
   return (
     <div className='game-splash-page'>
+      <div className='game-entry-button'>
+
       {enterMode === "loading" && <i className="fa-solid fa-spinner fa-spin"></i>}
       {enterMode === "play" && 
         <button 
@@ -36,6 +38,8 @@ export default function GameSplashPage() {
             
             }}>Enter</button>}
       {enterMode === "results" && <button type="button" onClick={() => {navigate("./results");}}>Results</button>}
+      </div>
+
     </div>
   )
 }
