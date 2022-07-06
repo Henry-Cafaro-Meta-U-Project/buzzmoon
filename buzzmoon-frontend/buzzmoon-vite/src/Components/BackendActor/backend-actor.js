@@ -161,7 +161,7 @@ export default class BackendActor {
   static resultsToStandardTable(results){
     let rows = results.map(this.resultToStandardTableRow);
 
-    rows.sort((a,b) => (a.points > b.points));
+    rows.sort((a,b) => (b.points - a.points));
 
     return rows;
   }
