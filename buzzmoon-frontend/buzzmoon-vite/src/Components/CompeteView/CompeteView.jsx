@@ -8,6 +8,7 @@ import { BrowserRouter,
   Navigate,
   Link } from 'react-router-dom';
 import BackendActor from '../BackendActor/backend-actor';
+import GameSplashPage from '../GameSplashPage/GameSplashPage';
 
 //const gameIDs = [1, 2] //placeholder
 
@@ -48,7 +49,9 @@ export default function CompeteView() {
               </div>
             </div>}>
         </Route>
-        <Route path="/:gameID" element={<Game />}></Route>
+        <Route path="/:gameID" element={<GameSplashPage />}></Route>
+        <Route path="/:gameID/play" element={<Game />}></Route>
+
         <Route path="/:gameID/results" element={<Results />}></Route>
       </Routes>
       

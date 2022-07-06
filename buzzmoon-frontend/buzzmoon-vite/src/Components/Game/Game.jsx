@@ -11,13 +11,13 @@ export default function Game(props) {
   const navigate = useNavigate();
 
   const [gameData, setGameData] = React.useState({});
-  const [questionNumber, setQuestionNumber] = React.useState(0);
+  const [questionNumber, setQuestionNumber] = React.useState(1);
   const [prevQuestionDetails, setPrevQuestionDetails] = React.useState(null);
   const [cumulativeScore, setCumulativeScore] = React.useState(0);
   const [cumulativeResults, setCumulativeResults] = React.useState([]);
   const [buzzTimings, setBuzzTimings] = React.useState({ play: 0, buzz: 0, duration: 0 });
   const [answerInputText, setAnswerInputText] = React.useState('');
-  const [readingMode, setReadingMode] = React.useState('waitfornxt');
+  const [readingMode, setReadingMode] = React.useState('waitforstrt');
   // modes are waitfornxt: wait for next question to be navigated to
   //           readactive: question audio is being read
   //           waitforstrt: wait for question audio to be read
