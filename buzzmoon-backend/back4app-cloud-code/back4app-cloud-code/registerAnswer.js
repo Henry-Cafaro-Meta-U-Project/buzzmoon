@@ -87,10 +87,15 @@ Parse.Cloud.define("getQuestionResults", async (request) => {
 async function registerQuestionResult(resultData, resultKey) {
   const resultQuery = new Parse.Query("GameResult");
   const resultRef = await resultQuery.get(resultKey);
-  console.log(resultRef);
   
   const answers = resultRef.get("answers");
   
+  const {questionNumber} = resultData;
+  
+  if(answers.find((q) => q.questionNumber === questionNumber)){
+    return;
+    // we don't want to overwrite answers
+  }
   
   resultRef.set("answers", answers.concat([resultData]));
   

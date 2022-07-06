@@ -48,6 +48,7 @@ export default class BackendActor {
     return responses;
   }
 
+  // registers the players answer in the backend database, and fetches the results of the question to show to the player
   static async getQuestionResults(gameID, resultKey, questionNumber, givenAnswer, buzzTimings) {
     const response = await Parse.Cloud.run("getQuestionResults", {gameID, resultKey, questionNumber, givenAnswer, buzzTimings});
     return response;
@@ -126,6 +127,7 @@ export default class BackendActor {
     }
   }
 
+  // gets the metadata of a game given the game id
   static async getGameMetadata(gameID){
     if(gameID){
       const query = new Parse.Query("Game");
@@ -136,11 +138,14 @@ export default class BackendActor {
 
   }
 
+  // checks whether a player can play a game, or can only view results
   static async checkEntryMode(gameID) {
     const response = await Parse.Cloud.run("checkEntryMode", {gameID});
     return response;
   }
 
+  // registers the entry of a player into a game on the backend
+  // creates a GameResult object in database to hold the results of this game
   static async registerGameEntry(gameID) {
     const response = await Parse.Cloud.run("registerGameEntry", {gameID});
     return response;
