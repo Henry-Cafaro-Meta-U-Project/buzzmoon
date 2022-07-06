@@ -1,7 +1,7 @@
 import * as React from 'react';
 import QuestionResult from '../QuestionResult/QuestionResult';
 import QuestionSpeaker from '../QuestionSpeaker/QuestionSpeaker';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams, useLocation} from 'react-router-dom';
 import BackendActor from '../BackendActor/backend-actor';
 import './Game.css';
 import GameScore from '../GameScore/GameScore';
@@ -9,6 +9,7 @@ import GameScore from '../GameScore/GameScore';
 export default function Game(props) {
   const {gameID} = useParams();
   const navigate = useNavigate();
+  const path = useLocation();
 
   const [gameData, setGameData] = React.useState({});
   const [questionNumber, setQuestionNumber] = React.useState(1);
@@ -57,7 +58,7 @@ export default function Game(props) {
                       className="next-question"
                       onClick={() => {
                         if(questionNumber == gameData.numQuestions){
-                          navigate("./results");
+                          navigate(`../${gameID}/results`);
                         } else {
                           
                           setQuestionNumber(questionNumber + 1);

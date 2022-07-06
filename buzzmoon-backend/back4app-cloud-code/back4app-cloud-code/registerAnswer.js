@@ -1,11 +1,14 @@
 
 
 Parse.Cloud.define("checkEntryMode", async (request) => {
-  const params = request.params;
+  const {gameID} = request.params;
   
   const query = new Parse.Query("GameResult");
   
-  // refine query 
+  const gameQuery = new Parse.Query("Game");
+  const gameRef = await gameQuery.get(gameID);
+  
+  query.equalTo("player", request.user).equalTo("game", gameRef);
   
   const response = await query.first();
   if(response) {
