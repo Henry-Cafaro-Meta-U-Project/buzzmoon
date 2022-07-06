@@ -20,7 +20,6 @@ export default function Results(props) {
 
       const playerResults = await BackendActor.fetchGameResults(gameID);
       const table = BackendActor.resultsToStandardTable(playerResults);
-      console.log("🚀 ~ file: Results.jsx ~ line 23 ~ updateGameData ~ table", table)
       setTable(table);    
     }
 
