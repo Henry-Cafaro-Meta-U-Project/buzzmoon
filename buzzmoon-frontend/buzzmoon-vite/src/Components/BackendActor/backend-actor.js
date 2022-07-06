@@ -151,4 +151,10 @@ export default class BackendActor {
     return response;
   }
 
+  // gets all GameResult objects in the database associated with a particular game 
+  static async fetchGameResults(gameID) {
+    const response = await Parse.Cloud.run("fetchAllGameResults", {gameID});
+    return response;
+  }
+
 }

@@ -6,10 +6,43 @@ import './Results.css';
 //placeholder results page
 export default function Results(props) {
   const {gameID} = useParams();
+  const [gameData, setGameData] = React.useState();
+  const [resultsCat, setResultsCat] = React.useState("normal");
+
+  React.useEffect(() => {
+    const updateGameData = async () => {
+      const fetchedGameData = await BackendActor.getGameMetadata(gameID);
+      setGameData(fetchedGameData);
+      
+
+      // here we should validate if the user has played the game, or if they should be kicked from results page
+
+      const playerResults = await BackendActor.fetchGameResults(gameID);
+      console.log("🚀 ~ file: Results.jsx ~ line 21 ~ updateGameData ~ playerResults", playerResults)
+
+    }
+
+    updateGameData();
+  }, []);
+
+  
+  if (! gameData) {
+    return (
+      <div className='results'>
+        <i className="fa-solid fa-spinner fa-spin"></i>
+      </div>
+    )
+  }
 
   return (
     <div className='results'>
-      {`Results of game# ${gameID}`}
+      <div className='game-results-header'>
+        <h1>{`${gameData.title}`}</h1>
+      </div>
+      <div className='game-results-categories'>
+      
+      </div>
+      <div className='game-results-table'></div>
     </div>
   )
 }
