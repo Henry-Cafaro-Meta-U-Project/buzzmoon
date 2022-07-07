@@ -1,3 +1,33 @@
+
+
+.auth-header button {
+  background-color: white;
+  font-size: 20px;
+  border-radius: 0px;
+  border: 2px solid black;
+  margin-bottom: -2px;
+  margin-right: -2px;
+  z-index: 1;
+}
+
+.auth-header button.selected {
+  border-bottom-color: transparent;
+}
+.auth{
+  margin-top: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-left: 40%;
+}
+
+.auth-header{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
 .auth-form{
   display: flex;
   justify-content: center;
@@ -20,9 +50,3 @@
 
 }
 
-.auth{
-  margin-top: 250px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
