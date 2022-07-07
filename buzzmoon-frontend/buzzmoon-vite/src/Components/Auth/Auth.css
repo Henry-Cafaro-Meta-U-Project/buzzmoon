@@ -4,6 +4,10 @@
   border: 2px solid black;
 }
 
+.auth-header {
+  margin-left: 20px;
+}
+
 .auth-header button {
   border-radius: 0px;
   margin-bottom: -2px;
