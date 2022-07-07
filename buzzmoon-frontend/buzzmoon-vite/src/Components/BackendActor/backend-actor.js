@@ -151,4 +151,30 @@ export default class BackendActor {
     return response;
   }
 
+  // gets all GameResult objects in the database associated with a particular game 
+  static async fetchGameResults(gameID) {
+    const response = await Parse.Cloud.run("fetchAllGameResults", {gameID});
+    return response;
+  }
+
+  // takes an array of GameResults and constructs a table sorted by points scored
+  static resultsToStandardTable(results){
+    let rows = results.map(this.resultToStandardTableRow);
+
+    rows.sort((a,b) => (b.points - a.points));
+
+    return rows;
+  }
+
+  // takes the result data returned by a call to fetchGameResults and turns it into the data required for a table row
+  // in the standard leaderboard 
+  static resultToStandardTableRow(result) {
+    const points = result.answers.map((e) => (e.points)).reduce((acc, x) => (acc+x), 0);
+    const numCorrect = result.answers.map((e) => (e.isCorrect ? 1 : 0)).reduce((acc, x) => (acc+x), 0);
+
+    const averageCelerity = (result.answers.map((e) => (e.celerity)).reduce((acc, x) => (acc+x), 0)) / (result.answers.length);
+    const name = result.name;
+    return {points, numCorrect, averageCelerity, name};
+  }
+
 }
