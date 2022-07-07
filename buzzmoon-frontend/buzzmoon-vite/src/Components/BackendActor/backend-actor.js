@@ -19,6 +19,29 @@ export default class BackendActor {
     }
   }
 
+  // handles the signup of a new user in the Auth component 
+  static async handleSignup(email, password, realName, setCurrentUser) {
+    try {
+      const user = new Parse.User();
+      user.set("username", email);
+      user.set("password", password);
+      user.set("email", email);
+      user.set("realName", realName);
+
+      await user.signUp();
+
+      console.log(`Successful login: user ${loggedInUser.get(
+        'username',
+      )} has signed in`);
+
+      setCurrentUser(user);
+      localStorage.setItem('user', user);
+
+    } catch (error) {
+      alert(`error: ${error.message}`);
+    }
+  }
+
   // handles the user logout triggered by the logout button
   static async handleLogOut(setCurrentUser) {
     try {

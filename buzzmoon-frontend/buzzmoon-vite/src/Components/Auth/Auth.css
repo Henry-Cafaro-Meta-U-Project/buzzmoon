@@ -47,6 +47,22 @@
 
 .flex-form li{
   margin: 5px 0 5px 0;
+  width: 100%;
 
 }
+
+.flex-form li label{
+  text-align: right;
+  display: inline-block;
+  width: 30%;
+  margin-right: 10px;
+}
+
+.flex-form li input{
+  display: inline-block;
+  width: 50%;
+}
+
+
+
 
