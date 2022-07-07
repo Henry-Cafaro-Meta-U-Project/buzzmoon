@@ -18,7 +18,7 @@ export default function QuestionResult(props) {
     <div className="question-result">
       <div className="question-number">
         {'Result for Question # '}
-        {props.results.question.questionNumber}
+        {props.results.question.attributes.questionNumber}
         {` : ${props.results.isCorrect ? "Correct" : "Incorrect"}`}
       </div>
       <div className="celerity">
@@ -35,7 +35,7 @@ export default function QuestionResult(props) {
       </div>
       <div className="answer-list">
         {'Acceptable Answers: '}
-        {props.results.question.answers.join(', ')}
+        {props.results.question.attributes.answers.join(', ')}
       </div>
     </div>
   );

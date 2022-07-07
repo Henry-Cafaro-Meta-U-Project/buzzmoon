@@ -1,30 +1,31 @@
 import * as React from 'react';
 import QuestionResult from '../QuestionResult/QuestionResult';
 import QuestionSpeaker from '../QuestionSpeaker/QuestionSpeaker';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams, useLocation} from 'react-router-dom';
 import BackendActor from '../BackendActor/backend-actor';
 import './Game.css';
 import GameScore from '../GameScore/GameScore';
 
 export default function Game(props) {
-  const {gameID} = useParams();
+  const {gameID, resultKey} = useParams();
   const navigate = useNavigate();
+  const path = useLocation();
 
   const [gameData, setGameData] = React.useState({});
-  const [questionNumber, setQuestionNumber] = React.useState(0);
+  const [questionNumber, setQuestionNumber] = React.useState(1);
   const [prevQuestionDetails, setPrevQuestionDetails] = React.useState(null);
   const [cumulativeScore, setCumulativeScore] = React.useState(0);
   const [cumulativeResults, setCumulativeResults] = React.useState([]);
   const [buzzTimings, setBuzzTimings] = React.useState({ play: 0, buzz: 0, duration: 0 });
   const [answerInputText, setAnswerInputText] = React.useState('');
-  const [readingMode, setReadingMode] = React.useState('waitfornxt');
+  const [readingMode, setReadingMode] = React.useState('waitforstrt');
   // modes are waitfornxt: wait for next question to be navigated to
   //           readactive: question audio is being read
   //           waitforstrt: wait for question audio to be read
   //           waitforans: wait for user to type answer to question
 
   const processAnswer = async () => {
-    let questionResults = await BackendActor.getQuestionResults(gameID, questionNumber, answerInputText, buzzTimings);
+    let questionResults = await BackendActor.getQuestionResults(gameID, resultKey, questionNumber, answerInputText, buzzTimings);
     setCumulativeScore(cumulativeScore + questionResults.points);
     setPrevQuestionDetails(questionResults);
   };
@@ -57,7 +58,7 @@ export default function Game(props) {
                       className="next-question"
                       onClick={() => {
                         if(questionNumber == gameData.numQuestions){
-                          navigate("./results");
+                          navigate(`../${gameID}/results`);
                         } else {
                           
                           setQuestionNumber(questionNumber + 1);
