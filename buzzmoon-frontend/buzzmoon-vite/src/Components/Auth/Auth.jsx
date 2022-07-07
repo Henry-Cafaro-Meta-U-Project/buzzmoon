@@ -3,10 +3,7 @@ import BackendActor from '../BackendActor/backend-actor';
 import './Auth.css';
 
 export default function Auth(props) {
-
   let [mode, setMode] = React.useState("login");
-
-
 
   return (
     <div className='auth'>
@@ -24,7 +21,6 @@ export default function Auth(props) {
 
     </div>
   )
-
 }
 
 function LoginForm(props) {
