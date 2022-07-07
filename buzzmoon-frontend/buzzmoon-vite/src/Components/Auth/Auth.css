@@ -1,10 +1,11 @@
-
-
-.auth-header button {
+.auth button {
   background-color: white;
   font-size: 20px;
-  border-radius: 0px;
   border: 2px solid black;
+}
+
+.auth-header button {
+  border-radius: 0px;
   margin-bottom: -2px;
   margin-right: -2px;
   z-index: 1;
@@ -19,7 +20,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  margin-left: 40%;
+  margin-left: 30%;
 }
 
 .auth-header{
@@ -40,27 +41,31 @@
   align-items: center;
 
   list-style: none;
-  padding: 10px;
 
   border: 2px solid black;
+  padding: 10px;
+
 }
 
 .flex-form li{
-  margin: 5px 0 5px 0;
+  margin: 20px 5px 0 5px;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 
 }
 
 .flex-form li label{
   text-align: right;
   display: inline-block;
-  width: 30%;
+  width: 40%;
   margin-right: 10px;
 }
 
 .flex-form li input{
   display: inline-block;
-  width: 50%;
+  width: 60%;
 }
 
 
