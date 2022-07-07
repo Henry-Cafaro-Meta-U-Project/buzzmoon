@@ -30,12 +30,14 @@ export default class BackendActor {
 
       await user.signUp();
 
-      console.log(`Successful login: user ${loggedInUser.get(
-        'username',
-      )} has signed in`);
+      
 
       setCurrentUser(user);
       localStorage.setItem('user', user);
+
+      console.log(`Successful login: user ${user.get(
+        'username',
+      )} has signed in`);
 
     } catch (error) {
       alert(`error: ${error.message}`);

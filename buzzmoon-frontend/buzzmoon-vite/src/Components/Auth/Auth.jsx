@@ -29,8 +29,6 @@ function LoginForm(props) {
 
   const handleLogin = async () => {
     await BackendActor.handleLogin(email, password, props.setCurrentUser);
-    setPassword('');
-    setUsername('');
   }
 
   return (
@@ -62,8 +60,6 @@ function SignupForm(props) {
 
   const handleSignup = async () => {
     await BackendActor.handleSignup(email, password, realName, props.setCurrentUser);
-    setPassword('');
-    setUsername('');
   }
 
   return (
