@@ -6,11 +6,7 @@ import BackendActor from '../BackendActor/backend-actor';
 
 import {
   Flex,
-  Box,
-  Stack,
-  Button,
   Heading,
-  Text,
   useColorModeValue,
   HStack,
   IconButton,
