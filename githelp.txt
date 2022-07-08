@@ -1,0 +1,13 @@
+Useful git commands for dealing with gh-pages nonsense
+
+To remove dist files from being tracked, and ensure they are not committed to main repo:
+  run "git rm -r --cached dist"
+
+To update the deployed site in the gh-pages branch
+  run "npm run build"
+  run "git add dist -f"
+  run "git commit -m `updated deployed distro`"
+  run "git push origin `git subtree split --prefix buzzmoon-frontend/buzzmoon-vit
+e/dist $CURRENTBRANCH`:gh-pages --force"
+
+  the last command needs to be run from the root of the repository
