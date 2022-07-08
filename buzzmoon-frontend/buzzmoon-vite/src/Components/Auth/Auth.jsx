@@ -1,6 +1,5 @@
 import * as React from 'react';
 import BackendActor from '../BackendActor/backend-actor';
-import './Auth.css';
 
 import {
   Flex,
@@ -57,8 +56,7 @@ function LoginCard(props) {
     <Flex
       minH={'50vh'}
       align={'center'}
-      justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}>
+      justify={'center'}>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
           <Heading fontSize={'4xl'}>Sign in to your account</Heading>
@@ -118,15 +116,13 @@ function SignUpCard(props) {
     <Flex
       minH={'50vh'}
       align={'center'}
-      justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}>
+      justify={'center'}>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
           <Heading fontSize={'4xl'}>Create your account</Heading>
         </Stack>
         <Box
           rounded={'lg'}
-          bg={useColorModeValue('white', 'gray.700')}
           boxShadow={'lg'}
           p={8}>
           <Stack spacing={4}>
