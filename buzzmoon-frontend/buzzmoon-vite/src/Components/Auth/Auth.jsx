@@ -16,25 +16,32 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 
 export default function Auth(props) {
   let [mode, setMode] = React.useState("login");
 
   return (
-    <div className='auth'>
-      <div className='auth-header'>
-        <button type='button' className={mode === "login" ? "selected" : ""} onClick={() => {setMode("login")}}>
-          Login
-        </button>
-        <button type='button' className={mode === "signup" ? "selected" : ""} onClick={() => {setMode("signup")}}>
-          Signup
-        </button>
-      </div>
-      
-      {mode === "login" && <LoginCard setCurrentUser={props.setCurrentUser}/>}
-      {mode === "signup" && <SignUpCard setCurrentUser={props.setCurrentUser}/>}
-
-    </div>
+    <Flex 
+      mt={'20vh'}
+      align={'center'}
+      justify={'center'}>
+        <Tabs size='md' variant='enclosed'>
+          <TabList>
+            <Tab>Login</Tab>
+            <Tab>Sign Up</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <LoginCard setCurrentUser={props.setCurrentUser}/>
+            </TabPanel>
+            <TabPanel>
+            <SignUpCard setCurrentUser={props.setCurrentUser}/>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+    </Flex>
+    
   )
 }
 
