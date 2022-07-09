@@ -3,7 +3,6 @@ import QuestionResult from '../QuestionResult/QuestionResult';
 import QuestionSpeaker from '../QuestionSpeaker/QuestionSpeaker';
 import { Navigate, useNavigate, useParams, useLocation} from 'react-router-dom';
 import BackendActor from '../BackendActor/backend-actor';
-import GameScore from '../GameScore/GameScore';
 import { VStack, Box, Heading, Flex, Center, Button, Input, HStack, Icon} from '@chakra-ui/react';
 import {AiFillSound} from 'react-icons/ai'
 
