@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 import * as React from 'react';
-import './QuestionResult.css';
+
+import { VStack, Box, Heading, Text, Flex} from '@chakra-ui/react';
+
 
 const formatConfig = {
   minimumFractionDigits: 3,
@@ -15,28 +17,33 @@ function pointsFromCelerity(celerity) {
 
 export default function QuestionResult(props) {
   return (
-    <div className="question-result">
-      <div className="question-number">
-        {'Result for Question # '}
+    <Flex direction={'column'} bg={'gray.300'} px={'5'} py={'5'} align={'start'}>
+      <Heading size={'md'} mb={'5'}>
+        {'Result for Question #'}
         {props.results.question.attributes.questionNumber}
         {` : ${props.results.isCorrect ? "Correct" : "Incorrect"}`}
-      </div>
-      <div className="celerity">
+      </Heading>
+      <Text>
         {'Celerity: '}
         {formatter.format(props.results.celerity)}
-      </div>
-      <div className="points">
+      </Text>
+      <Text>
         {'Points: '}
         {props.results.points}
-      </div>
-      <div className="given-answer">
+      </Text>
+      <Text>
         {'Given Answer: '}
         {props.results.givenAnswer}
-      </div>
-      <div className="answer-list">
+      </Text>
+      <Text>
         {'Acceptable Answers: '}
-        {props.results.question.attributes.answers.join(', ')}
-      </div>
-    </div>
-  );
+      </Text>
+      <Box ms={'10%'}>
+        <Text>
+          {props.results.question.attributes.answers.join(', ')}
+        </Text>
+      </Box>
+      
+    </Flex>
+  )
 }

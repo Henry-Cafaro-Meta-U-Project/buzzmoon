@@ -56,8 +56,8 @@ export default function Game(props) {
             <Heading size={'xl'}>{`Score: ${cumulativeScore}`}</Heading>
           </Flex>
         </VStack>
-        <Flex w={'100%'} justify={'space-between'}>
-          <HStack spacing={'14'}>
+        <Flex w={'100%'} justify={'space-between'} wrap={'wrap'}>
+          <HStack spacing={'14'} mb={'20'} minW={'40%'}>
           {(readingMode === 'waitfornxt') && (
             <Button
               onClick={() => {
