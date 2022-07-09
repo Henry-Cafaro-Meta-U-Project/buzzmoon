@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-import './CreateView.css';
 
 import { VStack, Box, Heading, Flex, Center, Button, Text} from '@chakra-ui/react';
 
@@ -23,8 +22,6 @@ export default  function CreateView(props) {
                 </Link>
               </VStack>
             </Box>
-
-            
           </Center>}>
         </Route>
         <Route path="/new" element={<CreateGame />}></Route>
