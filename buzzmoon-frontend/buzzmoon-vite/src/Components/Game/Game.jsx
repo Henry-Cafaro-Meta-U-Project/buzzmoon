@@ -3,8 +3,9 @@ import QuestionResult from '../QuestionResult/QuestionResult';
 import QuestionSpeaker from '../QuestionSpeaker/QuestionSpeaker';
 import { Navigate, useNavigate, useParams, useLocation} from 'react-router-dom';
 import BackendActor from '../BackendActor/backend-actor';
-import './Game.css';
 import GameScore from '../GameScore/GameScore';
+import { VStack, Box, Heading, Flex, Center, Button, Input, HStack, Icon} from '@chakra-ui/react';
+import {AiFillSound} from 'react-icons/ai'
 
 export default function Game(props) {
   const {gameID, resultKey} = useParams();
@@ -39,73 +40,74 @@ export default function Game(props) {
     updateGameData();
   }, []);
 
+  React.useEffect(() => {
+    if(readingMode === 'waitforans'){
+      document.getElementById('answer-input').focus();
+    }
+  }, [readingMode]);
 
   return (
-    <div className="game">
-      <div className="game-header">
-        <div className='game-question-number'>
-          {`Question #${questionNumber}`}
-        </div>
-        <GameScore cumulativeScore={cumulativeScore}/>
-      </div>
-
-      <div className="game-body">
-        <div className="input-controls">
-          {(readingMode === 'waitfornxt')
-                    && (
-                    <button
-                      type="button"
-                      className="next-question"
-                      onClick={() => {
-                        if(questionNumber == gameData.numQuestions){
-                          navigate(`../${gameID}/results`);
-                        } else {
-                          
-                          setQuestionNumber(questionNumber + 1);
-                          setReadingMode('waitforstrt');
-                        }
-                      }}
-                    >
-                      Next
-                    </button>
-                    )}
-
+    <Center>
+      <VStack w={'80%'} spacing={'50px'} mt={'50px'}>
+        <VStack w={'100%'} spacing={'20px'}>
+          <Heading size={'2xl'}>{gameData.title}</Heading>
+          <Flex w={'100%'} justify={'space-between'}>
+            <Heading size={'xl'}>{`Question #${questionNumber}`}</Heading>
+            <Heading size={'xl'}>{`Score: ${cumulativeScore}`}</Heading>
+          </Flex>
+        </VStack>
+        <Flex w={'100%'} justify={'space-between'}>
+          <HStack spacing={'14'}>
+          {(readingMode === 'waitfornxt') && (
+            <Button
+              onClick={() => {
+                if(questionNumber == gameData.numQuestions){
+                  navigate(`../${gameID}/results`);
+                } else {
+                  setQuestionNumber(questionNumber + 1);
+                  setReadingMode('waitforstrt');
+                }
+              }}>
+              Next
+            </Button>
+            )}
           {(readingMode !== 'waitfornxt') && (
-          <QuestionSpeaker
-            gameID={gameID}
-            questionNumber={questionNumber}
-            buzzTimings={buzzTimings}
-            setBuzzTimings={setBuzzTimings}
-            readingMode={readingMode}
-            setReadingMode={setReadingMode}
-          />
-          )}
-
+            <QuestionSpeaker
+              gameID={gameID}
+              questionNumber={questionNumber}
+              buzzTimings={buzzTimings}
+              setBuzzTimings={setBuzzTimings}
+              readingMode={readingMode}
+              setReadingMode={setReadingMode}
+            />
+            )}
+          {readingMode === 'readactive' && <Icon fontSize={'64'} as={AiFillSound}></Icon>}
           {(readingMode === 'waitforans')
                 && (
-                <form
+                  <form style={{marginLeft: 0}}
                   autoComplete="off"
                   onSubmit={() => {
                     processAnswer();
                     setAnswerInputText('');
                     setReadingMode('waitfornxt');
-                  }}
-                >
-                  <input
-                    type="text"
-                    name="answer-input"
-                    value={answerInputText}
-                    onChange={(event) => {
-                      setAnswerInputText(event.target.value);
-                    }}
-                  />
-                  <button type="submit">Submit</button>
-                </form>
+                  }}>
+                    <HStack ms={'0'}>
+                      <Input w={'100%'}
+                        id='answer-input'
+                        placeholder={'answer'}
+                        value={answerInputText}
+                        onChange={(event) => {
+                          setAnswerInputText(event.target.value);
+                        }}
+                      />
+                      <Button type="submit">Submit</Button>
+                    </HStack>
+                  </form>
                 )}
-        </div>
-
-        {prevQuestionDetails && <QuestionResult results={prevQuestionDetails} />}
-      </div>
-    </div>
-  );
+          </HStack>
+          {prevQuestionDetails && <QuestionResult results={prevQuestionDetails} />}
+        </Flex>
+      </VStack>
+    </Center>
+  )
 }

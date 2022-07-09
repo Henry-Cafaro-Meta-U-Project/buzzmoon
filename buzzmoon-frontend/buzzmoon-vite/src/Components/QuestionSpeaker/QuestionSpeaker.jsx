@@ -2,6 +2,9 @@ import * as React from 'react';
 import BackendActor from '../BackendActor/backend-actor';
 import './QuestionSpeaker.css';
 
+import { VStack, Box, Heading, Flex, Center, Button} from '@chakra-ui/react';
+
+
 export default function QuestionSpeaker(props) {
   let [isLoading, setIsLoading] = React.useState("loading");
   
@@ -40,14 +43,12 @@ export default function QuestionSpeaker(props) {
 
 
   return (
-    <div className="question-speaker">
-
+    <Box>
       {(isLoading === "loading") && <span className='loading-header'>
         <i className="fa-solid fa-spinner fa-spin"></i>
       </span>}
-      {(props.readingMode === 'waitforstrt' && isLoading === "ready") && <button type="button" onClick={play}>Play</button>}
-      {(props.readingMode === 'readactive' && isLoading === "ready") && <button type="button" onClick={buzz}>Buzz</button>}
-
-    </div>
+      {(props.readingMode === 'waitforstrt' && isLoading === "ready") && <Button onClick={play}>Play Question Audio</Button>}
+      {(props.readingMode === 'readactive' && isLoading === "ready") && <Button type="button" colorScheme={'red'} onClick={buzz}>Buzz</Button>}
+    </Box>
   );
 }

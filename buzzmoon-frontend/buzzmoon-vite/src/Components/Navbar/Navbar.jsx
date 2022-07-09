@@ -14,7 +14,7 @@ import {
 
 export default function NavbarBox(props) {
   return (
-    <Flex minW={'100%'} top="0rem" right="0rem" align="start" bg={useColorModeValue('gray.50', 'gray.800')}>
+    <Flex minW={'100%'} top="0rem" right="0rem" align="start" bg={'gray.50'}>
       <Flex minW={'100%'} direction={'row'} justify={'space-between'} align={'center'} borderBottom={'2px solid black'}>
         <HStack >
           <Link to="/"> 
