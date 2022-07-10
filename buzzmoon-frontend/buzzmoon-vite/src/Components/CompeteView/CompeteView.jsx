@@ -33,7 +33,7 @@ export default function CompeteView() {
                   <Heading size="md" borderBottom={'2px solid black'}>Available Games</Heading>
                   <VStack spacing={'1px'}>
                     {games.map((e) => (
-                      <GameListItem key={e.id} game={e}/>
+                      <GameListItem key={e.gameID} game={e}/>
                     ))}
                   </VStack>
                 </VStack>
