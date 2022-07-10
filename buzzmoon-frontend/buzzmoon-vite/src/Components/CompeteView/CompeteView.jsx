@@ -10,7 +10,7 @@ import { BrowserRouter,
 import BackendActor from '../BackendActor/backend-actor';
 import GameSplashPage from '../GameSplashPage/GameSplashPage';
 
-import { VStack, Box, Heading, Flex, Center, Button, Text} from '@chakra-ui/react';
+import { VStack, Heading, Flex, Center, Button, Text} from '@chakra-ui/react';
 
 export default function CompeteView() {
   let [games, setGames] = React.useState([]);
@@ -25,7 +25,7 @@ export default function CompeteView() {
   }, []);
 
   return (
-    <div className="compete-view">
+    
       <Routes>
         <Route path="/" 
           element={
@@ -51,7 +51,7 @@ export default function CompeteView() {
         <Route path="/:gameID/results" element={<Results />}></Route>
       </Routes>
       
-    </div>
+    
   );
 }
 
