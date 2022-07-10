@@ -33,11 +33,11 @@ export default function Game(props) {
     setPrevQuestionDetails(questionResults);
   };
 
-  const handleAnswerSubmit = (event) => {
-    event.preventDefault();
-    processAnswer();
-    setAnswerInputText('');
-    setReadingMode('waitfornxt');
+  const handleAnswerSubmit = () => {
+
+      processAnswer();
+      setAnswerInputText('');
+      setReadingMode('waitfornxt');
   }
 
   const startBuzzTimer = () => {
@@ -101,26 +101,27 @@ export default function Game(props) {
             )}
           {(readingMode === 'waitforans')
                 && (
-                  <form 
-                  id={'answer-form'}
-                  style={{marginLeft: 0}}
-                  autoComplete="off"
-                  onSubmit={handleAnswerSubmit}>
-                    <VStack spacing={'5'} align={'start'}>
+                    <VStack ml={'0'} spacing={'5'} align={'start'}>
                     <HStack ms={'0'}>
                       <Input w={'100%'}
+                        autoComplete={'off'}
                         id='answer-input'
                         placeholder={'answer'}
                         value={answerInputText}
                         onChange={(event) => {
                           setAnswerInputText(event.target.value);
                         }}
-                      />
-                      <Button type="submit">Submit</Button>
+                        onKeyDown={(event) => {
+                          if(event.key === 'Enter'){
+                            handleAnswerSubmit();
+                          }
+                        }}/>
+                      <Button 
+                        onClick={handleAnswerSubmit} 
+                        >Submit</Button>
                     </HStack>
                     <Progress value={buzzTimer} min={0} max={gameConfig.timeAfterBuzz} w={'140%'} hasStripe/>
                     </VStack>
-                  </form>
                 )}
             
           </VStack>
