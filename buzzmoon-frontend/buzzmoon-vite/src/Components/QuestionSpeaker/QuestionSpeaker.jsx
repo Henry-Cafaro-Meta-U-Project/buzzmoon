@@ -1,7 +1,8 @@
 import * as React from 'react';
 import BackendActor from '../BackendActor/backend-actor';
 
-import { Box, Button, Spinner} from '@chakra-ui/react';
+import { Box, Button, Spinner, Icon, HStack} from '@chakra-ui/react';
+import {AiFillSound} from 'react-icons/ai'
 
 
 export default function QuestionSpeaker(props) {
@@ -38,6 +39,7 @@ export default function QuestionSpeaker(props) {
     );
 
     props.setReadingMode('waitforans');
+    props.startBuzzTimer();
   };
 
 
@@ -45,7 +47,10 @@ export default function QuestionSpeaker(props) {
     <Box>
       {(isLoading === "loading") && <Spinner />}
       {(props.readingMode === 'waitforstrt' && isLoading === "ready") && <Button onClick={play}>Play Question Audio</Button>}
-      {(props.readingMode === 'readactive' && isLoading === "ready") && <Button type="button" colorScheme={'red'} onClick={buzz}>Buzz</Button>}
+      {(props.readingMode === 'readactive' && isLoading === "ready") && 
+        <HStack spacing={'5'}>
+          <Button type="button" colorScheme={'red'} onClick={buzz}>Buzz</Button> 
+          <Icon fontSize={'64'} as={AiFillSound}></Icon></HStack>}
     </Box>
   );
 }
