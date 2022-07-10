@@ -27,6 +27,13 @@
   };
 }
 
+// fetch data of game given gameID
+Parse.Cloud.define("fetchGameDataCloud", async (request) => {
+  const {gameID} = request.params; 
+  const gameData = await fetchGameData(gameID);
+  return gameData;
+});
+
 // fetch data of all available games 
 Parse.Cloud.define("fetchAvailableGames", async (request) => {
   const query = new Parse.Query("Game");

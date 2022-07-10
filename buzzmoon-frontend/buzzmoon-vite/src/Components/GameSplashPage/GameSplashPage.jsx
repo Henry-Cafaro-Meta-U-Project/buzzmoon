@@ -9,6 +9,7 @@ export default function GameSplashPage() {
   const navigate = useNavigate();
 
   const [enterMode, setEnterMode] = React.useState("loading");
+  const [gameData, setGameData] = React.useState();
 
   React.useEffect(() => {
     const checkEntryMode= async () => {
@@ -16,7 +17,14 @@ export default function GameSplashPage() {
       setEnterMode(response.mode);
     }
 
+    const getGameData = async () => {
+      const gameData = await BackendActor.getGame(gameID);
+      console.log("🚀 ~ file: GameSplashPage.jsx ~ line 22 ~ getGameData ~ gameData", gameData)
+      setGameData(gameData);
+    }
+
     checkEntryMode();
+    getGameData();
   }, []);
 
   return (

@@ -73,6 +73,11 @@ export default class BackendActor {
     return responses;
   }
 
+  static async getGame(gameID) {
+    const gameData = await Parse.Cloud.run("fetchGameDataCloud", {gameID});
+    return gameData;
+  }
+
   // registers the players answer in the backend database, and fetches the results of the question to show to the player
   static async getQuestionResults(gameID, resultKey, questionNumber, givenAnswer, buzzTimings) {
     const response = await Parse.Cloud.run("getQuestionResults", {gameID, resultKey, questionNumber, givenAnswer, buzzTimings});
