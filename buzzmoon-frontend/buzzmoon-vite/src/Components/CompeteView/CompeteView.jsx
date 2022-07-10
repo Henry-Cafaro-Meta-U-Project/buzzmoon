@@ -58,12 +58,12 @@ function GameListItem(props) {
 
   return  (
     <Flex w={'100%'} justify={'space-between'} align={'center'}>
-      <Text mr={'5'}>{props.game.attributes.title} </Text>
+      <Text mr={'5'}>{props.game.title} </Text>
       <Button 
         colorScheme={'gray'}
         variant={'outline'}
         onClick={() => {
-        navigate(`/compete/${props.game.id}`);
+        navigate(`/compete/${props.game.gameID}`);
       }}>
         Enter
       </Button>

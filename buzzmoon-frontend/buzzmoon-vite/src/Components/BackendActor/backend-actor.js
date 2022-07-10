@@ -68,8 +68,8 @@ export default class BackendActor {
 
   // fetches a list of available games
   static async getGames() {
-    const query = new Parse.Query('Game');
-    const responses = await query.find();
+    //const query = new Parse.Query('Game');
+    const responses = await Parse.Cloud.run("fetchAvailableGames", {});
     return responses;
   }
 
