@@ -4,8 +4,6 @@ import Results from '../Results/Results';
 import { BrowserRouter,
   Route,
   Routes,
-  Navigate,
-  Link, 
   useNavigate} from 'react-router-dom';
 import BackendActor from '../BackendActor/backend-actor';
 import GameSplashPage from '../GameSplashPage/GameSplashPage';
