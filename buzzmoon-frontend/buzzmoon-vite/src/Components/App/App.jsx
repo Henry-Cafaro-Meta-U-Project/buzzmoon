@@ -44,7 +44,7 @@ function App() {
   }else{
     return (
       <div className="app">
-        <BrowserRouter>
+        <BrowserRouter basename='/buzzmoon'>
           <Navbar setCurrentUser={setCurrentUser} />
           <Routes>
             <Route path="/" element={<Navigate to="/compete" />}></Route>
