@@ -21,7 +21,8 @@ export default function CompeteView() {
       const games = await BackendActor.getGames();
       setAvailableGames(games);
 
-      setGamesPlayed([]); //placeholder
+      const playedGames = await BackendActor.getPlayedGames();
+      setGamesPlayed(playedGames) //placeholder
     }
     
     fetchGames();
