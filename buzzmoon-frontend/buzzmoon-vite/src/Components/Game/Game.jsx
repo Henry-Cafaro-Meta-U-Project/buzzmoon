@@ -3,7 +3,7 @@ import QuestionResult from '../QuestionResult/QuestionResult';
 import QuestionSpeaker from '../QuestionSpeaker/QuestionSpeaker';
 import { Navigate, useNavigate, useParams, useLocation} from 'react-router-dom';
 import BackendActor from '../BackendActor/backend-actor';
-import { VStack, Heading, Flex, Center, Button, Input, HStack, Progress} from '@chakra-ui/react';
+import { VStack, Box, Heading, Flex, Center, Button, Input, HStack, Progress} from '@chakra-ui/react';
 
 const gameConfig = {
   timeAfterBuzz: 6
@@ -90,6 +90,7 @@ export default function Game(props) {
         </VStack>
         <Flex w={'100%'} justify={'space-between'} wrap={'wrap'}>
           <VStack align={'start'} mb={'20'} minW={'40%'}>
+            <Box width={'400px'}></Box>
           {(readingMode === 'waitfornxt') && (
             <Button
               onClick={() => {
@@ -135,7 +136,7 @@ export default function Game(props) {
                         onClick={handleAnswerSubmit} 
                         >Submit</Button>
                     </HStack>
-                    <Progress value={buzzTimer} min={0} max={gameConfig.timeAfterBuzz} w={'140%'} hasStripe/>
+                    <Progress colorScheme={'red'} value={buzzTimer} min={0} max={gameConfig.timeAfterBuzz} w={'400px'} hasStripe/>
                     </VStack>
                 )}
           </VStack>
