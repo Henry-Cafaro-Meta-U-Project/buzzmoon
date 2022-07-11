@@ -8,6 +8,7 @@ import {AiFillSound} from 'react-icons/ai'
 export default function QuestionSpeaker(props) {
   const [isLoading, setIsLoading] = React.useState("loading");
   const [audioProgressTicks, setAudioProgressTicks] = React.useState(0);
+  const [buzzTimeout, setBuzzTimeout] = React.useState();
   
   const audioRef = React.useRef();
 
@@ -33,13 +34,17 @@ export default function QuestionSpeaker(props) {
     for(let i = 1; i <= 20; i++){
       setTimeout(() => {setAudioProgressTicks(i)}, i * duration * 50);
     }
-    setTimeout(buzz, duration*1000+500);
+    setBuzzTimeout(setTimeout(buzz, duration*1000+500));
     props.setReadingMode('readactive');
   };
 
   const buzz = () => {
     audioRef.current.pause();
     audioRef.current.muted = true;
+    if(buzzTimeout){
+      clearTimeout(buzzTimeout);
+      setBuzzTimeout(null);
+    }
     props.setBuzzTimings(
       { ...props.buzzTimings, duration: audioRef.current.duration, buzz: Date.now() },
     );
