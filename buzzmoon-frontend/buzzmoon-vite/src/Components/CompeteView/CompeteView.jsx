@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Game from '../Game/Game';
+import GameListItem from '../GameListItem/GameListItem';
 import Results from '../Results/Results';
 import { BrowserRouter,
   Route,
@@ -7,6 +8,7 @@ import { BrowserRouter,
   useNavigate} from 'react-router-dom';
 import BackendActor from '../BackendActor/backend-actor';
 import GameSplashPage from '../GameSplashPage/GameSplashPage';
+import GameList from '../GameList/GameList';
 
 import { VStack, Heading, Flex, Center, Button, Text, Spinner} from '@chakra-ui/react';
 
@@ -32,24 +34,8 @@ export default function CompeteView() {
           element={
             <Center mt={'20'}>
               <Flex w={'60%'} direction={'row'} justify={'space-between'} wrap={'wrap'}>
-                <VStack boxShadow={'xl'} bg={'gray.200'} p={'5'} spacing={'5'} mb={'5'} minW={'33%'} minH={'100%'}>
-                  <Heading size="md" borderBottom={'2px solid black'}>Available Games</Heading>
-                  <VStack spacing={'1px'}>
-                    {availableGames ? 
-                      availableGames.map((e) => (
-                        <GameListItem key={e.gameID} game={e}/>
-                      )) : <Spinner />}
-                  </VStack>
-                </VStack>
-                <VStack boxShadow={'xl'} bg={'gray.200'} p={'5'} spacing={'5'} mb={'5'} minW={'33%'} minH={'100%'}>
-                  <Heading size="md" borderBottom={'2px solid black'}>Games Played</Heading>
-                  <VStack spacing={'1px'}>
-                    {gamesPlayed ? 
-                      gamesPlayed.map((e) => (
-                        <GameListItem key={e.gameID} game={e}/>
-                      )) : <Spinner />}
-                  </VStack>
-                </VStack>
+                <GameList heading={"Play Now"} games={availableGames}></GameList>
+                <GameList heading={"Games Played"} games={gamesPlayed}></GameList>
               </Flex>
             </Center>}>
         </Route>
@@ -63,20 +49,4 @@ export default function CompeteView() {
   );
 }
 
-function GameListItem(props) {
-  const navigate = useNavigate();
 
-  return  (
-    <Flex w={'100%'} justify={'space-between'} align={'center'}>
-      <Text mr={'5'}>{props.game.title} </Text>
-      <Button 
-        colorScheme={'gray'}
-        variant={'outline'}
-        onClick={() => {
-        navigate(`/compete/${props.game.gameID}`);
-      }}>
-        Enter
-      </Button>
-    </Flex>
-  )
-}

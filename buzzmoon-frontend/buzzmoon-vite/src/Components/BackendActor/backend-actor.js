@@ -66,6 +66,12 @@ export default class BackendActor {
     return data.audio._url;
   }
 
+  // fetches a list of created games
+  static async getCreatedGames() {
+    const responses = await Parse.Cloud.run("fetchCreatedGames", {});
+    return responses;
+  }
+
   // fetches a list of available games
   static async getGames() {
     //const query = new Parse.Query('Game');
