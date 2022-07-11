@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import BackendActor from '../BackendActor/backend-actor';
-import './Results.css';
 
-//placeholder results page
+import { Spinner, Center, Flex, Heading, Table, Thead, Tbody, Tr, Th, Td, Icon} from '@chakra-ui/react';
+import {AiFillTrophy} from 'react-icons/ai'
+
 export default function Results(props) {
   const {gameID} = useParams();
   const [gameData, setGameData] = React.useState();
@@ -26,45 +27,53 @@ export default function Results(props) {
     updateGameData();
   }, []);
 
-  
   if (! gameData) {
     return (
-      <div className='results'>
-        <i className="fa-solid fa-spinner fa-spin"></i>
-      </div>
+      <Center mt={'20'}>
+      <Spinner />
+      </Center>
     )
   }
 
   return (
-    <div className='results'>
-      <div className='game-results-header'>
-        <h1>{`${gameData.title}`}</h1>
-      </div>
-      <div className='game-results-categories'>
-      
-      </div>
-      <div className='game-results-table'>
-        <table className='results-table'>
-          <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Name</th>
-            <th>Points</th>
-            <th># Correct</th>
-          </tr>
-          </thead>
-          <tbody>
-          {table.map((e, idx) => (
-            <tr key={idx}>
-              <td>{idx+1}</td>
-              <td>{e.name}</td>
-              <td>{e.points}</td>
-              <td>{e.numCorrect}</td>
-            </tr>
-          ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <Center mt={'20'}>
+      <Flex direction={'column'} align={'center'} >
+        <Heading borderBottom={'1px solid black'} mb={'10'}>
+        {`${gameData.title}`}
+        </Heading>
+        <Table w={'100%'}variant={'striped'}>
+          <Thead>
+            <Tr>
+              <Th>Rank</Th>
+              <Th>Name</Th>
+              <Th>Points</Th>
+              <Th># Correct</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {table.map((e, idx) => (
+              <Tr key={idx}>
+                <Td><Center>{idx+1}{trophyIcon(idx+1)}</Center></Td>
+                <Td>{e.name}</Td>
+                <Td isNumeric>{e.points}</Td>
+                <Td isNumeric>{e.numCorrect}</Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </Flex>
+    </Center>
   )
+}
+
+function trophyIcon(rank) {
+  if(rank == 1){
+    return <Icon mx={'2'} fontSize={'xl'} color={'gold'} as={AiFillTrophy}></Icon>
+  }
+  if(rank == 2){
+    return <Icon mx={'2'} fontSize={'xl'} color={'silver'} as={AiFillTrophy}></Icon>
+  }
+  if(rank == 3){
+    return <Icon mx={'2'} fontSize={'xl'} color={'orange.500'} as={AiFillTrophy}></Icon>
+  }
 }

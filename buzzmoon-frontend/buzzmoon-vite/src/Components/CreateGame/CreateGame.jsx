@@ -1,8 +1,10 @@
 import * as React from 'react';
 import BackendActor from '../BackendActor/backend-actor';
 import CreateQuestion from '../CreateQuestion/CreateQuestion';
-import './CreateGame.css';
 import { useNavigate } from "react-router-dom";
+
+import { VStack, Text, Heading, Input, Flex, Button, Center, Textarea, Icon} from '@chakra-ui/react';
+import {AiOutlineUpload} from 'react-icons/ai'
 
 
 let uniqueQuestions = 0;
@@ -33,34 +35,38 @@ export default function CreateGame() {
   };
 
   return (
-    <div className="create-game">
-      <div className="game-details">
-        <h2>Game Info</h2>
-        Title:
-        {' '}
-        <input
-          type="text"
-          name="title"
-          placeholder="Enter Title"
-          value={title}
-          onChange={(e) => { setTitle(e.target.value); }}
-        />
-        {' '}
-        <br />
-        Description:
-        {' '}
-        <br />
-        <textarea
-          name="description"
-          placeholder="Enter Description"
-          value={desc}
-          onChange={(e) => setDesc(e.target.value)}
-        />
-      </div>
-      <div className="question-box">
-        <h2>Questions</h2>
-        <div className="question-list">
-          {questions.map((q) => (
+    <Center mb={'10'}>
+    <VStack w={'80%'} mt={'20'} spacing={'10'}>
+      <VStack w={'60%'} spacing={'5'}>
+        <Heading mb={'5'}>
+          New Game
+        </Heading>
+        <VStack w={'100%'} >
+          <Flex w={'100%'} direction={'row'} align={'center'}>
+            <Text fontSize={'lg'} w={'auto'} mr={'5'}>
+              Title:
+            </Text>
+            <Input
+              borderColor={'gray.500'} 
+              maxW={'50%'}
+              placeholder="Enter Title"
+              value={title}
+              onChange={(e) => { setTitle(e.target.value); }}></Input>
+          </Flex>
+          <VStack w={'100%'} align={'start'}>
+            <Text fontSize={'lg'}>Description:</Text>
+            <Textarea 
+              borderColor={'gray.500'}
+              name="description"
+              placeholder="Enter Description"
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}/>
+          </VStack>
+        </VStack>
+      </VStack>
+      <VStack w={'60%'} spacing={'8'}>
+        <Flex w={'100%'}><Heading size={'lg'}>Questions</Heading></Flex>
+        {questions.map((q) => (
             <CreateQuestion
               key={q.id}
               question={q}
@@ -70,39 +76,34 @@ export default function CreateGame() {
               modifyQuestion={modifyQuestion}
             />
           ))}
-        </div>
-        <button
-          type="button"
-          className="add-question-button"
-          onClick={() => {
-            setQuestions(questions.concat(
-              [
-                {
-                  id: getUniqueKey(),
-                  number: questions.length + 1,
-                  answers: '',
-                  audioFile: null,
-                },
-              ],
-            ));
-          }}
-        >
-          New Question
-        </button>
-
-      </div>
-      <div className="submit-details">
-        <button type="button" name="upload-game-button" 
-          onClick={async () => {
-            const message = await BackendActor.uploadGame(BackendActor.prepareGameData(title, desc, questions));
-
-            if(message === "Success"){
-              navigate("/compete");
-            }
-          }}>
-          Upload to Server
-        </button>
-      </div>
-    </div>
+          <Button 
+            leftIcon={<i className="fa-solid fa-plus"></i>}
+            size={'lg'} 
+            onClick={() => {
+              setQuestions(questions.concat(
+                [{
+                    id: getUniqueKey(),
+                    number: questions.length + 1,
+                    answers: '',
+                    audioFile: null,
+                  },],));
+              }}>
+            Add Question
+          </Button>
+      </VStack>
+      <Button
+        leftIcon={<Icon fontSize={'24'} as={AiOutlineUpload}></Icon>}
+        size={'lg'}
+        colorScheme={'blue'}
+        onClick={async () => {
+          const message = await BackendActor.uploadGame(BackendActor.prepareGameData(title, desc, questions));
+          if(message === "Success"){
+            navigate("/compete");
+          }
+        }}>
+        Upload to Server
+      </Button>
+    </VStack>
+    </Center>
   );
 }

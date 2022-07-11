@@ -12,7 +12,6 @@ import Home from '../Home/Home';
 import Navbar from '../Navbar/Navbar';
 import Auth from '../Auth/Auth';
 import CreateView from '../CreateView/CreateView';
-import './App.css';
 import CompeteView from '../CompeteView/CompeteView';
 
 Parse.initialize(`nUrzDufzLEaJ3sjzvcvNHvw1hD46jOt4yEipaWHs`, `juaO5lbdY5jTtDXGpzEr2mGtggC0wf2Es11cEruf`);

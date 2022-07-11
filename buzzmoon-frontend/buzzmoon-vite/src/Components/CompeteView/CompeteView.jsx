@@ -1,16 +1,14 @@
 import * as React from 'react';
-import './CompeteView.css';
 import Game from '../Game/Game';
 import Results from '../Results/Results';
 import { BrowserRouter,
   Route,
   Routes,
-  Navigate,
-  Link } from 'react-router-dom';
+  useNavigate} from 'react-router-dom';
 import BackendActor from '../BackendActor/backend-actor';
 import GameSplashPage from '../GameSplashPage/GameSplashPage';
 
-//const gameIDs = [1, 2] //placeholder
+import { VStack, Heading, Flex, Center, Button, Text} from '@chakra-ui/react';
 
 export default function CompeteView() {
   let [games, setGames] = React.useState([]);
@@ -24,30 +22,26 @@ export default function CompeteView() {
     fetchGames();
   }, []);
 
-
   return (
-    <div className="compete-view">
+    
       <Routes>
         <Route path="/" 
           element={
-            <div className='compete-games'>
-
-            
-              <div className='game-list'>
-                <h2>Available Games</h2>
-                <div className='available-games-body'>
-                  {games.map((e) => (
-                    <GameListItem key={e.id} game={e}/>
-                    // <div className='game-link' key={e.id}>
-                    //   ID : {e.id} <Link to={`/compete/${e.id}`}> Enter</Link>
-                    // </div>
-                  ))}
-                </div>
-              </div>
-              <div className='game-list'>
-                <h2> Games Played </h2>
-              </div>
-            </div>}>
+            <Center mt={'20'}>
+              <Flex w={'60%'} direction={'row'} justify={'space-between'} wrap={'wrap'}>
+                <VStack boxShadow={'xl'} bg={'gray.200'} p={'5'} spacing={'5'} mb={'5'}>
+                  <Heading size="md" borderBottom={'2px solid black'}>Available Games</Heading>
+                  <VStack spacing={'1px'}>
+                    {games.map((e) => (
+                      <GameListItem key={e.id} game={e}/>
+                    ))}
+                  </VStack>
+                </VStack>
+                <VStack boxShadow={'xl'} bg={'gray.200'} p={'5'} spacing={'5'} align={'start'}>
+                  <Heading size="md" borderBottom={'2px solid black'}>Games Played</Heading>
+                </VStack>
+              </Flex>
+            </Center>}>
         </Route>
         <Route path="/:gameID" element={<GameSplashPage />}></Route>
         <Route path="/:gameID/play/:resultKey" element={<Game />}></Route>
@@ -55,15 +49,24 @@ export default function CompeteView() {
         <Route path="/:gameID/results" element={<Results />}></Route>
       </Routes>
       
-    </div>
+    
   );
 }
 
-
 function GameListItem(props) {
+  const navigate = useNavigate();
+
   return  (
-    <div className='game-list-item'>
-      {props.game.attributes.title} <Link to={`/compete/${props.game.id}`}> Enter</Link>
-    </div>
+    <Flex w={'100%'} justify={'space-between'} align={'center'}>
+      <Text mr={'5'}>{props.game.attributes.title} </Text>
+      <Button 
+        colorScheme={'gray'}
+        variant={'outline'}
+        onClick={() => {
+        navigate(`/compete/${props.game.id}`);
+      }}>
+        Enter
+      </Button>
+    </Flex>
   )
 }
