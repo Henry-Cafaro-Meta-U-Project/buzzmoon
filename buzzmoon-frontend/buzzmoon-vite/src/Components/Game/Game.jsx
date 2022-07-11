@@ -6,7 +6,7 @@ import BackendActor from '../BackendActor/backend-actor';
 import { VStack, Heading, Flex, Center, Button, Input, HStack, Progress} from '@chakra-ui/react';
 
 const gameConfig = {
-  timeAfterBuzz: 5
+  timeAfterBuzz: 6
 }
 
 export default function Game(props) {
@@ -18,13 +18,18 @@ export default function Game(props) {
   const [questionNumber, setQuestionNumber] = React.useState(1);
   const [prevQuestionDetails, setPrevQuestionDetails] = React.useState(null);
   const [cumulativeScore, setCumulativeScore] = React.useState(0);
-  const [buzzTimings, setBuzzTimings] = React.useState({ play: 0, buzz: 0, duration: 0 });
+
   const [buzzTimer, setBuzzTimer] = React.useState(0);
+  const [buzzTimeout, setBuzzTimeout] = React.useState();
+
   const [answerInputText, setAnswerInputText] = React.useState('');
+  const [buzzTimings, setBuzzTimings] = React.useState({ play: 0, buzz: 0, duration: 0 });
+
   const [readingMode, setReadingMode] = React.useState('waitforstrt');
   // modes are waitfornxt: wait for next question to be navigated to
   //           readactive: question audio is being read
   //           waitforstrt: wait for question audio to be read
+  //           submitans: used to trigger answer submission
   //           waitforans: wait for user to type answer to question
 
   const processAnswer = async () => {
@@ -34,10 +39,7 @@ export default function Game(props) {
   };
 
   const handleAnswerSubmit = () => {
-
-      processAnswer();
-      setAnswerInputText('');
-      setReadingMode('waitfornxt');
+    setReadingMode("submitans");
   }
 
   const startBuzzTimer = () => {
@@ -46,6 +48,9 @@ export default function Game(props) {
     for(let i = 1; i <= timeAfterBuzz; i++){
       setTimeout(() => {setBuzzTimer(i)}, i*1000);
     }
+    setBuzzTimeout(setTimeout(handleAnswerSubmit, timeAfterBuzz*1000));
+
+
   }
 
   React.useEffect(() => {
@@ -62,6 +67,18 @@ export default function Game(props) {
       document.getElementById('answer-input').focus();
     }
   }, [readingMode]);
+
+  React.useEffect(() => {
+    if(readingMode === "submitans"){
+      if(buzzTimeout){
+        clearTimeout(buzzTimeout);
+        setBuzzTimeout(0);
+      }
+      processAnswer();
+      setAnswerInputText('');
+      setReadingMode('waitfornxt');
+    }
+  }, [readingMode])
 
   return (
     <Center>
