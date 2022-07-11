@@ -9,6 +9,7 @@ export default function GameSplashPage() {
   const navigate = useNavigate();
 
   const [enterMode, setEnterMode] = React.useState("loading");
+  const [gameData, setGameData] = React.useState(undefined);
 
   React.useEffect(() => {
     const checkEntryMode= async () => {
@@ -16,12 +17,37 @@ export default function GameSplashPage() {
       setEnterMode(response.mode);
     }
 
+    const getGameData = async () => {
+      const gameData = await BackendActor.getGame(gameID);
+      setGameData(gameData);
+    }
+
     checkEntryMode();
+    getGameData();
   }, []);
 
   return (
-    <Center>
-      <Box mt={'20'}>
+    <Center mt={'20'} minW={'400px'}>
+        <VStack spacing={'60px'}>
+        {!gameData ? <Spinner/ > :
+        <VStack spacing={'8'} bg={'gray.200'} p={'5'} borderRadius={'md'} shadow={'md'}>
+          <Center>
+            <Heading size={'xl'} borderBottom={'1px solid black'} mx={'20'}>{gameData.title}</Heading>
+          </Center>
+          <Flex w={'100%'} direction={'row'} justify={'space-between'}>
+            <VStack spacing={'2'} align={'start'}>
+              <Heading size={'sm'}>Created by {gameData.authorName}</Heading>
+              <Heading size={'sm'}>{gameData.createdAt.toLocaleDateString("en-US")}</Heading>
+            </VStack>
+            <VStack spacing={'2'} align={'end'}>
+              <Heading size={'sm'}>{gameData.numQuestions} Questions</Heading>
+            </VStack>
+          </Flex>
+          <Text width={'100%'} align={'left'}>
+            {gameData.description}
+          </Text>
+        </VStack>
+        }
         {enterMode === "loading" && <Spinner />}
         {enterMode === "play" && 
           <Button 
@@ -40,7 +66,7 @@ export default function GameSplashPage() {
               navigate("./results");}}>
             Results
           </Button>}
-      </Box>
+          </VStack>
     </Center>
   )
 }

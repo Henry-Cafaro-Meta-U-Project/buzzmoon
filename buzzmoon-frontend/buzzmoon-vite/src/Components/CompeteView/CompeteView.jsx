@@ -33,7 +33,7 @@ export default function CompeteView() {
                   <Heading size="md" borderBottom={'2px solid black'}>Available Games</Heading>
                   <VStack spacing={'1px'}>
                     {games.map((e) => (
-                      <GameListItem key={e.id} game={e}/>
+                      <GameListItem key={e.gameID} game={e}/>
                     ))}
                   </VStack>
                 </VStack>
@@ -58,12 +58,12 @@ function GameListItem(props) {
 
   return  (
     <Flex w={'100%'} justify={'space-between'} align={'center'}>
-      <Text mr={'5'}>{props.game.attributes.title} </Text>
+      <Text mr={'5'}>{props.game.title} </Text>
       <Button 
         colorScheme={'gray'}
         variant={'outline'}
         onClick={() => {
-        navigate(`/compete/${props.game.id}`);
+        navigate(`/compete/${props.game.gameID}`);
       }}>
         Enter
       </Button>
