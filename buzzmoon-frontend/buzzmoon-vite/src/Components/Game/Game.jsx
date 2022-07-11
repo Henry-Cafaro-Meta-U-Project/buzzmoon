@@ -49,8 +49,6 @@ export default function Game(props) {
       setTimeout(() => {setBuzzTimer(i)}, i*1000);
     }
     setBuzzTimeout(setTimeout(handleAnswerSubmit, timeAfterBuzz*1000));
-
-
   }
 
   React.useEffect(() => {
@@ -140,7 +138,6 @@ export default function Game(props) {
                     <Progress value={buzzTimer} min={0} max={gameConfig.timeAfterBuzz} w={'140%'} hasStripe/>
                     </VStack>
                 )}
-            
           </VStack>
           {prevQuestionDetails && <QuestionResult results={prevQuestionDetails} />}
         </Flex>
