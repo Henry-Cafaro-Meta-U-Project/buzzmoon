@@ -8,15 +8,18 @@ import { BrowserRouter,
 import BackendActor from '../BackendActor/backend-actor';
 import GameSplashPage from '../GameSplashPage/GameSplashPage';
 
-import { VStack, Heading, Flex, Center, Button, Text} from '@chakra-ui/react';
+import { VStack, Heading, Flex, Center, Button, Text, Spinner} from '@chakra-ui/react';
 
 export default function CompeteView() {
-  let [games, setGames] = React.useState([]);
+  const [availableGames, setAvailableGames] = React.useState();
+  const [gamesPlayed, setGamesPlayed] = React.useState();
 
   React.useEffect(() => {
     const fetchGames = async () => {
       const games = await BackendActor.getGames();
-      setGames(games);
+      setAvailableGames(games);
+
+      setGamesPlayed([]); //placeholder
     }
     
     fetchGames();
@@ -29,16 +32,23 @@ export default function CompeteView() {
           element={
             <Center mt={'20'}>
               <Flex w={'60%'} direction={'row'} justify={'space-between'} wrap={'wrap'}>
-                <VStack boxShadow={'xl'} bg={'gray.200'} p={'5'} spacing={'5'} mb={'5'}>
+                <VStack boxShadow={'xl'} bg={'gray.200'} p={'5'} spacing={'5'} mb={'5'} minW={'33%'} minH={'100%'}>
                   <Heading size="md" borderBottom={'2px solid black'}>Available Games</Heading>
                   <VStack spacing={'1px'}>
-                    {games.map((e) => (
-                      <GameListItem key={e.gameID} game={e}/>
-                    ))}
+                    {availableGames ? 
+                      availableGames.map((e) => (
+                        <GameListItem key={e.gameID} game={e}/>
+                      )) : <Spinner />}
                   </VStack>
                 </VStack>
-                <VStack boxShadow={'xl'} bg={'gray.200'} p={'5'} spacing={'5'} align={'start'}>
+                <VStack boxShadow={'xl'} bg={'gray.200'} p={'5'} spacing={'5'} mb={'5'} minW={'33%'} minH={'100%'}>
                   <Heading size="md" borderBottom={'2px solid black'}>Games Played</Heading>
+                  <VStack spacing={'1px'}>
+                    {gamesPlayed ? 
+                      gamesPlayed.map((e) => (
+                        <GameListItem key={e.gameID} game={e}/>
+                      )) : <Spinner />}
+                  </VStack>
                 </VStack>
               </Flex>
             </Center>}>
