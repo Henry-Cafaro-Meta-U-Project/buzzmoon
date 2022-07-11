@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import * as React from 'react';
 
-import { VStack, Box, Heading, Text, Flex} from '@chakra-ui/react';
+import { Spinner, Box, Heading, Text, Flex} from '@chakra-ui/react';
 
 
 const formatConfig = {
@@ -16,6 +16,10 @@ function pointsFromCelerity(celerity) {
 }
 
 export default function QuestionResult(props) {
+  if(props.results.waiting){
+    return <Spinner />
+  }
+  
   return (
     <Flex direction={'column'} w={'400px'} bg={'gray.300'} px={'5'} py={'5'} align={'start'} shadow={'md'}>
       <Heading size={'md'} mb={'5'}>
