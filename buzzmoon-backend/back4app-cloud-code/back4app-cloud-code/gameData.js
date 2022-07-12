@@ -45,3 +45,35 @@ Parse.Cloud.define("fetchAvailableGames", async (request) => {
                              return response;}));
   return gamesData;
 });
+
+// fetch data of all games created by user
+Parse.Cloud.define("fetchCreatedGames", async (request) => {
+  const query = new Parse.Query("Game");
+  query.equalTo("author", request.user);
+  const games = await query.find();
+  
+  
+  const gamesData = await Promise.all(
+                           games.map(async (e) => {
+                             const response = await fetchGameData(e.id);
+                             return response;}));
+  return gamesData;
+})
+
+// fetch data of all games played by user 
+Parse.Cloud.define("fetchPlayedGames", async (request) => {
+  const query = new Parse.Query("Game");
+  
+  const games = await query.filter(async (game) => {
+    const players = await game.get("players");
+    return (players.indexOf(request.user.id) !== -1);
+    
+  });
+  const gamesData = await Promise.all(
+                           games.map(async (e) => {
+                             const response = await fetchGameData(e.id);
+                             return response;}));
+  return gamesData;
+  
+  
+})

@@ -39,6 +39,14 @@ Parse.Cloud.define("registerGameEntry", async (request) => {
   
   await newGameResult.save(null, { useMasterKey: true });
   
+  let gamePlayers = await gameRef.get("players");
+  
+  gamePlayers = gamePlayers.concat([request.user.id]);
+  gamePlayers = gamePlayers.filter((elem, idx) => gamePlayers.indexOf(elem) === idx);
+  gameRef.set("players", gamePlayers);
+  
+  await gameRef.save(null, { useMasterKey: true }); 
+  
   return {message:"successful entry", resultKey:newGameResult.id};
   
 });

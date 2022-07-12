@@ -33,6 +33,7 @@ export default function Game(props) {
   //           waitforans: wait for user to type answer to question
 
   const processAnswer = async () => {
+    setPrevQuestionDetails({waiting:true});
     let questionResults = await BackendActor.getQuestionResults(gameID, resultKey, questionNumber, answerInputText, buzzTimings);
     setCumulativeScore(cumulativeScore + questionResults.points);
     setPrevQuestionDetails(questionResults);

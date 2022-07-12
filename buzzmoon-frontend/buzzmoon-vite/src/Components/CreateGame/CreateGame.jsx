@@ -3,7 +3,7 @@ import BackendActor from '../BackendActor/backend-actor';
 import CreateQuestion from '../CreateQuestion/CreateQuestion';
 import { useNavigate } from "react-router-dom";
 
-import { VStack, Text, Heading, Input, Flex, Button, Center, Textarea, Icon} from '@chakra-ui/react';
+import { VStack, Text, Heading, Input, Flex, Button, Center, Textarea, Icon, Spinner} from '@chakra-ui/react';
 import {AiOutlineUpload} from 'react-icons/ai'
 
 
@@ -20,6 +20,7 @@ export default function CreateGame() {
   const [title, setTitle] = React.useState('');
   const [desc, setDesc] = React.useState('');
   const [questions, setQuestions] = React.useState([]);
+  const [isUploading, setIsUploading] = React.useState(false);
 
   const navigate = useNavigate();
 
@@ -91,18 +92,21 @@ export default function CreateGame() {
             Add Question
           </Button>
       </VStack>
-      <Button
-        leftIcon={<Icon fontSize={'24'} as={AiOutlineUpload}></Icon>}
-        size={'lg'}
-        colorScheme={'blue'}
-        onClick={async () => {
-          const message = await BackendActor.uploadGame(BackendActor.prepareGameData(title, desc, questions));
-          if(message === "Success"){
-            navigate("/compete");
-          }
-        }}>
+      {isUploading ? <Spinner /> : 
+        <Button
+          leftIcon={<Icon fontSize={'24'} as={AiOutlineUpload}></Icon>}
+          size={'lg'}
+          colorScheme={'blue'}
+          onClick={async () => {
+            setIsUploading(true);
+            const message = await BackendActor.uploadGame(BackendActor.prepareGameData(title, desc, questions));
+            if(message === "Success"){
+              navigate("/compete");
+            }
+            setIsUploading(false);
+          }}>
         Upload to Server
-      </Button>
+      </Button>}
     </VStack>
     </Center>
   );
