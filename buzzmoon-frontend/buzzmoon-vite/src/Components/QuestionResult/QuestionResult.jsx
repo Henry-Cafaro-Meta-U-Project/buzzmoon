@@ -17,7 +17,7 @@ function pointsFromCelerity(celerity) {
 
 export default function QuestionResult(props) {
   return (
-    <Flex direction={'column'} bg={'gray.300'} px={'5'} py={'5'} align={'start'} shadow={'md'}>
+    <Flex direction={'column'} w={'400px'} bg={'gray.300'} px={'5'} py={'5'} align={'start'} shadow={'md'}>
       <Heading size={'md'} mb={'5'}>
         {'Result for Question #'}
         {props.results.question.attributes.questionNumber}

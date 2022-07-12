@@ -1,11 +1,14 @@
 import * as React from 'react';
 import BackendActor from '../BackendActor/backend-actor';
 
-import { Box, Button, Spinner} from '@chakra-ui/react';
+import { Box, Button, Spinner, Icon, HStack, VStack, Progress} from '@chakra-ui/react';
+import {AiFillSound} from 'react-icons/ai'
 
 
 export default function QuestionSpeaker(props) {
-  let [isLoading, setIsLoading] = React.useState("loading");
+  const [isLoading, setIsLoading] = React.useState("loading");
+  const [audioProgressTicks, setAudioProgressTicks] = React.useState(0);
+  const [buzzTimeout, setBuzzTimeout] = React.useState();
   
   const audioRef = React.useRef();
 
@@ -27,17 +30,27 @@ export default function QuestionSpeaker(props) {
     props.setBuzzTimings(
       { ...props.buzzTimings, duration: audioRef.current.duration, play: Date.now() },
     );
+    const duration = audioRef.current.duration;
+    for(let i = 1; i <= 20; i++){
+      setTimeout(() => {setAudioProgressTicks(i)}, i * duration * 50);
+    }
+    setBuzzTimeout(setTimeout(buzz, duration*1000+500));
     props.setReadingMode('readactive');
   };
 
   const buzz = () => {
     audioRef.current.pause();
     audioRef.current.muted = true;
+    if(buzzTimeout){
+      clearTimeout(buzzTimeout);
+      setBuzzTimeout(null);
+    }
     props.setBuzzTimings(
       { ...props.buzzTimings, duration: audioRef.current.duration, buzz: Date.now() },
     );
 
     props.setReadingMode('waitforans');
+    props.startBuzzTimer();
   };
 
 
@@ -45,7 +58,14 @@ export default function QuestionSpeaker(props) {
     <Box>
       {(isLoading === "loading") && <Spinner />}
       {(props.readingMode === 'waitforstrt' && isLoading === "ready") && <Button onClick={play}>Play Question Audio</Button>}
-      {(props.readingMode === 'readactive' && isLoading === "ready") && <Button type="button" colorScheme={'red'} onClick={buzz}>Buzz</Button>}
+      {(props.readingMode === 'readactive' && isLoading === "ready") && 
+        <VStack align={'start'}>
+          <HStack spacing={'5'}>
+            <Button type="button" colorScheme={'red'} onClick={buzz}>Buzz</Button> 
+            <Icon fontSize={'64'} as={AiFillSound}></Icon>
+          </HStack>
+          <Progress w={'400px'} min={0} max={20} value={audioProgressTicks} hasStripe/>
+        </VStack>}
     </Box>
   );
 }

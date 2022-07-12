@@ -3,8 +3,11 @@ import QuestionResult from '../QuestionResult/QuestionResult';
 import QuestionSpeaker from '../QuestionSpeaker/QuestionSpeaker';
 import { Navigate, useNavigate, useParams, useLocation} from 'react-router-dom';
 import BackendActor from '../BackendActor/backend-actor';
-import { VStack, Box, Heading, Flex, Center, Button, Input, HStack, Icon} from '@chakra-ui/react';
-import {AiFillSound} from 'react-icons/ai'
+import { VStack, Box, Heading, Flex, Center, Button, Input, HStack, Progress} from '@chakra-ui/react';
+
+const gameConfig = {
+  timeAfterBuzz: 6
+}
 
 export default function Game(props) {
   const {gameID, resultKey} = useParams();
@@ -15,13 +18,18 @@ export default function Game(props) {
   const [questionNumber, setQuestionNumber] = React.useState(1);
   const [prevQuestionDetails, setPrevQuestionDetails] = React.useState(null);
   const [cumulativeScore, setCumulativeScore] = React.useState(0);
-  const [cumulativeResults, setCumulativeResults] = React.useState([]);
-  const [buzzTimings, setBuzzTimings] = React.useState({ play: 0, buzz: 0, duration: 0 });
+
+  const [buzzTimer, setBuzzTimer] = React.useState(0);
+  const [buzzTimeout, setBuzzTimeout] = React.useState();
+
   const [answerInputText, setAnswerInputText] = React.useState('');
+  const [buzzTimings, setBuzzTimings] = React.useState({ play: 0, buzz: 0, duration: 0 });
+
   const [readingMode, setReadingMode] = React.useState('waitforstrt');
   // modes are waitfornxt: wait for next question to be navigated to
   //           readactive: question audio is being read
   //           waitforstrt: wait for question audio to be read
+  //           submitans: used to trigger answer submission
   //           waitforans: wait for user to type answer to question
 
   const processAnswer = async () => {
@@ -29,6 +37,19 @@ export default function Game(props) {
     setCumulativeScore(cumulativeScore + questionResults.points);
     setPrevQuestionDetails(questionResults);
   };
+
+  const handleAnswerSubmit = () => {
+    setReadingMode("submitans");
+  }
+
+  const startBuzzTimer = () => {
+    setBuzzTimer(0);
+    const {timeAfterBuzz} = gameConfig;
+    for(let i = 1; i <= timeAfterBuzz; i++){
+      setTimeout(() => {setBuzzTimer(i)}, i*1000);
+    }
+    setBuzzTimeout(setTimeout(handleAnswerSubmit, timeAfterBuzz*1000));
+  }
 
   React.useEffect(() => {
     const updateGameData = async () => {
@@ -45,6 +66,18 @@ export default function Game(props) {
     }
   }, [readingMode]);
 
+  React.useEffect(() => {
+    if(readingMode === "submitans"){
+      if(buzzTimeout){
+        clearTimeout(buzzTimeout);
+        setBuzzTimeout(0);
+      }
+      processAnswer();
+      setAnswerInputText('');
+      setReadingMode('waitfornxt');
+    }
+  }, [readingMode])
+
   return (
     <Center>
       <VStack w={'80%'} spacing={'50px'} mt={'50px'}>
@@ -56,7 +89,8 @@ export default function Game(props) {
           </Flex>
         </VStack>
         <Flex w={'100%'} justify={'space-between'} wrap={'wrap'}>
-          <HStack spacing={'14'} mb={'20'} minW={'40%'}>
+          <VStack align={'start'} mb={'20'} minW={'40%'}>
+            <Box width={'400px'}></Box>
           {(readingMode === 'waitfornxt') && (
             <Button
               onClick={() => {
@@ -70,7 +104,7 @@ export default function Game(props) {
               Next
             </Button>
             )}
-          {(readingMode !== 'waitfornxt') && (
+          {(readingMode === 'waitforstrt' || readingMode === 'readactive') && (
             <QuestionSpeaker
               gameID={gameID}
               questionNumber={questionNumber}
@@ -78,32 +112,34 @@ export default function Game(props) {
               setBuzzTimings={setBuzzTimings}
               readingMode={readingMode}
               setReadingMode={setReadingMode}
+              startBuzzTimer={startBuzzTimer}
             />
             )}
-          {readingMode === 'readactive' && <Icon fontSize={'64'} as={AiFillSound}></Icon>}
           {(readingMode === 'waitforans')
                 && (
-                  <form style={{marginLeft: 0}}
-                  autoComplete="off"
-                  onSubmit={() => {
-                    processAnswer();
-                    setAnswerInputText('');
-                    setReadingMode('waitfornxt');
-                  }}>
+                    <VStack ml={'0'} spacing={'5'} align={'start'}>
                     <HStack ms={'0'}>
                       <Input w={'100%'}
+                        autoComplete={'off'}
                         id='answer-input'
                         placeholder={'answer'}
                         value={answerInputText}
                         onChange={(event) => {
                           setAnswerInputText(event.target.value);
                         }}
-                      />
-                      <Button type="submit">Submit</Button>
+                        onKeyDown={(event) => {
+                          if(event.key === 'Enter'){
+                            handleAnswerSubmit();
+                          }
+                        }}/>
+                      <Button 
+                        onClick={handleAnswerSubmit} 
+                        >Submit</Button>
                     </HStack>
-                  </form>
+                    <Progress colorScheme={'red'} value={buzzTimer} min={0} max={gameConfig.timeAfterBuzz} w={'400px'} hasStripe/>
+                    </VStack>
                 )}
-          </HStack>
+          </VStack>
           {prevQuestionDetails && <QuestionResult results={prevQuestionDetails} />}
         </Flex>
       </VStack>
