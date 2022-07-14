@@ -14,12 +14,18 @@ import {
 } from '@chakra-ui/react';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 
+
 export default function Auth(props) {
   let [mode, setMode] = React.useState("login");
 
+
   return (
-    <Flex 
-      mt={'20vh'}
+    <div className="login-background" style={{
+      height:"100vh",
+      backgroundImage:`url('../../../assets/login-background.png')`
+    }}
+    >
+    <Flex
       align={'center'}
       justify={'center'}>
         <Tabs size='md' variant='enclosed'>
@@ -37,7 +43,8 @@ export default function Auth(props) {
           </TabPanels>
         </Tabs>
     </Flex>
-    
+    </div>
+
   )
 }
 
@@ -50,6 +57,7 @@ function LoginCard(props) {
   }
 
   return (
+
     <Flex
       minH={'50vh'}
       align={'center'}
@@ -70,14 +78,14 @@ function LoginCard(props) {
             }}>
             <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input 
-                type="email" 
+              <Input
+                type="email"
                 onChange={(event) => {setEmail(event.target.value)}}/>
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
-              <Input 
-                type="password" 
+              <Input
+                type="password"
                 onChange={(event) => (setPassword(event.target.value))}/>
             </FormControl>
             <Stack spacing={10} mt={5}>
@@ -129,20 +137,20 @@ function SignUpCard(props) {
             }}>
             <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input 
-                type="email" 
+              <Input
+                type="email"
                 onChange={(event) => {setEmail(event.target.value)}}/>
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
-              <Input 
-                type="password" 
+              <Input
+                type="password"
                 onChange={(event) => (setPassword(event.target.value))}/>
             </FormControl>
             <FormControl id="realName" isRequired>
               <FormLabel>Real Name</FormLabel>
-              <Input 
-                type="text" 
+              <Input
+                type="text"
                 onChange={(event) => (setRealName(event.target.value))}/>
             </FormControl>
             <Stack spacing={10} mt={5}>
