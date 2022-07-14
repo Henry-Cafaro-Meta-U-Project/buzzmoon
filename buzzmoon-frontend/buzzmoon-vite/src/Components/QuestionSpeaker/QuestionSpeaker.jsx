@@ -9,7 +9,7 @@ export default function QuestionSpeaker(props) {
   const [isLoading, setIsLoading] = React.useState("loading");
   const [audioProgressTicks, setAudioProgressTicks] = React.useState(0);
   const [buzzTimeout, setBuzzTimeout] = React.useState();
-  
+
   const audioRef = React.useRef();
 
   React.useEffect(() => {
@@ -58,13 +58,16 @@ export default function QuestionSpeaker(props) {
     <Box>
       {(isLoading === "loading") && <Spinner />}
       {(props.readingMode === 'waitforstrt' && isLoading === "ready") && <Button onClick={play}>Play Question Audio</Button>}
-      {(props.readingMode === 'readactive' && isLoading === "ready") && 
+      {(props.readingMode === 'readactive' && isLoading === "ready") &&
         <VStack align={'start'}>
           <HStack spacing={'5'}>
-            <Button type="button" colorScheme={'red'} onClick={buzz}>Buzz</Button> 
+            <Button type="button" colorScheme={'red'} onClick={buzz}>Buzz</Button>
             <Icon fontSize={'64'} as={AiFillSound}></Icon>
           </HStack>
-          <Progress w={'400px'} min={0} max={20} value={audioProgressTicks} hasStripe/>
+          <Progress
+            w={'min(400px, 90vw)'}
+            min={0} max={20} value={audioProgressTicks}
+            hasStripe/>
         </VStack>}
     </Box>
   );

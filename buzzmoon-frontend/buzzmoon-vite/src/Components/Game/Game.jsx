@@ -81,7 +81,7 @@ export default function Game(props) {
 
   return (
     <Center>
-      <VStack w={'80%'} spacing={'50px'} mt={'50px'}>
+      <VStack w={{base:'95%', md:'80%'}} spacing={'50px'} mt={'50px'}>
         <VStack w={'100%'} spacing={'20px'}>
           <Heading size={'2xl'}>{gameData.title}</Heading>
           <Flex w={'100%'} justify={'space-between'}>
@@ -133,11 +133,15 @@ export default function Game(props) {
                             handleAnswerSubmit();
                           }
                         }}/>
-                      <Button 
-                        onClick={handleAnswerSubmit} 
+                      <Button
+                        onClick={handleAnswerSubmit}
                         >Submit</Button>
                     </HStack>
-                    <Progress colorScheme={'red'} value={buzzTimer} min={0} max={gameConfig.timeAfterBuzz} w={'400px'} hasStripe/>
+                    <Progress
+                      colorScheme={'red'}
+                      value={buzzTimer} min={0} max={gameConfig.timeAfterBuzz}
+                      w={'min(400px, 90vw)'}
+                      hasStripe/>
                     </VStack>
                 )}
           </VStack>
