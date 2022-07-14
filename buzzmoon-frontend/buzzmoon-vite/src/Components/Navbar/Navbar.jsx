@@ -10,7 +10,7 @@ import {
   Center,
   HStack,
   IconButton,
-  Button
+  Show
 } from '@chakra-ui/react';
 
 export default function NavbarBox(props) {
@@ -19,11 +19,13 @@ export default function NavbarBox(props) {
       <Flex color={'white'} bg={'black'} w={'96%'} h={'80%'} top="0rem" right="0rem" align="center" shadow={'md'} px={'5'}>
         <Flex minW={'100%'} direction={'row'} justify={'space-between'} align={'center'}>
           <HStack align={'center'} spacing={'10'}>
-            <Link to="/"> 
+            <Show above="md">
+            <Link to="/">
             <Heading fontSize={'5xl'}>
               BuzzMoon
             </Heading>
             </Link>
+            </Show>
             <Link to="/compete">
             <Heading fontSize={'3xl'}>
               Compete
@@ -35,8 +37,8 @@ export default function NavbarBox(props) {
             </Heading>
             </Link>
           </HStack>
-    
-          
+
+
             <IconButton
               onClick={() => {
                 BackendActor.handleLogOut(props.setCurrentUser);
