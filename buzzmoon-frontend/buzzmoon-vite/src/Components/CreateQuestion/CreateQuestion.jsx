@@ -5,6 +5,7 @@ import {AiOutlineClose} from 'react-icons/ai'
 
 
 export default function CreateQuestion(props) {
+  console.log("🚀 ~ file: CreateQuestion.jsx ~ line 8 ~ CreateQuestion ~ props", props)
   const [questionAudio, setQuestionAudio] = React.useState();
   const [playingMode, setPlayingMode] = React.useState('no audio');
   // options are "no audio", "playing", "paused"
@@ -26,11 +27,11 @@ export default function CreateQuestion(props) {
   };
 
   return (
-    <VStack w={'100%'} 
-      bg={'gray.50'} 
+    <VStack w={'100%'}
+      bg={'gray.50'}
       shadow={'md'}
-      spacing={'5'} 
-      padding={'3'} 
+      spacing={'5'}
+      padding={'3'}
       border={'1px solid black'}
       borderRadius={'md'} >
       <Flex w={'100%'} justify={'space-between'} align={'center'}>
@@ -85,74 +86,4 @@ export default function CreateQuestion(props) {
         />
     </VStack>
   )
-
-  return (
-    <div className="create-question">
-      <div className="create-question-header">
-        <div className="create-question-header-left">
-          Question #
-          {props.question.number}
-        </div>
-        <div className="create-question-header-center">
-          <div className="play-pause-widget">
-            {questionAudio
-                && (playingMode === 'paused'
-                  ? (
-                    <button
-                      type="button"
-                      className="play-audio"
-                      onClick={() => {
-                        setPlayingMode('playing');
-                        questionAudio.play();
-                      }}
-                    >
-                      <i className="fa-solid fa-play" />
-                    </button>
-                  )
-                  : (
-                    <button
-                      type="button"
-                      className="paused-audio"
-                      onClick={() => {
-                        setPlayingMode('paused');
-                        questionAudio.pause();
-                      }}
-                    >
-                      <i className="fa-solid fa-pause" />
-                    </button>
-                  )
-                )}
-          </div>
-          <div className="upload-audio-widget">
-            <input type="file" name="audio-file" accept=".mp3, .m4a" onChange={handleUploadFile} title="Choose an .mp3 or .m4a" />
-          </div>
-        </div>
-        <div className="create-question-header-right">
-          <button
-            type="button"
-            name="delete-question-button"
-            onClick={() => {
-              props.deleteQuestion(props.question.number);
-            }}
-          >
-            <i className="fa-solid fa-x" />
-          </button>
-        </div>
-
-      </div>
-      <div className="create-question-answers">
-        <textarea
-          name="answers"
-          placeholder="Enter answers as a comma separated list, i.e: gold, aurum, pyrite"
-          value={props.question.answers}
-          onChange={(e) => {
-            props.modifyQuestion(
-              props.question.number,
-              { ...props.question, answers: (e.target.value) },
-            );
-          }}
-        />
-      </div>
-    </div>
-  );
 }
