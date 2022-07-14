@@ -5,7 +5,6 @@ import {AiOutlineClose} from 'react-icons/ai'
 
 
 export default function CreateQuestion(props) {
-  console.log("🚀 ~ file: CreateQuestion.jsx ~ line 8 ~ CreateQuestion ~ props", props)
   const [questionAudio, setQuestionAudio] = React.useState();
   const [playingMode, setPlayingMode] = React.useState('no audio');
   // options are "no audio", "playing", "paused"
