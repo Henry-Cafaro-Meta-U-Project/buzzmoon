@@ -28,12 +28,12 @@ export default function Auth(props) {
     <Flex
       align={'center'}
       justify={'center'}>
-        <Tabs size='md' variant='enclosed'>
+        <Tabs size='md' variant='enclosed' colorScheme={'black'} mt={'4vh'}>
           <TabList>
             <Tab>Login</Tab>
             <Tab>Sign Up</Tab>
           </TabList>
-          <TabPanels>
+          <TabPanels mt={'0px'}>
             <TabPanel>
               <LoginCard setCurrentUser={props.setCurrentUser}/>
             </TabPanel>
@@ -60,16 +60,16 @@ function LoginCard(props) {
 
     <Flex
       minH={'50vh'}
-      align={'center'}
+      align={'start'}
       justify={'center'}>
-      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={'10px'} px={6}>
         <Stack align={'center'}>
           <Heading fontSize={'4xl'}>Sign in to your account</Heading>
         </Stack>
         <Box
           rounded={'lg'}
           bg={useColorModeValue('white', 'gray.700')}
-          boxShadow={'lg'}
+
           p={8}>
           <Stack spacing={4}>
             <form onSubmit={(event) => {
@@ -90,11 +90,12 @@ function LoginCard(props) {
             </FormControl>
             <Stack spacing={10} mt={5}>
               <Button
-                bg={'blue.400'}
-                color={'black'}
+                bg={'black'}
+                color={'white'}
                 _hover={{
-                  bg: 'blue.500',
-                  color: 'white',
+                  bg: 'white',
+                  color: 'black',
+                  border: '1px solid black'
                 }}
                 type="submit">
                 Sign in
@@ -120,15 +121,14 @@ function SignUpCard(props) {
   return (
     <Flex
       minH={'50vh'}
-      align={'center'}
+      align={'start'}
       justify={'center'}>
-      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={'10px'} px={6}>
         <Stack align={'center'}>
           <Heading fontSize={'4xl'}>Create your account</Heading>
         </Stack>
         <Box
           rounded={'lg'}
-          boxShadow={'lg'}
           p={8}>
           <Stack spacing={4}>
             <form onSubmit={(event) => {
@@ -155,11 +155,12 @@ function SignUpCard(props) {
             </FormControl>
             <Stack spacing={10} mt={5}>
               <Button
-                bg={'blue.400'}
-                color={'black'}
+                bg={'black'}
+                color={'white'}
                 _hover={{
-                  bg: 'blue.500',
-                  color: 'white',
+                  bg: 'white',
+                  color: 'black',
+                  border: '1px solid black'
                 }}
                 type="submit">
                 Sign up
