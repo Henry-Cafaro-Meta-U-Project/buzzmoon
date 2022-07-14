@@ -19,7 +19,7 @@ export default class BackendActor {
     }
   }
 
-  // handles the signup of a new user in the Auth component 
+  // handles the signup of a new user in the Auth component
   static async handleSignup(email, password, realName, setCurrentUser) {
     try {
       const user = new Parse.User();
@@ -30,7 +30,7 @@ export default class BackendActor {
 
       await user.signUp();
 
-      
+
 
       setCurrentUser(user);
       localStorage.setItem('user', user);
@@ -94,7 +94,7 @@ export default class BackendActor {
   static async getQuestionResults(gameID, resultKey, questionNumber, givenAnswer, buzzTimings) {
     const response = await Parse.Cloud.run("getQuestionResults", {gameID, resultKey, questionNumber, givenAnswer, buzzTimings});
     return response;
-  
+
   }
 
   // prepares an object to be the argument for a POST request to the server
@@ -138,6 +138,10 @@ export default class BackendActor {
 
       if(!q.audioFile) {
         throw `Question #${q.questionNumber} has no audio file provided`;
+      }
+
+      if(!(q.audioFile.name.endsWith(".m4a") || q.audioFile.name.endsWith(".mp3"))){
+        throw `The file associated with Question #${q.questionNumber} must be an .m4a or an .mp3`;
       }
     });
   }
@@ -193,7 +197,7 @@ export default class BackendActor {
     return response;
   }
 
-  // gets all GameResult objects in the database associated with a particular game 
+  // gets all GameResult objects in the database associated with a particular game
   static async fetchGameResults(gameID) {
     const response = await Parse.Cloud.run("fetchAllGameResults", {gameID});
     return response;
@@ -209,7 +213,7 @@ export default class BackendActor {
   }
 
   // takes the result data returned by a call to fetchGameResults and turns it into the data required for a table row
-  // in the standard leaderboard 
+  // in the standard leaderboard
   static resultToStandardTableRow(result) {
     const points = result.answers.map((e) => (e.points)).reduce((acc, x) => (acc+x), 0);
     const numCorrect = result.answers.map((e) => (e.isCorrect ? 1 : 0)).reduce((acc, x) => (acc+x), 0);
