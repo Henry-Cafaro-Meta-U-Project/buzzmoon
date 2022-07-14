@@ -10,10 +10,13 @@ import {
   Center,
   HStack,
   IconButton,
-  Show
+  Show,
+  useBreakpointValue
 } from '@chakra-ui/react';
 
 export default function NavbarBox(props) {
+  const breakPoint = useBreakpointValue(['sm, md']);
+
   return (
     <Center w={'100%'} h={'8rem'} top={"0rem"} right={'0rem'}>
       <Flex color={'white'} bg={'black'} w={'96%'} h={'80%'} top="0rem" right="0rem" align="center" shadow={'md'} px={'5'}>
@@ -44,9 +47,11 @@ export default function NavbarBox(props) {
                 BackendActor.handleLogOut(props.setCurrentUser);
                 }}
               _hover={{ backgroundColor: 'transparent' }}
-              icon={<i className="fa-solid fa-arrow-right-from-bracket"></i>}
+              icon={
+                <Heading fontSize={'3xl'}>
+                <i className="fa-solid fa-arrow-right-from-bracket"></i>
+                </Heading>}
               size={'auto'}
-              fontSize={'64px'}
               variant='ghost'>
 
             </IconButton>
