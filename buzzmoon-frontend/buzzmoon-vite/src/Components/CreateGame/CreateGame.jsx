@@ -35,6 +35,13 @@ export default function CreateGame() {
       .sort((a, b) => (a.number < b.number ? -1 : 1)));
   };
 
+  React.useEffect(() => {
+    window.onbeforeunload = (e) => {
+      e.preventDefault();
+      return "";
+    };
+  }, [])
+
   return (
     <Center mb={'10'}>
     <VStack w={{base:"95%", md:'80%'}} mt={{base:'4', md:'20'}} spacing={'10'}>
