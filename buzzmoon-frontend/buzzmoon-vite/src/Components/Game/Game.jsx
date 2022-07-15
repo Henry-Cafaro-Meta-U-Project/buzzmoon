@@ -59,6 +59,12 @@ export default function Game(props) {
     }
 
     updateGameData();
+
+    window.onbeforeunload = (e) => {
+      console.log("🚀 ~ file: Game.jsx ~ line 64 ~ React.useEffect ~ e", e)
+      e.preventDefault();
+      return "If you leave the page now, you won't be able to return to the game";
+    };
   }, []);
 
   React.useEffect(() => {
