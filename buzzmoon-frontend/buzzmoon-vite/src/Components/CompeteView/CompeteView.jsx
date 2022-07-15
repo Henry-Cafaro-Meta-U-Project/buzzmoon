@@ -10,7 +10,7 @@ import BackendActor from '../BackendActor/backend-actor';
 import GameSplashPage from '../GameSplashPage/GameSplashPage';
 import GameList from '../GameList/GameList';
 
-import { VStack, Heading, Flex, Center, Button, Text, Spinner} from '@chakra-ui/react';
+import { VStack, Heading, Flex, Center, Button, Text, Spinner, useBreakpointValue} from '@chakra-ui/react';
 
 export default function CompeteView() {
   const [availableGames, setAvailableGames] = React.useState();
@@ -24,20 +24,28 @@ export default function CompeteView() {
       const playedGames = await BackendActor.getPlayedGames();
       setGamesPlayed(playedGames) //placeholder
     }
-    
+
     fetchGames();
   }, []);
 
+  const screenType = useBreakpointValue({base:"mobile", md:"desktop"});
+
   return (
-    
+
       <Routes>
-        <Route path="/" 
+        <Route path="/"
           element={
-            <Center mt={'20'}>
-              <Flex w={'60%'} direction={'row'} justify={'space-between'} wrap={'wrap'}>
+            <Center my={{base:'4', md:'20'}}>
+              {screenType === "mobile" ?
+                <VStack>
+                  <GameList heading={"Play Now"} games={availableGames}></GameList>
+                  <GameList heading={"Games Played"} games={gamesPlayed}></GameList>
+                </VStack>:
+                <Flex w={{base:'90%', md:'60%'}} direction={'row'} justify={'space-between'} wrap={'wrap'}>
                 <GameList heading={"Play Now"} games={availableGames}></GameList>
                 <GameList heading={"Games Played"} games={gamesPlayed}></GameList>
-              </Flex>
+              </Flex>}
+
             </Center>}>
         </Route>
         <Route path="/:gameID" element={<GameSplashPage />}></Route>
@@ -45,9 +53,7 @@ export default function CompeteView() {
 
         <Route path="/:gameID/results" element={<Results />}></Route>
       </Routes>
-      
-    
+
+
   );
 }
-
-
