@@ -28,16 +28,6 @@ function App() {
     }
   }, []);
 
-  const handleLogOut = async () => {
-    try {
-      await Parse.User.logOut();
-      setCurrentUser(null);
-    } catch (error) {
-      console.log('error: ', error);
-      
-    }
-  }
-
   if(currentUser == null){
     return (<Auth setCurrentUser={setCurrentUser}/>)
   }else{
@@ -56,7 +46,7 @@ function App() {
     );
   }
 
-  
+
 }
 
 export default App;
