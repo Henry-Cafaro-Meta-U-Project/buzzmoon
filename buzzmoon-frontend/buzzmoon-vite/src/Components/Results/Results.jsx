@@ -15,13 +15,13 @@ export default function Results(props) {
     const updateGameData = async () => {
       const fetchedGameData = await BackendActor.getGameMetadata(gameID);
       setGameData(fetchedGameData);
-      
+
 
       // here we should validate if the user has played the game, or if they should be kicked from results page
 
       const playerResults = await BackendActor.fetchGameResults(gameID);
       const table = BackendActor.resultsToStandardTable(playerResults);
-      setTable(table);    
+      setTable(table);
     }
 
     updateGameData();
@@ -37,7 +37,7 @@ export default function Results(props) {
 
   return (
     <Center mt={'20'}>
-      <Flex direction={'column'} align={'center'} >
+      <Flex direction={'column'} align={'center'}>
         <Heading borderBottom={'1px solid black'} mb={'10'}>
         {`${gameData.title}`}
         </Heading>

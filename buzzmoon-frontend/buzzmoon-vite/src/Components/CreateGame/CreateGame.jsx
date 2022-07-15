@@ -37,8 +37,8 @@ export default function CreateGame() {
 
   return (
     <Center mb={'10'}>
-    <VStack w={'80%'} mt={'20'} spacing={'10'}>
-      <VStack w={'60%'} spacing={'5'}>
+    <VStack w={{base:"95%", md:'80%'}} mt={{base:'4', md:'20'}} spacing={'10'}>
+      <VStack w={{base:"90%", md:'60%'}} spacing={'5'}>
         <Heading mb={'5'}>
           New Game
         </Heading>
@@ -48,7 +48,7 @@ export default function CreateGame() {
               Title:
             </Text>
             <Input
-              borderColor={'gray.500'} 
+              borderColor={'gray.500'}
               maxW={'50%'}
               placeholder="Enter Title"
               value={title}
@@ -56,7 +56,7 @@ export default function CreateGame() {
           </Flex>
           <VStack w={'100%'} align={'start'}>
             <Text fontSize={'lg'}>Description:</Text>
-            <Textarea 
+            <Textarea
               borderColor={'gray.500'}
               name="description"
               placeholder="Enter Description"
@@ -65,7 +65,7 @@ export default function CreateGame() {
           </VStack>
         </VStack>
       </VStack>
-      <VStack w={'60%'} spacing={'8'}>
+      <VStack w={{base:"90%", md:'60%'}} spacing={'8'}>
         <Flex w={'100%'}><Heading size={'lg'}>Questions</Heading></Flex>
         {questions.map((q) => (
             <CreateQuestion
@@ -77,9 +77,9 @@ export default function CreateGame() {
               modifyQuestion={modifyQuestion}
             />
           ))}
-          <Button 
+          <Button
             leftIcon={<i className="fa-solid fa-plus"></i>}
-            size={'lg'} 
+            size={'lg'}
             onClick={() => {
               setQuestions(questions.concat(
                 [{
@@ -92,7 +92,7 @@ export default function CreateGame() {
             Add Question
           </Button>
       </VStack>
-      {isUploading ? <Spinner /> : 
+      {isUploading ? <Spinner /> :
         <Button
           leftIcon={<Icon fontSize={'24'} as={AiOutlineUpload}></Icon>}
           size={'lg'}

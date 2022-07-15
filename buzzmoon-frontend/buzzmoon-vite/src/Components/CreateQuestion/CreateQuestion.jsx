@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Box, IconButton, Text, VStack, Flex, Icon, Center, Textarea, HStack} from '@chakra-ui/react';
+import { useBreakpointValue, IconButton, Text, VStack, Flex, Icon, Center, Textarea, HStack} from '@chakra-ui/react';
 import {AiOutlineClose} from 'react-icons/ai'
 
 
@@ -25,11 +25,13 @@ export default function CreateQuestion(props) {
     );
   };
 
+  const screenType = useBreakpointValue({base:"mobile", md:"desktop"});
+
   return (
     <VStack w={'100%'}
       bg={'gray.50'}
       shadow={'md'}
-      spacing={'5'}
+      spacing={'3'}
       padding={'3'}
       border={'1px solid black'}
       borderRadius={'md'} >
@@ -37,32 +39,6 @@ export default function CreateQuestion(props) {
         <Text fontWeight={'bold'} >Question #
           {props.question.number}
         </Text>
-        <HStack spacing={'0'} maxW={'50%'}>
-          {questionAudio
-                && (playingMode === 'paused'
-                  ? (
-                    <IconButton
-                      fontSize={'lg'}
-                      variant={'outline'}
-                      onClick={() => {
-                        setPlayingMode('playing');
-                        questionAudio.play();
-                      }}
-                      icon={<i className="fa-solid fa-play"/>} />
-                  )
-                  : (
-                    <IconButton
-                      fontSize={'lg'}
-                      variant={'outline'}
-                      onClick={() => {
-                        setPlayingMode('paused');
-                        questionAudio.pause();
-                      }}
-                      icon={<i className="fa-solid fa-pause"/>} />
-                  )
-                )}
-        <input type="file" name="audio-file" accept=".mp3, .m4a" onChange={handleUploadFile} title="Choose an .mp3 or .m4a" />
-        </HStack>
         <IconButton
           variant={'ghost'}
           type="button"
@@ -72,6 +48,33 @@ export default function CreateQuestion(props) {
           }}
           icon={<Icon fontSize={'32'} as={AiOutlineClose}></Icon>}/>
       </Flex>
+      <Flex w={'100%'} justify={'space-between'} align={'center'}>
+      {questionAudio
+            && (playingMode === 'paused'
+              ? (
+                <IconButton
+                  fontSize={'lg'}
+                  variant={'outline'}
+                  onClick={() => {
+                    setPlayingMode('playing');
+                    questionAudio.play();
+                  }}
+                  icon={<i className="fa-solid fa-play"/>} />
+              )
+              : (
+                <IconButton
+                  fontSize={'lg'}
+                  variant={'outline'}
+                  onClick={() => {
+                    setPlayingMode('paused');
+                    questionAudio.pause();
+                  }}
+                  icon={<i className="fa-solid fa-pause"/>} />
+              )
+            )}
+    <input type="file" name="audio-file" accept=".mp3, .m4a" onChange={handleUploadFile} title="Choose an .mp3 or .m4a" />
+    </Flex>
+
       <Textarea
           borderColor={'gray.500'}
           placeholder="Enter answers as a comma separated list, i.e: gold, aurum, pyrite"

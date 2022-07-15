@@ -27,12 +27,12 @@ export default function GameSplashPage() {
   }, []);
 
   return (
-    <Center mt={'20'} minW={'400px'}>
-        <VStack spacing={'60px'}>
+    <Center mt={{base:'20', md:'20'}} minW={'400px'}>
+        <VStack spacing={{base:'60px', md:'60px'}}>
         {!gameData ? <Spinner/ > :
         <VStack spacing={'8'} bg={'gray.200'} p={'5'} borderRadius={'md'} shadow={'md'}>
           <Center>
-            <Heading size={'xl'} borderBottom={'1px solid black'} mx={'20'}>{gameData.title}</Heading>
+            <Heading size={'xl'} borderBottom={'1px solid black'} mx={{base: '0', md: '20'}}>{gameData.title}</Heading>
           </Center>
           <Flex w={'100%'} direction={'row'} justify={'space-between'}>
             <VStack spacing={'2'} align={'start'}>
@@ -49,8 +49,8 @@ export default function GameSplashPage() {
         </VStack>
         }
         {enterMode === "loading" && <Spinner />}
-        {enterMode === "play" && 
-          <Button 
+        {enterMode === "play" &&
+          <Button
             onClick={async () => {
               try {
                 const response = await BackendActor.registerGameEntry(gameID);
@@ -60,8 +60,8 @@ export default function GameSplashPage() {
               }}}>
                 Enter
           </Button>}
-        {enterMode === "results" && 
-          <Button 
+        {enterMode === "results" &&
+          <Button
             onClick={() => {
               navigate("./results");}}>
             Results

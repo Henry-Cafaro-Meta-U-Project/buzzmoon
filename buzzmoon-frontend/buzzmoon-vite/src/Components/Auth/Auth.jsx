@@ -14,20 +14,26 @@ import {
 } from '@chakra-ui/react';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 
+
 export default function Auth(props) {
   let [mode, setMode] = React.useState("login");
 
+
   return (
-    <Flex 
-      mt={'20vh'}
+    <div className="login-background" style={{
+      height:"100vh",
+      backgroundImage:`url('../../../assets/login-background.png')`
+    }}
+    >
+    <Flex
       align={'center'}
       justify={'center'}>
-        <Tabs size='md' variant='enclosed'>
+        <Tabs size='md' variant='enclosed' colorScheme={'black'} mt={'4vh'}>
           <TabList>
             <Tab>Login</Tab>
             <Tab>Sign Up</Tab>
           </TabList>
-          <TabPanels>
+          <TabPanels mt={'0px'}>
             <TabPanel>
               <LoginCard setCurrentUser={props.setCurrentUser}/>
             </TabPanel>
@@ -37,7 +43,8 @@ export default function Auth(props) {
           </TabPanels>
         </Tabs>
     </Flex>
-    
+    </div>
+
   )
 }
 
@@ -50,18 +57,19 @@ function LoginCard(props) {
   }
 
   return (
+
     <Flex
       minH={'50vh'}
-      align={'center'}
+      align={'start'}
       justify={'center'}>
-      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={'10px'} px={6}>
         <Stack align={'center'}>
           <Heading fontSize={'4xl'}>Sign in to your account</Heading>
         </Stack>
         <Box
           rounded={'lg'}
           bg={useColorModeValue('white', 'gray.700')}
-          boxShadow={'lg'}
+
           p={8}>
           <Stack spacing={4}>
             <form onSubmit={(event) => {
@@ -70,23 +78,24 @@ function LoginCard(props) {
             }}>
             <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input 
-                type="email" 
+              <Input
+                type="email"
                 onChange={(event) => {setEmail(event.target.value)}}/>
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
-              <Input 
-                type="password" 
+              <Input
+                type="password"
                 onChange={(event) => (setPassword(event.target.value))}/>
             </FormControl>
             <Stack spacing={10} mt={5}>
               <Button
-                bg={'blue.400'}
-                color={'black'}
+                bg={'black'}
+                color={'white'}
                 _hover={{
-                  bg: 'blue.500',
-                  color: 'white',
+                  bg: 'white',
+                  color: 'black',
+                  border: '1px solid black'
                 }}
                 type="submit">
                 Sign in
@@ -112,15 +121,14 @@ function SignUpCard(props) {
   return (
     <Flex
       minH={'50vh'}
-      align={'center'}
+      align={'start'}
       justify={'center'}>
-      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={'10px'} px={6}>
         <Stack align={'center'}>
           <Heading fontSize={'4xl'}>Create your account</Heading>
         </Stack>
         <Box
           rounded={'lg'}
-          boxShadow={'lg'}
           p={8}>
           <Stack spacing={4}>
             <form onSubmit={(event) => {
@@ -129,29 +137,30 @@ function SignUpCard(props) {
             }}>
             <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input 
-                type="email" 
+              <Input
+                type="email"
                 onChange={(event) => {setEmail(event.target.value)}}/>
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
-              <Input 
-                type="password" 
+              <Input
+                type="password"
                 onChange={(event) => (setPassword(event.target.value))}/>
             </FormControl>
             <FormControl id="realName" isRequired>
               <FormLabel>Real Name</FormLabel>
-              <Input 
-                type="text" 
+              <Input
+                type="text"
                 onChange={(event) => (setRealName(event.target.value))}/>
             </FormControl>
             <Stack spacing={10} mt={5}>
               <Button
-                bg={'blue.400'}
-                color={'black'}
+                bg={'black'}
+                color={'white'}
                 _hover={{
-                  bg: 'blue.500',
-                  color: 'white',
+                  bg: 'white',
+                  color: 'black',
+                  border: '1px solid black'
                 }}
                 type="submit">
                 Sign up
