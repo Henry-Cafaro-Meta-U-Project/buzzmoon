@@ -11,4 +11,11 @@ export default class DevTools{
         return response;
     }
 
+    // returns the complete schema of the database
+    static async getCompleteSchema() {
+        const response = await Parse.Cloud.run("getCompleteSchema");
+
+        return response;
+    }
+
 }

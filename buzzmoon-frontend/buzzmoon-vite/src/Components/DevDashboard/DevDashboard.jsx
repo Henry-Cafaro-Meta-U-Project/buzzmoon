@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as Parse from 'parse/dist/parse.min.js'
-import DevTools from '../../devtools/devtools';
+import DevTools from '../../DevTools/DevTools';
 
 import { Center, Text, Spinner} from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
@@ -11,19 +11,24 @@ Parse.serverURL = 'https://parseapi.back4app.com/';
 export default function DevDashboard() {
     const navigate = useNavigate();
     const [isVisible, setIsVisible] = React.useState(false);
-    const [isLoading, setIsLoading] = React.useState(true);
+    const [databaseSchema, setDatabaseSchema] = React.useState({});
+    console.log("🚀 ~ file: DevDashboard.jsx ~ line 15 ~ DevDashboard ~ databaseSchema", databaseSchema)
 
     React.useEffect(() => {
-        const validatePrivileges = async () => {
+        const onMount = async () => {
             const isAllowed = await DevTools.validateRoot();
             if(isAllowed){
                 setIsVisible(true);
             } else{
                 navigate(-1);
             }
+
+            const schema = await DevTools.getCompleteSchema();
+            setDatabaseSchema(schema);
+
         }
 
-        validatePrivileges();
+        onMount();
     }, []);
 
     if(!isVisible){
