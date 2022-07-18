@@ -43,7 +43,15 @@ Parse.Cloud.define("getClassData", async (request) => {
   const query = new Parse.Query(request.params.className);
   const data = await query.find({useMasterKey: true});
   return data;
-}, validateRootCloud)
+}, validateRootCloud);
+
+// this function deletes a given object from the database
+Parse.Cloud.define("deleteObject", async (request) => {
+  const query = new Parse.Query(request.params.cName);
+  const obj = await query.get(request.params.id);
+
+  await obj.destroy({useMasterKey: true});
+}, validateRootCloud);
 
 
 // this function checks whether a user has root privileges

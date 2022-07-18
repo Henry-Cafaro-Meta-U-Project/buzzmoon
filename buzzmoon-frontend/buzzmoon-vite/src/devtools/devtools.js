@@ -24,4 +24,11 @@ export default class DevTools{
         return classData;
     }
 
+    // deletes a list of objects from the database
+    static async deleteObjList(objList){
+        await Promise.all(objList.map(async (e) => {
+            await Parse.Cloud.run("deleteObject", {id:e.id, cName:e.className});
+        }));
+    }
+
 }

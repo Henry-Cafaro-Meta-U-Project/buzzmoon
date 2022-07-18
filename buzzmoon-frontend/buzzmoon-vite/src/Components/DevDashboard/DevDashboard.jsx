@@ -3,7 +3,7 @@ import * as Parse from 'parse/dist/parse.min.js'
 import DevTools from '../../DevTools/DevTools';
 
 import { Center, Heading, Spinner, Select, VStack, Text, HStack, Box, Icon,
-         Table, Thead, Th, Tr, Td, TableContainer, Tbody, Checkbox} from '@chakra-ui/react';
+         Table, Thead, Th, Tr, Td, TableContainer, Tbody, Checkbox, Button} from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { BsTrash } from "react-icons/bs";
 
@@ -64,8 +64,11 @@ export default function DevDashboard() {
 }
 
 function DatabaseTable(props) {
+    const navigate = useNavigate();
+
     const [data, setData] = React.useState();
     const [objsToDelete, setObjsToDelete] = React.useState([]);
+    const [fetchTrigger, setFetchTrigger] = React.useState(false);
 
     const addToDelete = (obj) => {
         if(!objsToDelete.includes(obj)){
@@ -77,7 +80,6 @@ function DatabaseTable(props) {
         if(objsToDelete.includes(obj)){
             setObjsToDelete(objsToDelete.filter((elem) => (elem !== obj)));
         }
-
     }
 
     const tableHeaders = Object.keys(props.classSchema.fields);
@@ -89,14 +91,22 @@ function DatabaseTable(props) {
         }
 
         fetchData();
-    }, []);
+    }, [fetchTrigger]);
 
     if(!data){
         return <Spinner/>
     }
 
     return (
-        <Box maxW={'90vw'} overflowX={'auto'}>
+        <VStack align={'start'} maxW={'90vw'} overflowX={'auto'}>
+            {objsToDelete.length > 0 &&
+                <Button colorScheme={'red'} onClick={async () => {
+                    await DevTools.deleteObjList(objsToDelete);
+                    setObjsToDelete([]);
+                    setFetchTrigger(!fetchTrigger);
+                }}>
+                    Delete
+                </Button>}
             <TableContainer>
                 <Table >
                     <Thead>
@@ -111,6 +121,7 @@ function DatabaseTable(props) {
                     <Tbody>
                         {data.map((obj, idx) => (
                                 <TableRow
+                                    key={obj.id}
                                     tableHeaders={tableHeaders}
                                     obj={obj}
                                     idx={idx}
@@ -120,20 +131,21 @@ function DatabaseTable(props) {
                     </Tbody>
                 </Table>
             </TableContainer>
-        </Box>
+        </VStack>
     )
 }
 
 function TableRow(props) {
     let rowValues = new Array(props.tableHeaders.length).fill(null);
-    rowValues[1] = props.obj.id;
+    rowValues[0] = props.obj.id;
     Object.keys(props.obj.attributes).map((key) => {
         const mutIndex = props.tableHeaders.findIndex((elem) => (elem === key));
         rowValues[mutIndex] = props.obj.attributes[key];
     })
 
+
     return (
-        <Tr key={props.idx}>
+        <Tr key={props.obj.id}>
             <Td><Checkbox
                 colorScheme={'red'}
                 onChange={(e) => {
