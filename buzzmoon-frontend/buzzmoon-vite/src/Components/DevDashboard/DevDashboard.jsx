@@ -26,7 +26,6 @@ export default function DevDashboard() {
 
             const schema = await DevTools.getCompleteSchema();
             setDatabaseSchema(schema);
-
         }
 
         onMount();
@@ -104,7 +103,6 @@ function DatabaseTable(props) {
 }
 
 function TableRow(props) {
-    console.log("🚀 ~ file: DevDashboard.jsx ~ line 107 ~ TableRow ~ props", props)
     let rowValues = new Array(props.tableHeaders.length).fill(null);
     rowValues[0] = props.obj.id;
     Object.keys(props.obj.attributes).map((key) => {
