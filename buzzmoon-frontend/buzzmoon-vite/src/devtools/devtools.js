@@ -18,4 +18,10 @@ export default class DevTools{
         return response;
     }
 
+    // returns the complete data of a given class
+    static async getClassData(className){
+        const classData = await Parse.Cloud.run("getClassData", {className});
+        return classData;
+    }
+
 }

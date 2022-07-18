@@ -2,7 +2,8 @@ import * as React from 'react';
 import * as Parse from 'parse/dist/parse.min.js'
 import DevTools from '../../DevTools/DevTools';
 
-import { Center, Heading, Spinner, Select, VStack, Text, HStack, Box, Table, Thead, Th} from '@chakra-ui/react';
+import { Center, Heading, Spinner, Select, VStack, Text, HStack, Box,
+         Table, Thead, Th, Tr, Td, TableContainer, Tbody} from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
 Parse.initialize(`nUrzDufzLEaJ3sjzvcvNHvw1hD46jOt4yEipaWHs`, `juaO5lbdY5jTtDXGpzEr2mGtggC0wf2Es11cEruf`);
@@ -48,12 +49,12 @@ export default function DevDashboard() {
                     value={selectedClass}
                     onChange={(event) => {setSelectedClass(event.target.value);}}>
                     {databaseSchema.map((schema) => (
-                        <option value={schema.className}>{schema.className}</option>
+                        <option key={schema.className} value={schema.className}>{schema.className}</option>
                     ))}
                 </Select>
             </HStack>
             {selectedClass ?
-                <DatabaseTable
+                <DatabaseTable key={selectedClass}
                     classSchema={databaseSchema.find((e) => (e.className == selectedClass))}
                     /> : null}
             </VStack>
@@ -62,19 +63,63 @@ export default function DevDashboard() {
 }
 
 function DatabaseTable(props) {
+    const [data, setData] = React.useState();
+
+    const tableHeaders = Object.keys(props.classSchema.fields);
+
+    React.useEffect(() => {
+        const fetchData = async () => {
+            const cloudData = await DevTools.getClassData(props.classSchema.className)
+            setData(cloudData);
+        }
+
+        fetchData();
+    }, []);
+
+    if(!data){
+        return <Spinner/>
+    }
+
     return (
         <Box maxW={'90vw'} overflowX={'auto'}>
-        <Table >
-            <Thead>
-                {
-                    Object.keys(props.classSchema.fields).map((key) => (
-                        <Th>{key}</Th>
-                    ))
-                }
+            <TableContainer>
+                <Table >
+                    <Thead>
+                        <Tr>{
+                           tableHeaders.map((e) => (
+                               <Th key={e}>{e}</Th>
+                            ))}
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {data.map((obj, idx) => (
+                                <TableRow tableHeaders={tableHeaders} obj={obj} idx={idx}></TableRow>
+                            ))}
+                    </Tbody>
 
-            </Thead>
-
-        </Table>
+                </Table>
+            </TableContainer>
         </Box>
     )
+}
+
+function TableRow(props) {
+    console.log("🚀 ~ file: DevDashboard.jsx ~ line 107 ~ TableRow ~ props", props)
+    let rowValues = new Array(props.tableHeaders.length).fill(null);
+    rowValues[0] = props.obj.id;
+    Object.keys(props.obj.attributes).map((key) => {
+        const mutIndex = props.tableHeaders.findIndex((elem) => (elem === key));
+        rowValues[mutIndex] = props.obj.attributes[key];
+    })
+
+    return (
+        <Tr key={props.idx}>
+            {
+                rowValues.map((e, idx) => (
+                    <Td maxW={'250px'} overflow={'auto'} key={idx}>{e ? (e.id || e.toString()) : "null"}</Td>
+                ))
+            }
+        </Tr>
+    )
+
 }
