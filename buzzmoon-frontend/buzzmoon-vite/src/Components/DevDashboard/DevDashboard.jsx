@@ -2,9 +2,11 @@ import * as React from 'react';
 import * as Parse from 'parse/dist/parse.min.js'
 import DevTools from '../../DevTools/DevTools';
 
-import { Center, Heading, Spinner, Select, VStack, Text, HStack, Box,
-         Table, Thead, Th, Tr, Td, TableContainer, Tbody} from '@chakra-ui/react';
+import { Center, Heading, Spinner, Select, VStack, Text, HStack, Box, Icon,
+         Table, Thead, Th, Tr, Td, TableContainer, Tbody, Checkbox} from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import { BsTrash } from "react-icons/bs";
+
 
 Parse.initialize(`nUrzDufzLEaJ3sjzvcvNHvw1hD46jOt4yEipaWHs`, `juaO5lbdY5jTtDXGpzEr2mGtggC0wf2Es11cEruf`);
 Parse.serverURL = 'https://parseapi.back4app.com/';
@@ -63,6 +65,20 @@ export default function DevDashboard() {
 
 function DatabaseTable(props) {
     const [data, setData] = React.useState();
+    const [objsToDelete, setObjsToDelete] = React.useState([]);
+
+    const addToDelete = (obj) => {
+        if(!objsToDelete.includes(obj)){
+            setObjsToDelete(objsToDelete.concat([obj]));
+        }
+    }
+
+    const removeFromDelete = (obj) => {
+        if(objsToDelete.includes(obj)){
+            setObjsToDelete(objsToDelete.filter((elem) => (elem !== obj)));
+        }
+
+    }
 
     const tableHeaders = Object.keys(props.classSchema.fields);
 
@@ -84,18 +100,24 @@ function DatabaseTable(props) {
             <TableContainer>
                 <Table >
                     <Thead>
-                        <Tr>{
-                           tableHeaders.map((e) => (
-                               <Th key={e}>{e}</Th>
+                        <Tr>
+                            <Th><Icon as={BsTrash}></Icon></Th>
+                            {
+                            tableHeaders.map((e) => (
+                                <Th key={e}>{e}</Th>
                             ))}
                         </Tr>
                     </Thead>
                     <Tbody>
                         {data.map((obj, idx) => (
-                                <TableRow tableHeaders={tableHeaders} obj={obj} idx={idx}></TableRow>
+                                <TableRow
+                                    tableHeaders={tableHeaders}
+                                    obj={obj}
+                                    idx={idx}
+                                    addToDelete={addToDelete}
+                                    removeFromDelete={removeFromDelete}></TableRow>
                             ))}
                     </Tbody>
-
                 </Table>
             </TableContainer>
         </Box>
@@ -104,7 +126,7 @@ function DatabaseTable(props) {
 
 function TableRow(props) {
     let rowValues = new Array(props.tableHeaders.length).fill(null);
-    rowValues[0] = props.obj.id;
+    rowValues[1] = props.obj.id;
     Object.keys(props.obj.attributes).map((key) => {
         const mutIndex = props.tableHeaders.findIndex((elem) => (elem === key));
         rowValues[mutIndex] = props.obj.attributes[key];
@@ -112,6 +134,16 @@ function TableRow(props) {
 
     return (
         <Tr key={props.idx}>
+            <Td><Checkbox
+                colorScheme={'red'}
+                onChange={(e) => {
+                    if(e.target.checked) {
+                        props.addToDelete(props.obj);
+                    } else {
+                        props.removeFromDelete(props.obj)
+                    }
+
+                }}></Checkbox></Td>
             {
                 rowValues.map((e, idx) => (
                     <Td maxW={'250px'} overflow={'auto'} key={idx}>{e ? (e.id || e.toString()) : "null"}</Td>
@@ -119,5 +151,4 @@ function TableRow(props) {
             }
         </Tr>
     )
-
 }
