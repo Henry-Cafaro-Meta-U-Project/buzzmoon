@@ -40,8 +40,8 @@ export default function CompeteView() {
                 <VStack>
                   <GameList heading={"Play Now"} games={availableGames}></GameList>
                   <GameList heading={"Games Played"} games={gamesPlayed}></GameList>
-                </VStack>:
-                <Flex w={{base:'90%', md:'60%'}} direction={'row'} justify={'space-between'} wrap={'wrap'}>
+                </VStack> :
+                <Flex w={{base:'90%', md:'70%'}} direction={'row'} justify={'space-between'} wrap={'wrap'}>
                 <GameList heading={"Play Now"} games={availableGames}></GameList>
                 <GameList heading={"Games Played"} games={gamesPlayed}></GameList>
               </Flex>}

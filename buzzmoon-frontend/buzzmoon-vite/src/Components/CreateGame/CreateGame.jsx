@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { VStack, Text, Heading, Input, Flex, Button, Center, Textarea, Icon, Spinner} from '@chakra-ui/react';
 import {AiOutlineUpload} from 'react-icons/ai'
 
+import {usePrompt} from '../../Hooks/routerBlocks.js'
 
 let uniqueQuestions = 0;
 
@@ -21,6 +22,7 @@ export default function CreateGame() {
   const [desc, setDesc] = React.useState('');
   const [questions, setQuestions] = React.useState([]);
   const [isUploading, setIsUploading] = React.useState(false);
+  const [isNavigationOK, setIsNavigationOK] = React.useState(false);
 
   const navigate = useNavigate();
 
@@ -34,6 +36,8 @@ export default function CreateGame() {
       .concat([newQuestion])
       .sort((a, b) => (a.number < b.number ? -1 : 1)));
   };
+
+  usePrompt("If you leave the page, your data will not be saved", !isNavigationOK);
 
   return (
     <Center mb={'10'}>
@@ -100,7 +104,10 @@ export default function CreateGame() {
           onClick={async () => {
             setIsUploading(true);
             const message = await BackendActor.uploadGame(BackendActor.prepareGameData(title, desc, questions));
+
             if(message === "Success"){
+              await setIsNavigationOK(true);
+              await new Promise(r => setTimeout(r, 500));
               navigate("/compete");
             }
             setIsUploading(false);

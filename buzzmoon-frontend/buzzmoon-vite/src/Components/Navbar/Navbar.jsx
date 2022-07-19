@@ -15,7 +15,6 @@ import {
 } from '@chakra-ui/react';
 
 export default function NavbarBox(props) {
-  const breakPoint = useBreakpointValue(['sm, md']);
 
   return (
     <Center w={'100%'} h={'8rem'} top={"0rem"} right={'0rem'}>
@@ -40,21 +39,19 @@ export default function NavbarBox(props) {
             </Heading>
             </Link>
           </HStack>
+          <IconButton
+            onClick={() => {
+              BackendActor.handleLogOut(props.setCurrentUser);
+              }}
+            _hover={{ backgroundColor: 'transparent' }}
+            icon={
+              <Heading fontSize={'3xl'}>
+              <i className="fa-solid fa-arrow-right-from-bracket"></i>
+              </Heading>}
+            size={'auto'}
+            variant='ghost'>
 
-
-            <IconButton
-              onClick={() => {
-                BackendActor.handleLogOut(props.setCurrentUser);
-                }}
-              _hover={{ backgroundColor: 'transparent' }}
-              icon={
-                <Heading fontSize={'3xl'}>
-                <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                </Heading>}
-              size={'auto'}
-              variant='ghost'>
-
-            </IconButton>
+          </IconButton>
         </Flex>
       </Flex>
     </Center>

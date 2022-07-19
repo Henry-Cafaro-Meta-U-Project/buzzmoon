@@ -4,6 +4,7 @@ import QuestionSpeaker from '../QuestionSpeaker/QuestionSpeaker';
 import { Navigate, useNavigate, useParams, useLocation} from 'react-router-dom';
 import BackendActor from '../BackendActor/backend-actor';
 import { VStack, Box, Heading, Flex, Center, Button, Input, HStack, Progress} from '@chakra-ui/react';
+import {usePrompt} from '../../Hooks/routerBlocks.js'
 
 const gameConfig = {
   timeAfterBuzz: 6
@@ -78,6 +79,9 @@ export default function Game(props) {
       setReadingMode('waitfornxt');
     }
   }, [readingMode])
+
+  usePrompt("If you leave the game now, you won't be able to return",
+    questionNumber !== gameData.numQuestions || readingMode !== "waitfornxt");
 
   return (
     <Center>
