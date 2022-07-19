@@ -60,11 +60,6 @@ export default function Game(props) {
     }
 
     updateGameData();
-
-    // window.onbeforeunload = (e) => {
-    //   e.preventDefault();
-    //   return "";
-    // };
   }, []);
 
   React.useEffect(() => {
