@@ -10,7 +10,7 @@ import BackendActor from '../BackendActor/backend-actor';
 import GameSplashPage from '../GameSplashPage/GameSplashPage';
 import GameList from '../GameList/GameList';
 
-import { VStack, Input, Flex, Center, Icon, IconButton, useBreakpointValue, HStack, Spinner} from '@chakra-ui/react';
+import { VStack, Input, Flex, Center, Icon, IconButton, useBreakpointValue, HStack, Spinner, Heading} from '@chakra-ui/react';
 import {AiOutlineSearch} from "react-icons/ai"
 
 export default function CompeteRouter() {
@@ -35,8 +35,11 @@ function CompeteView() {
   const [searchResultsGames, setSearchResultsGames] = React.useState([]);
   const [searchMode, setSearchMode] = React.useState("none");
 
-  const performSearch = () => {
+  const performSearch = async () => {
     setSearchMode("searching");
+    const games = await BackendActor.searchGames(searchTerm);
+    setSearchResultsGames(games);
+    setSearchMode("done");
   }
 
   React.useEffect(() => {
@@ -64,6 +67,10 @@ function CompeteView() {
             onClick={performSearch}/>
         </HStack>
         {searchMode === "searching" && <Spinner />}
+        {searchMode === "done" &&
+          (searchResultsGames.length > 0 ?
+            <GameList heading={'Results'} games={searchResultsGames}></GameList> :
+            <Heading size={'sm'}>No Games Found</Heading>)}
 
 
       </VStack>
