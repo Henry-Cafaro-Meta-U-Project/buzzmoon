@@ -10,7 +10,8 @@ import BackendActor from '../BackendActor/backend-actor';
 import GameSplashPage from '../GameSplashPage/GameSplashPage';
 import GameList from '../GameList/GameList';
 
-import { VStack, Heading, Flex, Center, Button, Text, Spinner, useBreakpointValue} from '@chakra-ui/react';
+import { VStack, Input, Flex, Center, Icon, IconButton, useBreakpointValue, HStack, Spinner} from '@chakra-ui/react';
+import {AiOutlineSearch} from "react-icons/ai"
 
 export default function CompeteRouter() {
   return (
@@ -30,6 +31,13 @@ export default function CompeteRouter() {
 function CompeteView() {
   const [availableGames, setAvailableGames] = React.useState();
   const [gamesPlayed, setGamesPlayed] = React.useState();
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [searchResultsGames, setSearchResultsGames] = React.useState([]);
+  const [searchMode, setSearchMode] = React.useState("none");
+
+  const performSearch = () => {
+    setSearchMode("searching");
+  }
 
   React.useEffect(() => {
     const fetchGames = async () => {
@@ -43,21 +51,40 @@ function CompeteView() {
     fetchGames();
   }, []);
 
+  return (
+    <ResponsiveCenteredFlex>
+      <VStack spacing={'6'}>
+        <HStack boxShadow={'lg'} padding={'5'}>
+          <Input value={searchTerm} onChange={(e) => {setSearchTerm(e.target.value)}}>
+            </Input>
+          <IconButton
+            variant={'outline'}
+            color={'black'}
+            icon={<Icon fontSize={'auto'} as={AiOutlineSearch}></Icon>}
+            onClick={performSearch}/>
+        </HStack>
+        {searchMode === "searching" && <Spinner />}
+
+
+      </VStack>
+      <GameList heading={"Play Now"} games={availableGames}></GameList>
+      <GameList heading={"Games Played"} games={gamesPlayed}></GameList>
+    </ResponsiveCenteredFlex>
+  );
+}
+
+function ResponsiveCenteredFlex(props) {
   const screenType = useBreakpointValue({base:"mobile", md:"desktop"});
 
   return (
     <Center my={{base:'4', md:'20'}}>
       {screenType === "mobile" ?
         <VStack>
-          <GameList heading={"Play Now"} games={availableGames}></GameList>
-          <GameList heading={"Games Played"} games={gamesPlayed}></GameList>
+          {props.children}
         </VStack> :
         <Flex w={{base:'90%', md:'70%'}} direction={'row'} justify={'space-between'} wrap={'wrap'}>
-        <GameList heading={"Play Now"} games={availableGames}></GameList>
-        <GameList heading={"Games Played"} games={gamesPlayed}></GameList>
-        <GameList heading={"Search Results"} games={[]}></GameList>
-      </Flex>}
-
+        {props.children}
+        </Flex>}
     </Center>
   );
 }
