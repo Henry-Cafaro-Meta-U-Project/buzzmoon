@@ -87,8 +87,8 @@ function CompeteView() {
     return (
       <Center my={{base:'4', md:'20'}}>
         <Flex justify={'space-between'} w={'80%'}>
-        <VStack minW={'40%'} spacing={'6'} w={'30%'}>
-        <HStack minW={'100%'} boxShadow={'lg'} padding={'5'}>
+        <VStack w={'30%'}>
+        <HStack minW={'350px'} boxShadow={'lg'} padding={'5'}>
           <Input value={searchTerm} onChange={(e) => {setSearchTerm(e.target.value)}}>
             </Input>
           <IconButton
@@ -117,7 +117,7 @@ function CompeteView() {
       <Center my={{base:'4', md:'20'}}>
         <Flex justify={'space-between'} w={'80%'}>
         <VStack spacing={'6'} w={'30%'}>
-        <HStack boxShadow={'lg'} padding={'5'}>
+        <HStack minW={'350px'} boxShadow={'lg'} padding={'5'}>
           <Input value={searchTerm} onChange={(e) => {setSearchTerm(e.target.value)}}>
             </Input>
           <IconButton
