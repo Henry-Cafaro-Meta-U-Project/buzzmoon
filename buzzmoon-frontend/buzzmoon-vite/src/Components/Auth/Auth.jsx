@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 
+import backgroundImgURL from '/assets/login-background.png'
 
 export default function Auth(props) {
   let [mode, setMode] = React.useState("login");
@@ -22,7 +23,7 @@ export default function Auth(props) {
   return (
     <div className="login-background" style={{
       height:"100vh",
-      backgroundImage:`url('../../../assets/login-background.png')`
+      backgroundImage:`url(${backgroundImgURL})`
     }}
     >
     <Flex
