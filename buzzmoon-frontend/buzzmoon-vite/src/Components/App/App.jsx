@@ -8,7 +8,6 @@ import {
 
 import * as Parse from 'parse/dist/parse.min.js'
 
-import Home from '../Home/Home';
 import Navbar from '../Navbar/Navbar';
 import Auth from '../Auth/Auth';
 import CreateView from '../CreateView/CreateView';

@@ -54,9 +54,69 @@ function CompeteView() {
     fetchGames();
   }, []);
 
-  return (
-    <ResponsiveCenteredFlex>
-      <VStack spacing={'6'}>
+  const screenType = useBreakpointValue({base:"small", md:"medium", lg:"large"});
+
+  if(screenType === "small"){
+    return (
+      <Center my={{base:'4', md:'20'}}>
+        <VStack align={'center'}>
+        <VStack minW={'100%'} spacing={'6'} w={'30%'}>
+        <HStack minW={'100%'} boxShadow={'lg'} padding={'5'}>
+          <Input value={searchTerm} onChange={(e) => {setSearchTerm(e.target.value)}}>
+            </Input>
+          <IconButton
+            variant={'outline'}
+            color={'black'}
+            icon={<Icon fontSize={'auto'} as={AiOutlineSearch}></Icon>}
+            onClick={performSearch}/>
+        </HStack>
+        {searchMode === "searching" && <Spinner />}
+        {searchMode === "done" &&
+          (searchResultsGames.length > 0 ?
+            <GameList heading={'Results'} games={searchResultsGames}></GameList> :
+            <Heading size={'sm'}>No Games Found</Heading>)}
+        </VStack>
+        <GameList heading={"Play Now"} games={availableGames}></GameList>
+        <GameList heading={"Games Played"} games={gamesPlayed}></GameList>
+        </VStack> :
+    </Center>
+    )
+  }
+
+  if(screenType === "medium") {
+    return (
+      <Center my={{base:'4', md:'20'}}>
+        <Flex justify={'space-between'} w={'80%'}>
+        <VStack minW={'40%'} spacing={'6'} w={'30%'}>
+        <HStack minW={'100%'} boxShadow={'lg'} padding={'5'}>
+          <Input value={searchTerm} onChange={(e) => {setSearchTerm(e.target.value)}}>
+            </Input>
+          <IconButton
+            variant={'outline'}
+            color={'black'}
+            icon={<Icon fontSize={'auto'} as={AiOutlineSearch}></Icon>}
+            onClick={performSearch}/>
+        </HStack>
+        {searchMode === "searching" && <Spinner />}
+        {searchMode === "done" &&
+          (searchResultsGames.length > 0 ?
+            <GameList heading={'Results'} games={searchResultsGames}></GameList> :
+            <Heading size={'sm'}>No Games Found</Heading>)}
+        </VStack>
+        <VStack>
+        <GameList heading={"Play Now"} games={availableGames}></GameList>
+        <GameList heading={"Games Played"} games={gamesPlayed}></GameList>
+        </VStack>
+        </Flex>
+    </Center>
+    )
+  }
+
+  if(screenType === "large") {
+    return (
+      <Center my={{base:'4', md:'20'}}>
+        <Flex justify={'space-between'} w={'80%'}>
+        <VStack spacing={'6'} w={'30%'}>
         <HStack boxShadow={'lg'} padding={'5'}>
           <Input value={searchTerm} onChange={(e) => {setSearchTerm(e.target.value)}}>
             </Input>
@@ -71,27 +131,12 @@ function CompeteView() {
           (searchResultsGames.length > 0 ?
             <GameList heading={'Results'} games={searchResultsGames}></GameList> :
             <Heading size={'sm'}>No Games Found</Heading>)}
+        </VStack>
 
-
-      </VStack>
-      <GameList heading={"Play Now"} games={availableGames}></GameList>
-      <GameList heading={"Games Played"} games={gamesPlayed}></GameList>
-    </ResponsiveCenteredFlex>
-  );
-}
-
-function ResponsiveCenteredFlex(props) {
-  const screenType = useBreakpointValue({base:"mobile", md:"desktop"});
-
-  return (
-    <Center my={{base:'4', md:'20'}}>
-      {screenType === "mobile" ?
-        <VStack>
-          {props.children}
-        </VStack> :
-        <Flex w={{base:'90%', md:'70%'}} direction={'row'} justify={'space-between'} wrap={'wrap'}>
-        {props.children}
-        </Flex>}
-    </Center>
-  );
+        <GameList heading={"Play Now"} games={availableGames}></GameList>
+        <GameList heading={"Games Played"} games={gamesPlayed}></GameList>
+        </Flex>
+      </Center>
+    )
+  }
 }
