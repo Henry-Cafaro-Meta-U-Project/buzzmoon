@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  BrowserRouter,
+  HashRouter,
   Route,
   Routes,
   Navigate
@@ -34,7 +34,7 @@ function App() {
   }else{
     return (
       <div className="app">
-        <BrowserRouter basename='/buzzmoon'>
+        <HashRouter>
           <Navbar setCurrentUser={setCurrentUser} />
           <Routes>
             <Route path="/dev/" element={<DevDashboard />}></Route>
@@ -43,7 +43,7 @@ function App() {
             <Route path="/create/*"  element={<CreateView />}></Route>
           </Routes>
 
-        </BrowserRouter>
+        </HashRouter>
       </div>
     );
   }
