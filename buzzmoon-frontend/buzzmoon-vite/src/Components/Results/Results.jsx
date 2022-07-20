@@ -113,13 +113,20 @@ function BestBuzzesTable(props) {
         </Tr>
       </Thead>
       <Tbody>
-        {props.table.map((e, idx) => (
-          <Tr key={idx}>
+        {props.table.map((e, idx) => (e ?
+          (<Tr key={idx}>
             <Td>{idx+1}</Td>
             <Td>{e.givenAnswer}</Td>
             <Td>{e.player}</Td>
             <Td isNumeric>{e.points}</Td>
             <Td isNumeric>{formatter.format(e.celerity)}</Td>
+          </Tr>) :
+          <Tr key={idx}>
+            <Td>{idx+1}</Td>
+            <Td>No Answers</Td>
+            <Td></Td>
+            <Td></Td>
+            <Td></Td>
           </Tr>
         ))}
       </Tbody>
