@@ -36,6 +36,8 @@ export default function Results(props) {
 
   const standardTable = BackendActor.resultsToStandardTable(results);
   const bestBuzzesTable = BackendActor.resultsToBestBuzzesTable(results);
+  const headToHeadTable = BackendActor.resultsToHeadToHeadTable(results);
+  console.log("🚀 ~ file: Results.jsx ~ line 40 ~ Results ~ headToHeadTable", headToHeadTable)
 
   if (! gameData) {
     return (
@@ -63,7 +65,7 @@ export default function Results(props) {
             <StandardTable table={standardTable}/>
           </TabPanel>
           <TabPanel>
-
+            <HeadToHeadTable table={headToHeadTable}/>
           </TabPanel>
           <TabPanel>
             <BestBuzzesTable table={bestBuzzesTable} />
@@ -98,6 +100,29 @@ function StandardTable(props) {
       </Tbody>
     </Table>
   )
+}
+
+function HeadToHeadTable(props) {
+  return (
+    <Table w={'100%'}variant={'striped'} maxW={'600px'}>
+      <Thead>
+        <Tr>
+          <Th>Player</Th>
+          <Th>Record</Th>
+          <Th>Win %</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        {props.table.map((e, idx) => (
+          <Tr key={idx}>
+            <Td>{e.name}</Td>
+            <Td>{`${e.w}-${e.l}-${e.t}`}</Td>
+            <Td isNumeric>{formatter.format(e.percentage)}</Td>
+          </Tr>)
+        )}
+      </Tbody>
+    </Table>
+  );
 }
 
 function BestBuzzesTable(props) {

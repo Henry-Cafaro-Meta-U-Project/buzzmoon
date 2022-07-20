@@ -250,4 +250,55 @@ export default class BackendActor {
     return response;
   }
 
+  static resultsToHeadToHeadTable(results) {
+    let response = []
+    results.map((r) => {
+      let w = 0;
+      let l = 0;
+      let t = 0;
+      let outcomes = [];
+      results.filter((e) => (e.name !== r.name)).map((o) => {
+        let oscore = 0;
+        let rscore = 0;
+        const maxQuestionIndex = Math.max(...(o.answers).map((e) => (e.questionNumber)),
+                                  ...(r.answers).map((o) => (o.questionNumber)));
+        for(let i = 0; i < maxQuestionIndex; i++){
+          let ocel = 0;
+          let rcel = 0;
+          const oans = o.answers.find((e) => (e.questionNumber === i+1));
+          const rans = r.answers.find((e) => (e.questionNumber === i+1));
+          if(oans && oans.points > 0){
+            ocel = oans.celerity;
+          }
+          if(rans && rans.points > 0){
+            rcel = rans.celerity;
+          }
+          if(ocel >= rcel && oans){
+            oscore += oans.points ;
+          }
+          if(rcel >= ocel && rans){
+            rscore += rans.points;
+          }
+
+        }
+
+
+        if(oscore > rscore){
+          l++;
+          outcomes.push({oppName:o.name, res:"loss", score:rscore, oscore});
+        } else if (oscore < rscore) {
+          w++;
+          outcomes.push({oppName:o.name, res:"win", score:rscore, oscore});
+        } else{
+          t++;
+          outcomes.push({oppName:o.name, res:"tie", score:rscore, oscore});
+        }
+      })
+      const games = w+l+t;
+      const score = w + 0.5*t;
+      response.push({name:r.name, w, l, t, percentage:score/games, outcomes});
+    })
+    return response.sort((a,b) => (a.percentage > b.percentage ? -1 : 1));
+  }
+
 }
