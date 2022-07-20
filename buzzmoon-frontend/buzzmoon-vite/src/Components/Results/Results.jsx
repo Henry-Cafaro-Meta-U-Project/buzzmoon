@@ -2,8 +2,16 @@ import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import BackendActor from '../BackendActor/backend-actor';
 
-import { Spinner, Center, Flex, Heading, Table, Thead, Tbody, Tr, Th, Td, Icon, TabList, Tabs, Tab, TabPanels, TabPanel} from '@chakra-ui/react';
+import { Spinner, Center, Flex, Heading, Table, Thead, Tbody, Tr, Th, Td, Icon, TabList, Tabs, Tab, TabPanels, TabPanel, VStack} from '@chakra-ui/react';
 import {AiFillTrophy} from 'react-icons/ai'
+
+
+const formatConfig = {
+  minimumFractionDigits: 3,
+  maximumFractionDigits: 3,
+};
+
+const formatter = new Intl.NumberFormat('en-US', formatConfig);
 
 export default function Results(props) {
   const {gameID} = useParams();
@@ -40,11 +48,11 @@ export default function Results(props) {
   return (
     <Center mt={'20'}>
 
-      <Flex direction={'column'} align={'center'}>
+      <VStack w={{sm:"95vw", md: "75vw", lg:"60vw"}} align={'center'} overflowX={'auto'}>
         <Heading borderBottom={'1px solid black'} mb={'10'}>
         {`${gameData.title}`}
         </Heading>
-        <Tabs size='md' variant='enclosed' colorScheme={'black'}>
+        <Tabs w={{base:"95vw", sm: "95vw", md:"100%"}} size='md' variant='enclosed' colorScheme={'black'}>
         <TabList>
           <Tab>Standard</Tab>
           <Tab>Head 2 Head</Tab>
@@ -62,14 +70,14 @@ export default function Results(props) {
           </TabPanel>
         </TabPanels>
       </Tabs>
-      </Flex>
+      </VStack>
     </Center>
   )
 }
 
 function StandardTable(props) {
   return (
-    <Table w={'100%'}variant={'striped'}>
+    <Table variant={'striped'} maxW={'min(600px, 100%)'}>
       <Thead>
         <Tr>
           <Th>Rank</Th>
@@ -93,23 +101,26 @@ function StandardTable(props) {
 }
 
 function BestBuzzesTable(props) {
+  console.log("🚀 ~ file: Results.jsx ~ line 96 ~ BestBuzzesTable ~ props", props)
   return (
-    <Table w={'100%'}variant={'striped'}>
+    <Table w={'100%'}variant={'striped'} maxW={'800px'}>
       <Thead>
         <Tr>
-          <Th>Rank</Th>
-          <Th>Name</Th>
+          <Th>#</Th>
+          <Th>Answer</Th>
+          <Th>Player</Th>
           <Th>Points</Th>
-          <Th># Correct</Th>
+          <Th>Celerity</Th>
         </Tr>
       </Thead>
       <Tbody>
         {props.table.map((e, idx) => (
           <Tr key={idx}>
-            <Td><Center>{idx+1}{trophyIcon(idx+1)}</Center></Td>
-            <Td>{e.name}</Td>
+            <Td>{idx+1}</Td>
+            <Td>{e.givenAnswer}</Td>
+            <Td>{e.player}</Td>
             <Td isNumeric>{e.points}</Td>
-            <Td isNumeric>{e.numCorrect}</Td>
+            <Td isNumeric>{formatter.format(e.celerity)}</Td>
           </Tr>
         ))}
       </Tbody>
