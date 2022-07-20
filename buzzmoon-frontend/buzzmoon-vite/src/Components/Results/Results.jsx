@@ -2,14 +2,15 @@ import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import BackendActor from '../BackendActor/backend-actor';
 
-import { Spinner, Center, Flex, Heading, Table, Thead, Tbody, Tr, Th, Td, Icon} from '@chakra-ui/react';
+import { Spinner, Center, Flex, Heading, Table, Thead, Tbody, Tr, Th, Td, Icon, TabList, Tabs, Tab, TabPanels, TabPanel} from '@chakra-ui/react';
 import {AiFillTrophy} from 'react-icons/ai'
 
 export default function Results(props) {
   const {gameID} = useParams();
   const [gameData, setGameData] = React.useState();
+  const [results, setResults] = React.useState([]);
   const [resultsCat, setResultsCat] = React.useState("normal");
-  const [table, setTable] = React.useState([]);
+
 
   React.useEffect(() => {
     const updateGameData = async () => {
@@ -20,12 +21,13 @@ export default function Results(props) {
       // here we should validate if the user has played the game, or if they should be kicked from results page
 
       const playerResults = await BackendActor.fetchGameResults(gameID);
-      const table = BackendActor.resultsToStandardTable(playerResults);
-      setTable(table);
+      setResults(playerResults);
     }
 
     updateGameData();
   }, []);
+
+  const standardTable = BackendActor.resultsToStandardTable(results);
 
   if (! gameData) {
     return (
@@ -37,11 +39,31 @@ export default function Results(props) {
 
   return (
     <Center mt={'20'}>
+
       <Flex direction={'column'} align={'center'}>
         <Heading borderBottom={'1px solid black'} mb={'10'}>
         {`${gameData.title}`}
         </Heading>
-        <Table w={'100%'}variant={'striped'}>
+        <Tabs size='md' variant='enclosed' colorScheme={'black'}>
+        <TabList>
+          <Tab>Standard</Tab>
+          <Tab>Head 2 Head</Tab>
+          <Tab>Best Buzzes</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <StandardTable table={standardTable}/>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+      </Flex>
+    </Center>
+  )
+}
+
+function StandardTable(props) {
+  return (
+    <Table w={'100%'}variant={'striped'}>
           <Thead>
             <Tr>
               <Th>Rank</Th>
@@ -51,7 +73,7 @@ export default function Results(props) {
             </Tr>
           </Thead>
           <Tbody>
-            {table.map((e, idx) => (
+            {props.table.map((e, idx) => (
               <Tr key={idx}>
                 <Td><Center>{idx+1}{trophyIcon(idx+1)}</Center></Td>
                 <Td>{e.name}</Td>
@@ -61,8 +83,6 @@ export default function Results(props) {
             ))}
           </Tbody>
         </Table>
-      </Flex>
-    </Center>
   )
 }
 
