@@ -2,8 +2,9 @@ import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import BackendActor from '../BackendActor/backend-actor';
 
-import { Spinner, Center, Flex, Heading, Table, Thead, Tbody, Tr, Th, Td, Icon, TabList, Tabs, Tab, TabPanels, TabPanel, VStack} from '@chakra-ui/react';
-import {AiFillTrophy} from 'react-icons/ai'
+import { Spinner, Center, Tooltip, Heading, Table, Thead, Tbody, Tr, Th, Td, Icon,
+     TabList, Tabs, Tab, TabPanels, TabPanel, VStack, Box, HStack, Text} from '@chakra-ui/react';
+import {AiFillTrophy, AiOutlineQuestionCircle} from 'react-icons/ai'
 
 
 const formatConfig = {
@@ -37,7 +38,6 @@ export default function Results(props) {
   const standardTable = BackendActor.resultsToStandardTable(results);
   const bestBuzzesTable = BackendActor.resultsToBestBuzzesTable(results);
   const headToHeadTable = BackendActor.resultsToHeadToHeadTable(results);
-  console.log("🚀 ~ file: Results.jsx ~ line 40 ~ Results ~ headToHeadTable", headToHeadTable)
 
   if (! gameData) {
     return (
@@ -56,9 +56,36 @@ export default function Results(props) {
         </Heading>
         <Tabs w={{base:"95vw", sm: "95vw", md:"100%"}} size='md' variant='enclosed' colorScheme={'black'}>
         <TabList>
-          <Tab>Standard</Tab>
-          <Tab>Head 2 Head</Tab>
-          <Tab>Best Buzzes</Tab>
+          <Tab>
+          <HStack align={'start'}>
+            <Text>Standard</Text>
+            <Tooltip hasArrow
+              label='Players are ranked by points scored'
+              bg='gray.300' color='black'>
+              <Box ml={'2'} as={'span'}><Icon as={AiOutlineQuestionCircle}></Icon></Box>
+            </Tooltip>
+          </HStack>
+        </Tab>
+        <Tab>
+          <HStack align={'start'}>
+            <Text>Head to Head</Text>
+            <Tooltip hasArrow
+              label='Players are ranked by the results of simulated games against each other'
+              bg='gray.300' color='black'>
+              <Box ml={'2'} as={'span'}><Icon as={AiOutlineQuestionCircle}></Icon></Box>
+            </Tooltip>
+          </HStack>
+        </Tab>
+        <Tab>
+          <HStack align={'start'}>
+            <Text>Best Buzzes</Text>
+            <Tooltip hasArrow
+              label='View the fastest buzzes for each question'
+              bg='gray.300' color='black'>
+              <Box ml={'2'} as={'span'}><Icon as={AiOutlineQuestionCircle}></Icon></Box>
+            </Tooltip>
+          </HStack>
+        </Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
@@ -91,7 +118,7 @@ function StandardTable(props) {
       <Tbody>
         {props.table.map((e, idx) => (
           <Tr key={idx}>
-            <Td><Center>{idx+1}{trophyIcon(idx+1)}</Center></Td>
+            <Td><Center>{trophyIcon(idx+1)}{idx+1}</Center></Td>
             <Td>{e.name}</Td>
             <Td isNumeric>{e.points}</Td>
             <Td isNumeric>{e.numCorrect}</Td>
@@ -115,7 +142,7 @@ function HeadToHeadTable(props) {
       <Tbody>
         {props.table.map((e, idx) => (
           <Tr key={idx}>
-            <Td>{e.name}</Td>
+            <Td>{trophyIcon(idx+1)} {e.name} </Td>
             <Td>{`${e.w}-${e.l}-${e.t}`}</Td>
             <Td isNumeric>{formatter.format(e.percentage)}</Td>
           </Tr>)
