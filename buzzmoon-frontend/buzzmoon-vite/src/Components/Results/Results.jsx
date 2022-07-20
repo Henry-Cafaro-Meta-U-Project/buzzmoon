@@ -9,7 +9,6 @@ export default function Results(props) {
   const {gameID} = useParams();
   const [gameData, setGameData] = React.useState();
   const [results, setResults] = React.useState([]);
-  const [resultsCat, setResultsCat] = React.useState("normal");
 
 
   React.useEffect(() => {
@@ -28,6 +27,7 @@ export default function Results(props) {
   }, []);
 
   const standardTable = BackendActor.resultsToStandardTable(results);
+  const bestBuzzesTable = BackendActor.resultsToBestBuzzesTable(results);
 
   if (! gameData) {
     return (
@@ -54,6 +54,12 @@ export default function Results(props) {
           <TabPanel>
             <StandardTable table={standardTable}/>
           </TabPanel>
+          <TabPanel>
+
+          </TabPanel>
+          <TabPanel>
+            <BestBuzzesTable table={bestBuzzesTable} />
+          </TabPanel>
         </TabPanels>
       </Tabs>
       </Flex>
@@ -64,26 +70,52 @@ export default function Results(props) {
 function StandardTable(props) {
   return (
     <Table w={'100%'}variant={'striped'}>
-          <Thead>
-            <Tr>
-              <Th>Rank</Th>
-              <Th>Name</Th>
-              <Th>Points</Th>
-              <Th># Correct</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {props.table.map((e, idx) => (
-              <Tr key={idx}>
-                <Td><Center>{idx+1}{trophyIcon(idx+1)}</Center></Td>
-                <Td>{e.name}</Td>
-                <Td isNumeric>{e.points}</Td>
-                <Td isNumeric>{e.numCorrect}</Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
+      <Thead>
+        <Tr>
+          <Th>Rank</Th>
+          <Th>Name</Th>
+          <Th>Points</Th>
+          <Th># Correct</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        {props.table.map((e, idx) => (
+          <Tr key={idx}>
+            <Td><Center>{idx+1}{trophyIcon(idx+1)}</Center></Td>
+            <Td>{e.name}</Td>
+            <Td isNumeric>{e.points}</Td>
+            <Td isNumeric>{e.numCorrect}</Td>
+          </Tr>
+        ))}
+      </Tbody>
+    </Table>
   )
+}
+
+function BestBuzzesTable(props) {
+  return (
+    <Table w={'100%'}variant={'striped'}>
+      <Thead>
+        <Tr>
+          <Th>Rank</Th>
+          <Th>Name</Th>
+          <Th>Points</Th>
+          <Th># Correct</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        {props.table.map((e, idx) => (
+          <Tr key={idx}>
+            <Td><Center>{idx+1}{trophyIcon(idx+1)}</Center></Td>
+            <Td>{e.name}</Td>
+            <Td isNumeric>{e.points}</Td>
+            <Td isNumeric>{e.numCorrect}</Td>
+          </Tr>
+        ))}
+      </Tbody>
+    </Table>
+  )
+
 }
 
 function trophyIcon(rank) {
