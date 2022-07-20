@@ -229,4 +229,31 @@ export default class BackendActor {
     return {points, numCorrect, averageCelerity, name};
   }
 
+  // takes an array of gameresults and returns a table of best buzzes for a given game
+  static resultsToBestBuzzesTable(results) {
+    if(results.length === 0){
+      return [];
+    }
+
+    const flatAnswerArray = results.map((e) => (e.answers.map((a) => ({...a, player:(e.name)})))).flat();
+
+    const maxQuestionIndex = Math.max(...flatAnswerArray.map((e) => (e.questionNumber)));
+
+    let response = new Array(maxQuestionIndex).fill(null);
+    for (let i = 0; i < maxQuestionIndex; i++) {
+      const questionAnswers = flatAnswerArray
+                                .filter((e) => (e.questionNumber === i+1))
+                                .filter((e) => (e.points > 0));
+
+      if(questionAnswers.length > 0) {
+        const bestBuzz = questionAnswers.reduce(
+          (acc, curr) =>
+            (acc.celerity > curr.celerity ? acc : curr), questionAnswers[0]);
+        response[i] = bestBuzz;
+      }
+    }
+
+    return response;
+  }
+
 }

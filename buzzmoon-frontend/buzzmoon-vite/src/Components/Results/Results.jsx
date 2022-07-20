@@ -2,14 +2,22 @@ import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import BackendActor from '../BackendActor/backend-actor';
 
-import { Spinner, Center, Flex, Heading, Table, Thead, Tbody, Tr, Th, Td, Icon} from '@chakra-ui/react';
+import { Spinner, Center, Flex, Heading, Table, Thead, Tbody, Tr, Th, Td, Icon, TabList, Tabs, Tab, TabPanels, TabPanel, VStack} from '@chakra-ui/react';
 import {AiFillTrophy} from 'react-icons/ai'
+
+
+const formatConfig = {
+  minimumFractionDigits: 3,
+  maximumFractionDigits: 3,
+};
+
+const formatter = new Intl.NumberFormat('en-US', formatConfig);
 
 export default function Results(props) {
   const {gameID} = useParams();
   const [gameData, setGameData] = React.useState();
-  const [resultsCat, setResultsCat] = React.useState("normal");
-  const [table, setTable] = React.useState([]);
+  const [results, setResults] = React.useState([]);
+
 
   React.useEffect(() => {
     const updateGameData = async () => {
@@ -20,12 +28,14 @@ export default function Results(props) {
       // here we should validate if the user has played the game, or if they should be kicked from results page
 
       const playerResults = await BackendActor.fetchGameResults(gameID);
-      const table = BackendActor.resultsToStandardTable(playerResults);
-      setTable(table);
+      setResults(playerResults);
     }
 
     updateGameData();
   }, []);
+
+  const standardTable = BackendActor.resultsToStandardTable(results);
+  const bestBuzzesTable = BackendActor.resultsToBestBuzzesTable(results);
 
   if (! gameData) {
     return (
@@ -37,32 +47,90 @@ export default function Results(props) {
 
   return (
     <Center mt={'20'}>
-      <Flex direction={'column'} align={'center'}>
+
+      <VStack w={{sm:"95vw", md: "75vw", lg:"60vw"}} align={'center'} overflowX={'auto'}>
         <Heading borderBottom={'1px solid black'} mb={'10'}>
         {`${gameData.title}`}
         </Heading>
-        <Table w={'100%'}variant={'striped'}>
-          <Thead>
-            <Tr>
-              <Th>Rank</Th>
-              <Th>Name</Th>
-              <Th>Points</Th>
-              <Th># Correct</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {table.map((e, idx) => (
-              <Tr key={idx}>
-                <Td><Center>{idx+1}{trophyIcon(idx+1)}</Center></Td>
-                <Td>{e.name}</Td>
-                <Td isNumeric>{e.points}</Td>
-                <Td isNumeric>{e.numCorrect}</Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </Flex>
+        <Tabs w={{base:"95vw", sm: "95vw", md:"100%"}} size='md' variant='enclosed' colorScheme={'black'}>
+        <TabList>
+          <Tab>Standard</Tab>
+          <Tab>Head 2 Head</Tab>
+          <Tab>Best Buzzes</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <StandardTable table={standardTable}/>
+          </TabPanel>
+          <TabPanel>
+
+          </TabPanel>
+          <TabPanel>
+            <BestBuzzesTable table={bestBuzzesTable} />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+      </VStack>
     </Center>
+  )
+}
+
+function StandardTable(props) {
+  return (
+    <Table variant={'striped'} maxW={'min(600px, 100%)'}>
+      <Thead>
+        <Tr>
+          <Th>Rank</Th>
+          <Th>Name</Th>
+          <Th>Points</Th>
+          <Th># Correct</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        {props.table.map((e, idx) => (
+          <Tr key={idx}>
+            <Td><Center>{idx+1}{trophyIcon(idx+1)}</Center></Td>
+            <Td>{e.name}</Td>
+            <Td isNumeric>{e.points}</Td>
+            <Td isNumeric>{e.numCorrect}</Td>
+          </Tr>
+        ))}
+      </Tbody>
+    </Table>
+  )
+}
+
+function BestBuzzesTable(props) {
+  return (
+    <Table w={'100%'}variant={'striped'} maxW={'800px'}>
+      <Thead>
+        <Tr>
+          <Th>#</Th>
+          <Th>Answer</Th>
+          <Th>Player</Th>
+          <Th>Points</Th>
+          <Th>Celerity</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        {props.table.map((e, idx) => (e ?
+          (<Tr key={idx}>
+            <Td>{idx+1}</Td>
+            <Td>{e.givenAnswer}</Td>
+            <Td>{e.player}</Td>
+            <Td isNumeric>{e.points}</Td>
+            <Td isNumeric>{formatter.format(e.celerity)}</Td>
+          </Tr>) :
+          <Tr key={idx}>
+            <Td>{idx+1}</Td>
+            <Td>No Answers</Td>
+            <Td></Td>
+            <Td></Td>
+            <Td></Td>
+          </Tr>
+        ))}
+      </Tbody>
+    </Table>
   )
 }
 
