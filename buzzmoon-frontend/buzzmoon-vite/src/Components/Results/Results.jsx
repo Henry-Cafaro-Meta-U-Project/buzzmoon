@@ -101,7 +101,6 @@ function StandardTable(props) {
 }
 
 function BestBuzzesTable(props) {
-  console.log("🚀 ~ file: Results.jsx ~ line 96 ~ BestBuzzesTable ~ props", props)
   return (
     <Table w={'100%'}variant={'striped'} maxW={'800px'}>
       <Thead>
@@ -126,7 +125,6 @@ function BestBuzzesTable(props) {
       </Tbody>
     </Table>
   )
-
 }
 
 function trophyIcon(rank) {
