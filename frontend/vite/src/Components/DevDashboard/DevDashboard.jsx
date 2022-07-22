@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as Parse from 'parse/dist/parse.min.js'
+import Parse from 'parse/dist/parse.min.js'
 import DevTools from '../../DevTools/DevTools';
 
 import { Center, Heading, Spinner, Select, VStack, Text, HStack, Box, Icon,

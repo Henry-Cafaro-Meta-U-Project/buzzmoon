@@ -6,7 +6,7 @@ import {
   Navigate
 } from 'react-router-dom';
 
-import * as Parse from 'parse/dist/parse.min.js'
+import Parse from 'parse/dist/parse.min.js'
 
 import Navbar from '../Navbar/Navbar';
 import Auth from '../Auth/Auth';
