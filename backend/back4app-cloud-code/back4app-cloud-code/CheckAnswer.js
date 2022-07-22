@@ -47,11 +47,40 @@ export default class CheckAnswerEngine {
     return replaced;
   }
 
+  // returns the levenshtein edit distance between two string
+  static levenshtein(first, second) {
+    const m = first.length;
+    const n = second.length;
+    let dp = []  // dp[i][j] gives the lev distance between first[:i] and second[:j]
+    for(let i = 0; i < m+1; i++){
+      dp.push(new Array(n+1).fill(0));
+    }
+
+    for(let i = 1; i < m+1; i++) {
+      dp[i][0] = i;
+    }
+
+    for(let i = 1; i < n+1; i++) {
+      dp[0][i] = i;
+    }
+
+    for(let i = 1; i < m+1; i++){
+      for(let j = 1; j < n+1; j++){
+        dp[i][j] = Math.min(1 + dp[i-1][j], 1 + dp[i][j-1], dp[i-1][j-1] + ((first[i-1] === second[j-1]) ? 0 : 1))
+      }
+    }
+
+    return dp[m][n];
+
+  }
+
   // checks the correctness of a given answer against a given correct answer
   static checkAnswer(given, correct){
-    const fixedGiven = given.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
-                            .replace
-    return (this.cleanAnswer(given) === this.cleanAnswer(correct));
+    const givenClean = this.cleanAnswer(given);
+    const correctClean = this.cleanAnswer(correct);
+    const maxLen = Math.max(givenClean.length, correctClean.length);
+    
+    return (this.levenshtein(givenClean, correctClean) / maxLen < 0.2);
   }
 
 
