@@ -80,11 +80,12 @@ export default class CheckAnswerEngine {
     const correctClean = this.cleanAnswer(correct);
     const maxLen = Math.max(givenClean.length, correctClean.length);
     
-    return (this.levenshtein(givenClean, correctClean) / maxLen < 0.2);
+    return (this.levenshtein(givenClean, correctClean) / maxLen < 0.25);
   }
 
 
 }
+
 
 
 module.exports = CheckAnswerEngine
