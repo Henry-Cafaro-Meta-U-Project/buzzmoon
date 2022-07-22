@@ -1,5 +1,5 @@
 import * as React from 'react';
-import BackendActor from '../BackendActor/backend-actor';
+import BackendActor from '../../Server/BackendActor/backend-actor';
 
 import { Box, Button, Spinner, Icon, HStack, VStack, Progress} from '@chakra-ui/react';
 import {AiFillSound} from 'react-icons/ai'

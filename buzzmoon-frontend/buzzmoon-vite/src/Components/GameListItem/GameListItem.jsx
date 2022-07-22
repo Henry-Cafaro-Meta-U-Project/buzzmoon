@@ -1,12 +1,9 @@
 import * as React from 'react';
-import Game from '../Game/Game';
-import Results from '../Results/Results';
 import { BrowserRouter,
   Route,
   Routes,
   useNavigate} from 'react-router-dom';
-import BackendActor from '../BackendActor/backend-actor';
-import GameSplashPage from '../GameSplashPage/GameSplashPage';
+
 
 import { VStack, IconButton, Flex, Icon, Button, Text, Spinner} from '@chakra-ui/react';
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import BackendActor from '../BackendActor/backend-actor';
+import BackendActor from '../../Server/BackendActor/backend-actor';
 
 import { VStack, Box, Heading, Flex, Center, Button, Text, Spinner} from '@chakra-ui/react';
 

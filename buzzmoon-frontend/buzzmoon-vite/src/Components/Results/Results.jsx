@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
-import BackendActor from '../BackendActor/backend-actor';
+import BackendActor from '../../Server/BackendActor/backend-actor';
 
 import { Spinner, Center, Tooltip, Heading, Table, Thead, Tbody, Tr, Th, Td, Icon,
         TabList, Tabs, Tab, TabPanels, TabPanel, VStack, Box, HStack, Text, Button,

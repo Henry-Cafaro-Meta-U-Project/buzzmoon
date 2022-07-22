@@ -1,5 +1,5 @@
 import * as React from 'react';
-import BackendActor from '../BackendActor/backend-actor';
+import BackendActor from '../../Server/BackendActor/backend-actor';
 
 import {
   Flex,

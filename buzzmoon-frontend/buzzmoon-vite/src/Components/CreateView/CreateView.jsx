@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 
 import { VStack, Box, Heading, Spinner, Center, Button, Text} from '@chakra-ui/react';
-import BackendActor from '../BackendActor/backend-actor';
+import BackendActor from '../../Server/BackendActor/backend-actor';
 
 import CreateGame from '../CreateGame/CreateGame';
 import GameListItem from '../GameListItem/GameListItem';
