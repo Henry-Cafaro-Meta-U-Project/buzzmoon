@@ -1,4 +1,4 @@
-
+require("./CheckAnswer.js");
 
 Parse.Cloud.define("getQuestionResults", async (request) => {
   const {gameID, resultKey, questionNumber, buzzTimings, givenAnswer} = request.params;
@@ -13,7 +13,7 @@ Parse.Cloud.define("getQuestionResults", async (request) => {
       1.0 - (buzzTimings.buzz - buzzTimings.play) / (1000 * buzzTimings.duration),
     );
   
-  const isCorrect = checkAnswerCorrectness(givenAnswer, answers);
+  const isCorrect = CheckAnswerEngine.checkAnswerList(givenAnswer, answers);
   
   const resultQuery = new Parse.Query("GameResult");
   const resultRef = await resultQuery.get(resultKey);

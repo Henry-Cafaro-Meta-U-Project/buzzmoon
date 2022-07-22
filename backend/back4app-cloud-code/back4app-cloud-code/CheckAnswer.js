@@ -58,3 +58,4 @@ export default class CheckAnswerEngine {
 }
 
 
+module.exports = CheckAnswerEngine
