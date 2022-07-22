@@ -1,4 +1,4 @@
-export default class CheckAnswerEngine {
+class CheckAnswerEngine {
 
   // checks the correctness of a given answer by comparing to a list of acceptable answers
   static checkAnswerList(givenAnswer, acceptableAnswers) {
@@ -80,7 +80,9 @@ export default class CheckAnswerEngine {
     const correctClean = this.cleanAnswer(correct);
     const maxLen = Math.max(givenClean.length, correctClean.length);
     
-    return (this.levenshtein(givenClean, correctClean) / maxLen < 0.25);
+    const dist = this.levenshtein(givenClean, correctClean);
+    
+    return (dist / maxLen < 0.25 || dist < 3);
   }
 
 
