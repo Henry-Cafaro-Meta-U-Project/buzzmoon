@@ -2,7 +2,7 @@ import * as React from 'react';
 import QuestionResult from '../QuestionResult/QuestionResult';
 import QuestionSpeaker from '../QuestionSpeaker/QuestionSpeaker';
 import { Navigate, useNavigate, useParams, useLocation} from 'react-router-dom';
-import BackendActor from '../../Server/BackendActor/backend-actor';
+import {BackendActor} from '../../Server/BackendActor/backend-actor';
 import { VStack, Box, Heading, Flex, Center, Button, Input, HStack, Progress} from '@chakra-ui/react';
 import {usePrompt} from '../../Hooks/routerBlocks.js'
 

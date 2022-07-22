@@ -6,7 +6,7 @@ import { BrowserRouter,
   Route,
   Routes,
   useNavigate} from 'react-router-dom';
-import BackendActor from '../../Server/BackendActor/backend-actor';
+import {BackendActor} from '../../Server/BackendActor/backend-actor';
 import GameSplashPage from '../GameSplashPage/GameSplashPage';
 import GameList from '../GameList/GameList';
 

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
-import BackendActor from '../../Server/BackendActor/backend-actor';
+import {BackendActor} from '../../Server/BackendActor/backend-actor';
+import ResultsEngine from '../../Logic/ResultsEngine';
 
 import { Spinner, Center, Tooltip, Heading, Table, Thead, Tbody, Tr, Th, Td, Icon,
         TabList, Tabs, Tab, TabPanels, TabPanel, VStack, Box, HStack, Text, Button,
@@ -38,9 +39,9 @@ export default function Results(props) {
     updateGameData();
   }, []);
 
-  const standardTable = BackendActor.resultsToStandardTable(results);
-  const bestBuzzesTable = BackendActor.resultsToBestBuzzesTable(results);
-  const headToHeadTable = BackendActor.resultsToHeadToHeadTable(results);
+  const standardTable = ResultsEngine.resultsToStandardTable(results);
+  const bestBuzzesTable = ResultsEngine.resultsToBestBuzzesTable(results);
+  const headToHeadTable = ResultsEngine.resultsToHeadToHeadTable(results);
 
   if (! gameData) {
     return (
