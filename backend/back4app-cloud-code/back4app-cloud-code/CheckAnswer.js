@@ -6,14 +6,45 @@ export default class CheckAnswerEngine {
     return answerChecks.reduce((acc, elem) => (acc || elem), false);
   }
 
+  // replaces number words with the correct number, to standardize answer format
+  static replaceNumber(word){
+    if(["one", "first", "i"].includes(word)) return "1"
+    if(["two", "second", "ii"].includes(word)) return "2"
+    if(["three", "third", "iii"].includes(word)) return "3"
+    if(["four", "fourth", "iv"].includes(word)) return "4"
+    if(["five", "fifth", "v"].includes(word)) return "5"
+    if(["six", "sixth", "vi"].includes(word)) return "6"
+    if(["seven", "seventh", "vii"].includes(word)) return "7"
+    if(["eight", "eighth", "viii"].includes(word)) return "8"
+    if(["nine", "ninth", "ix"].includes(word)) return "9"
+    if(["tem", "tenth", "x"].includes(word)) return "10"
+    if(["eleven", "eleventh", "xi"].includes(word)) return "11"
+    if(["twelve", "twelfth", "xii"].includes(word)) return "12"
+    if(["thirteen", "thirteenth", "xiii"].includes(word)) return "13"
+    if(["fourteen", "fourteenth", "xiv"].includes(word)) return "14"
+    if(["fifteen", "fifteenth", "xv"].includes(word)) return "15"
+    if(["sixteen", "sixteenth", "xvi"].includes(word)) return "16"
+    return word
+  }
+
+  // strips out stopwords and semantically meaningless words that should not be considered in answer correctness
+  static isStopword(word){
+    return "the on of is a in on that have for at so it do or by and".split(" ").includes(word);
+  }
+
   // removes accent marks, diacritics, punctuation, number words, etc. from a string for ease of comparison
   static cleanAnswer(ans) {
     const cleanAndTrim =
-       ans.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "") //remove punctuation
+       ans.replace(/[.,\/#!$%\^&\*;:{}=\-_'`~()]/g, "") //remove punctuation
           .replace(/\s{2,}/g, " ") //collapse whitespace
           .trim() // trim whitespace
           .toLowerCase() 
-    return cleanAndTrim;
+    const replaced = cleanAndTrim
+                      .split(" ")
+                      .map((word) => this.replaceNumber(word))
+                      .filter((word) => (!this.isStopword(word)))
+                      .join(" ");
+    return replaced;
   }
 
   // checks the correctness of a given answer against a given correct answer
@@ -25,6 +56,5 @@ export default class CheckAnswerEngine {
 
 
 }
-
 
 
