@@ -6,7 +6,7 @@ import ResultsEngine from '../../Logic/ResultsEngine';
 import { Spinner, Center, Tooltip, Heading, Table, Thead, Tbody, Tr, Th, Td, Icon,
         TabList, Tabs, Tab, TabPanels, TabPanel, VStack, Box, HStack, Text, Button,
         Popover, PopoverBody, PopoverContent, PopoverTrigger, PopoverArrow,
-        PopoverHeader, PopoverCloseButton} from '@chakra-ui/react';
+         PopoverCloseButton} from '@chakra-ui/react';
 import {AiFillTrophy, AiOutlineQuestionCircle, AiOutlineCheck, AiOutlineClose, AiOutlineDash} from 'react-icons/ai'
 
 import { TiEquals } from "react-icons/ti";

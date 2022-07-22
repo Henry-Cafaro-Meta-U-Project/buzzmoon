@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { BrowserRouter,
-  Route,
-  Routes,
+import { 
   useNavigate} from 'react-router-dom';
 
 
-import { VStack, IconButton, Flex, Icon, Button, Text, Spinner} from '@chakra-ui/react';
+import { VStack, IconButton, Flex, Icon, Text} from '@chakra-ui/react';
 
 import {IoEnterOutline} from "react-icons/io5"
 
