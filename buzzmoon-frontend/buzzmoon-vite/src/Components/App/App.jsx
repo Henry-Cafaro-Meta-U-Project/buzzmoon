@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  BrowserRouter,
+  HashRouter,
   Route,
   Routes,
   Navigate
@@ -8,11 +8,10 @@ import {
 
 import * as Parse from 'parse/dist/parse.min.js'
 
-import Home from '../Home/Home';
 import Navbar from '../Navbar/Navbar';
 import Auth from '../Auth/Auth';
 import CreateView from '../CreateView/CreateView';
-import CompeteView from '../CompeteView/CompeteView';
+import CompeteRouter from '../CompeteView/CompeteView';
 import DevDashboard from '../DevDashboard/DevDashboard';
 
 Parse.initialize(`nUrzDufzLEaJ3sjzvcvNHvw1hD46jOt4yEipaWHs`, `juaO5lbdY5jTtDXGpzEr2mGtggC0wf2Es11cEruf`);
@@ -34,16 +33,16 @@ function App() {
   }else{
     return (
       <div className="app">
-        <BrowserRouter basename='/buzzmoon'>
+        <HashRouter>
           <Navbar setCurrentUser={setCurrentUser} />
           <Routes>
             <Route path="/dev/" element={<DevDashboard />}></Route>
             <Route path="/" element={<Navigate to="/compete" />}></Route>
-            <Route path="/compete/*"  element={<CompeteView />}></Route>
+            <Route path="/compete/*"  element={<CompeteRouter />}></Route>
             <Route path="/create/*"  element={<CreateView />}></Route>
           </Routes>
 
-        </BrowserRouter>
+        </HashRouter>
       </div>
     );
   }
