@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import {BackendActor} from '../../Server/BackendActor/backend-actor';
+import GlobalFormatter from '../../Logic/GlobalFormatter';
+
 
 import { VStack, Box, Heading, Flex, Center, Button, Text, Spinner} from '@chakra-ui/react';
 
@@ -39,7 +41,7 @@ export default function GameSplashPage() {
               <Heading size={'sm'}>Created by {gameData.authorName}</Heading>
               <Heading size={'sm'}>{gameData.createdAt.toLocaleDateString("en-US")}</Heading>
               {gameData.endDate &&
-                <Heading size={'sm'}>Open until {gameData.endDate.toLocaleString()}</Heading>
+                <Heading size={'sm'}>{GlobalFormatter.gameEndDateBlurb(gameData.endDate)}</Heading>
               }
             </VStack>
             <VStack spacing={'2'} align={'end'}>
