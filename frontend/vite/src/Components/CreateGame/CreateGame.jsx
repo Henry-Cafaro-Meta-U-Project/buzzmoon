@@ -8,8 +8,9 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 
-import { VStack, Text, Heading, Input, Flex, Button, Center, Textarea, Icon, Spinner, Switch, Box} from '@chakra-ui/react';
-import {AiOutlineUpload} from 'react-icons/ai'
+import { VStack, Text, Heading, Input, Flex, Button, Center, Textarea, Icon, Spinner, Switch, Box, Tooltip} from '@chakra-ui/react';
+import {AiOutlineUpload, AiOutlineQuestionCircle} from 'react-icons/ai'
+
 
 import {usePrompt} from '../../Hooks/routerBlocks.js'
 
@@ -76,12 +77,18 @@ export default function CreateGame() {
           </VStack>
           <VStack align={'start'} w={'100%'}>
           <Flex w={'100%'} direction={'row'} align={'center'}>
+            
             <Text fontSize={'lg'} w={'auto'} mr={'5'}>
               Deadline:
             </Text>
             <Switch onChange={(event) => {
               setIsDatepicker(event.target.checked);
               }}></Switch>
+            <Tooltip hasArrow
+              label='The game will be open until midnight PST on the date selected'
+              bg='gray.300' color='black'>
+              <Box ml={'2'} as={'span'}><Icon as={AiOutlineQuestionCircle}></Icon></Box>
+            </Tooltip>
           </Flex>
           {isDatepicker && <Box 
             borderColor={'gray.500'}
