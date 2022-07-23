@@ -18,8 +18,11 @@ export default function GameListItem(props) {
       borderRadius={'xl'}
       boxShadow={'sm'}>
     <Flex w={'100%'} justify={'space-between'} align={'start'} >
-      <VStack align={'start'}>
+      <VStack align={'start'} spacing={'4px'}>
+        <VStack align={'start'} spacing={'0'}>
         <Text mr={'5'} fontWeight={'bold'}>{props.game.title} </Text>
+        {props.game.endDate && <Text fontSize={'xs'}>ending {props.game.endDate.toLocaleString()}</Text>}
+        </VStack>
         <Text mr={'5'}>{props.game.authorName} </Text>
       </VStack>
       <Flex justify={'end'}>

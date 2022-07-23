@@ -106,6 +106,7 @@ export class BackendActor {
   // prepares an object to be the argument for a POST request to the server
   // the object represents contains all the metadata, question anwers, and audio to create the game on the backend
   static prepareGameData(title, description, questions, endDate) {
+    const fixedDate = new Date(Date.UTC(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()+1, 7, 59, 59, 0));
     return {
       title: title.trim(),
       description: description.trim(),
@@ -116,9 +117,10 @@ export class BackendActor {
           answers: q.answers.split(',').map((s) => (s.trim())),
           audioFile: q.audioFile,
         }))),
-      endDate: endDate
+      endDate: fixedDate,
     };
   }
+
 
   // duplicates the validation of game data that occurs on the backend, to prevent unnecessary bandwidth usage
   static validateGameData(gameData) {
