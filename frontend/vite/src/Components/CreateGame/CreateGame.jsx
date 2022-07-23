@@ -83,7 +83,6 @@ export default function CreateGame() {
               setIsDatepicker(event.target.checked);
               }}></Switch>
           </Flex>
-          
           {isDatepicker && <Box 
             borderColor={'gray.500'}
             borderWidth={'1px'}
@@ -128,7 +127,8 @@ export default function CreateGame() {
           colorScheme={'blue'}
           onClick={async () => {
             setIsUploading(true);
-            const message = await BackendActor.uploadGame(BackendActor.prepareGameData(title, desc, questions));
+            const message = await BackendActor.uploadGame(
+                                    BackendActor.prepareGameData(title, desc, questions, (isDatepicker ? startDate : null)));
 
             if(message === "Success"){
               await setIsNavigationOK(true);

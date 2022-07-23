@@ -105,7 +105,7 @@ export class BackendActor {
 
   // prepares an object to be the argument for a POST request to the server
   // the object represents contains all the metadata, question anwers, and audio to create the game on the backend
-  static prepareGameData(title, description, questions) {
+  static prepareGameData(title, description, questions, endDate) {
     return {
       title: title.trim(),
       description: description.trim(),
@@ -116,6 +116,7 @@ export class BackendActor {
           answers: q.answers.split(',').map((s) => (s.trim())),
           audioFile: q.audioFile,
         }))),
+      endDate: endDate
     };
   }
 
