@@ -2,8 +2,13 @@ import * as React from 'react';
 import {BackendActor} from '../../Server/BackendActor/backend-actor';
 import CreateQuestion from '../CreateQuestion/CreateQuestion';
 import { useNavigate } from "react-router-dom";
+import DatePicker from "react-datepicker";
 
-import { VStack, Text, Heading, Input, Flex, Button, Center, Textarea, Icon, Spinner} from '@chakra-ui/react';
+import "react-datepicker/dist/react-datepicker.css";
+
+
+
+import { VStack, Text, Heading, Input, Flex, Button, Center, Textarea, Icon, Spinner, Switch, Box} from '@chakra-ui/react';
 import {AiOutlineUpload} from 'react-icons/ai'
 
 import {usePrompt} from '../../Hooks/routerBlocks.js'
@@ -23,6 +28,8 @@ export default function CreateGame() {
   const [questions, setQuestions] = React.useState([]);
   const [isUploading, setIsUploading] = React.useState(false);
   const [isNavigationOK, setIsNavigationOK] = React.useState(false);
+  const [startDate, setStartDate] = React.useState(new Date());
+  const [isDatepicker, setIsDatepicker] = React.useState(false);
 
   const navigate = useNavigate();
 
@@ -66,6 +73,24 @@ export default function CreateGame() {
               placeholder="Enter Description"
               value={desc}
               onChange={(e) => setDesc(e.target.value)}/>
+          </VStack>
+          <VStack align={'start'} w={'100%'}>
+          <Flex w={'100%'} direction={'row'} align={'center'}>
+            <Text fontSize={'lg'} w={'auto'} mr={'5'}>
+              Deadline:
+            </Text>
+            <Switch onChange={(event) => {
+              setIsDatepicker(event.target.checked);
+              }}></Switch>
+          </Flex>
+          
+          {isDatepicker && <Box 
+            borderColor={'gray.500'}
+            borderWidth={'1px'}
+            borderRadius={'md'}
+            p={'2px'}>
+            <DatePicker border={'1px solid black'} selected={startDate} onChange={(date) => setStartDate(date)} />
+          </Box>}
           </VStack>
         </VStack>
       </VStack>
