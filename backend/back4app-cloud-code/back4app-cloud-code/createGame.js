@@ -34,6 +34,11 @@
      }
   })
   
+  const currDate = new Date();
+   if(request.params.endDate < currDate){
+     throw `The deadline of the game cannot be before today's date`;
+   }
+  
   return;
 }
 

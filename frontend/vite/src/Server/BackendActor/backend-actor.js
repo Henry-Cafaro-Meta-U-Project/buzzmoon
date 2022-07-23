@@ -151,6 +151,13 @@ export class BackendActor {
         throw `The file associated with Question #${q.questionNumber} must be an .m4a or an .mp3`;
       }
     });
+
+    const currDate = new Date();
+    if(gameData.endDate < currDate){
+      throw `The deadline of the game cannot be before today's date`;
+    }
+
+
   }
 
   // accepts the output of prepareGameData and uploads it to the Parse server
