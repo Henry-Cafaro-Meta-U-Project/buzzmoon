@@ -33,6 +33,15 @@ Parse.Cloud.define("checkEntryMode", async (request) => {
  const gameQuery = new Parse.Query("Game");
  const gameRef = await gameQuery.get(gameID);
  
+ const endDate = await gameRef.get("endDate");
+ 
+ if(endDate) {
+   const currDate = new Date();
+   if(currDate > endDate){
+     return {modes: ["results"]};
+   }
+ }
+ 
  query.equalTo("player", request.user).equalTo("game", gameRef);
  
  const response = await query.first();
