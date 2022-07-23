@@ -8,13 +8,13 @@ export default function GameSplashPage() {
   const {gameID} = useParams();
   const navigate = useNavigate();
 
-  const [enterMode, setEnterMode] = React.useState("loading");
+  const [enterModes, setEnterModes] = React.useState([]);
   const [gameData, setGameData] = React.useState(undefined);
 
   React.useEffect(() => {
     const checkEntryMode= async () => {
       const response = await BackendActor.checkEntryMode(gameID);
-      setEnterMode(response.mode);
+      setEnterModes(response.modes);
     }
 
     const getGameData = async () => {
@@ -51,25 +51,28 @@ export default function GameSplashPage() {
           </Text>
         </VStack>
         }
-        {enterMode === "loading" && <Spinner />}
-        {enterMode === "play" &&
-          <Button
-            onClick={async () => {
-              try {
-                const response = await BackendActor.registerGameEntry(gameID);
-                navigate(`./play/${response.resultKey}`);
-              } catch (error) {
-                alert(error);
-              }}}>
-                Enter
-          </Button>}
-        {enterMode === "results" &&
-          <Button
-            onClick={() => {
-              navigate("./results");}}>
-            Results
-          </Button>}
-          </VStack>
+        <Center><Flex>
+          {enterModes.length === 0 && <Spinner />}
+          {enterModes.includes("play") &&
+            <Button
+              onClick={async () => {
+                try {
+                  const response = await BackendActor.registerGameEntry(gameID);
+                  navigate(`./play/${response.resultKey}`);
+                } catch (error) {
+                  alert(error);
+                }}}>
+                  Enter
+            </Button>}
+          {enterModes.includes("results") &&
+            <Button
+              onClick={() => {
+                navigate("./results");}}>
+              Results
+            </Button>}
+        </Flex></Center>
+        
+        </VStack>
     </Center>
   )
 }
