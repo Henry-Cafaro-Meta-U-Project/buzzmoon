@@ -38,6 +38,9 @@ export default function GameSplashPage() {
             <VStack spacing={'2'} align={'start'}>
               <Heading size={'sm'}>Created by {gameData.authorName}</Heading>
               <Heading size={'sm'}>{gameData.createdAt.toLocaleDateString("en-US")}</Heading>
+              {gameData.endDate &&
+                <Heading size={'sm'}>Open until {gameData.endDate.toLocaleString()}</Heading>
+              }
             </VStack>
             <VStack spacing={'2'} align={'end'}>
               <Heading size={'sm'}>{gameData.numQuestions} Questions</Heading>
