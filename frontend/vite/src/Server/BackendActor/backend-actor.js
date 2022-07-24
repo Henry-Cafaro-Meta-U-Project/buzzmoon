@@ -103,6 +103,8 @@ export class BackendActor {
 
   }
 
+  
+
   // prepares an object to be the argument for a POST request to the server
   // the object represents contains all the metadata, question anwers, and audio to create the game on the backend
   static prepareGameData(title, description, questions, endDate) {
@@ -216,6 +218,12 @@ export class BackendActor {
   // gets all GameResult objects in the database associated with a particular game
   static async fetchGameResults(gameID) {
     const response = await Parse.Cloud.run("fetchAllGameResults", {gameID});
+    return response;
+  }
+
+  // returns the authors view of the results for a given game
+  static async fetchAuthorResults(gameID) {
+    const response = await Parse.Cloud.run("getAuthorResults", {gameID});
     return response;
   }
 

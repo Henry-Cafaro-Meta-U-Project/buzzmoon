@@ -34,16 +34,12 @@ export default function Results(props) {
 
       // here we should validate if the user has played the game, or if they should be kicked from results page
 
-      const playerResults = await BackendActor.fetchGameResults(gameID);
+      const playerResults = await BackendActor.fetchAuthorResults(gameID);
       setResults(playerResults);
     }
 
     updateGameData();
   }, []);
-
-  const standardTable = ResultsEngine.resultsToStandardTable(results);
-  const bestBuzzesTable = ResultsEngine.resultsToBestBuzzesTable(results);
-  const headToHeadTable = ResultsEngine.resultsToHeadToHeadTable(results);
 
   if (! gameData) {
     return (
