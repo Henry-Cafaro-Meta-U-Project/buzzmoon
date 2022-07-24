@@ -73,6 +73,12 @@ export default function GameSplashPage() {
                 navigate("./results");}}>
               Results
             </Button>}
+          {enterModes.includes("review") &&
+            <Button
+              onClick={() => {
+                navigate("./review");}}>
+              Review Answers
+            </Button>}
         </Flex></Center>
         
         </VStack>

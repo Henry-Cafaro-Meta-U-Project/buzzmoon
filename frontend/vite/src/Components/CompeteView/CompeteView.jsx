@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Game from '../Game/Game';
-import GameListItem from '../GameListItem/GameListItem';
+import Review from '../Review/Review';
 import Results from '../Results/Results';
 import { BrowserRouter,
   Route,
@@ -24,6 +24,7 @@ export default function CompeteRouter() {
         <Route path="/:gameID/play/:resultKey" element={<Game />}></Route>
 
         <Route path="/:gameID/results" element={<Results />}></Route>
+        <Route path="/:gameID/review" element={<Review />}></Route>
       </Routes>
   );
 }
