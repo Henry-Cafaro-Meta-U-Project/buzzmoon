@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import {BackendActor} from '../../Server/BackendActor/backend-actor';
 import ResultsEngine from '../../Logic/ResultsEngine';
 
-import { Spinner, Center, Tooltip, Heading, Table, Thead, Tbody, Tr, Th, Td, Icon,
+import { Spinner, Center, Select, Heading, Table, Thead, Tbody, Tr, Th, Td, Icon,
         TabList, Tabs, Tab, TabPanels, TabPanel, VStack, Box, HStack, Text, Button,
         Popover, PopoverBody, PopoverContent, PopoverTrigger, PopoverArrow,
          PopoverCloseButton} from '@chakra-ui/react';
@@ -28,7 +28,7 @@ export default function Results(props) {
 
   React.useEffect(() => {
     const updateGameData = async () => {
-      const fetchedGameData = await BackendActor.getGameMetadata(gameID);
+      const fetchedGameData = await BackendActor.fetchAuthorGameData(gameID);
       setGameData(fetchedGameData);
 
 
@@ -41,7 +41,7 @@ export default function Results(props) {
     updateGameData();
   }, []);
 
-  if (! gameData) {
+  if (! results) {
     return (
       <Center mt={'20'}>
       <Spinner />
@@ -50,10 +50,18 @@ export default function Results(props) {
   }
 
   return (
-    <Center mt={'20'}>
-
-      
-    </Center>
+    <VStack mt={'20'} mx={'5%'} align={'start'}>
+        <VStack align={'start'}>
+        <Heading>Database</Heading>
+        <HStack>
+            <Text>Question:</Text>
+            <Select
+                placeholder="Select Question">
+                
+            </Select>
+        </HStack>
+        </VStack>
+      </VStack>
   )
 }
 

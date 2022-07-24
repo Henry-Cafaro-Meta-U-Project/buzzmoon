@@ -227,5 +227,11 @@ export class BackendActor {
     return response;
   }
 
+  // returns the game data available to the author of a game
+  static async fetchAuthorGameData(gameID) {
+    const response = await Parse.Cloud.run("getAuthorGameData", {gameID});
+    return response;
+  }
+
 }
 
