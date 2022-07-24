@@ -64,9 +64,51 @@ export default function Results(props) {
                 
             </Select>
         </HStack>
+        <AnswerReviewBoard gameData={gameData} questionNumber={parseInt(selectedQuestion)} results={results}/>
         </VStack>
       </VStack>
   )
 }
 
 
+function AnswerReviewBoard(props) {
+  console.log("🚀 ~ file: Review.jsx ~ line 75 ~ AnswerReviewBoard ~ props", props)
+  const initialAnswers = props.gameData.questions[props.questionNumber-1].answers;
+  const givenAnswers = props.results.map((res) => (res.answers.find((q) => (q.questionNumber === props.questionNumber))))
+                                    .filter((e) => (e ? true : false));
+  console.log("🚀 ~ file: Review.jsx ~ line 77 ~ AnswerReviewBoard ~ givenAnswers", givenAnswers)
+
+  return (
+    <VStack 
+      paddingTop={'10px'}
+      marginTop={'10px'}
+      borderTop={'1px solid gray'} 
+      w={'100%'} align={'start'}>
+      <Heading size={'md'}>Question #{props.questionNumber}</Heading>
+      <Heading size={'md'}>Initial Answers: {initialAnswers.join(", ")}</Heading>
+      <VStack align={'start'}>
+        {givenAnswers.map((a) => (
+          <VStack 
+            w={'100%'}
+            align={'start'} 
+            my={'10px'} 
+            border={'1px solid black'}
+            padding={'5px'}
+            bg={'gray.300'}>
+            <Heading size={'xs'}>Answer: "{truncateString(a.givenAnswer, 50)}"</Heading>
+            <Heading size={'xs'}>Ruling: {a.isCorrect ? "Correct" : "Incorrect"}</Heading>
+          </VStack>
+        ))}
+
+      </VStack>
+    </VStack>
+  );
+}
+
+function truncateString(str, num) {
+  if (str.length > num) {
+    return str.slice(0, num) + "...";
+  } else {
+    return str;
+  }
+}
