@@ -24,15 +24,13 @@ export default function Results(props) {
   console.log("🚀 ~ file: Review.jsx ~ line 24 ~ Results ~ gameData", gameData)
   const [results, setResults] = React.useState([]);
   console.log("🚀 ~ file: Review.jsx ~ line 25 ~ Results ~ results", results)
+  const [selectedQuestion, setSelectedQuestion] = React.useState(1);
 
 
   React.useEffect(() => {
     const updateGameData = async () => {
       const fetchedGameData = await BackendActor.fetchAuthorGameData(gameID);
       setGameData(fetchedGameData);
-
-
-      // here we should validate if the user has played the game, or if they should be kicked from results page
 
       const playerResults = await BackendActor.fetchAuthorResults(gameID);
       setResults(playerResults);
@@ -41,7 +39,7 @@ export default function Results(props) {
     updateGameData();
   }, []);
 
-  if (! results) {
+  if (! results || ! gameData) {
     return (
       <Center mt={'20'}>
       <Spinner />
@@ -52,11 +50,17 @@ export default function Results(props) {
   return (
     <VStack mt={'20'} mx={'5%'} align={'start'}>
         <VStack align={'start'}>
-        <Heading>Database</Heading>
+        <Heading>{gameData.title}</Heading>
+        <Heading size={'sm'}>Review Answers</Heading>
         <HStack>
             <Text>Question:</Text>
             <Select
-                placeholder="Select Question">
+                placeholder="Select Question"
+                value={selectedQuestion}
+                onChange={(event) => {setSelectedQuestion(event.target.value);}}>
+                  {gameData.questions.map((e) => (
+                    <option key={e.questionNumber} value={e.questionNumber}>Question #{e.questionNumber}</option>
+                  ))}
                 
             </Select>
         </HStack>
