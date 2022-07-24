@@ -23,7 +23,7 @@ const validateRoot = async (request) => {
 Parse.Cloud.define("checkEntryMode", async (request) => {
  const isRoot = await validateRoot(request);
  if(isRoot){
-   return {modes: ["results", "play"]};
+   return {modes: ["results", "play", "review"]};
  }
  const {gameID} = request.params;
  
@@ -32,6 +32,11 @@ Parse.Cloud.define("checkEntryMode", async (request) => {
  
  const gameQuery = new Parse.Query("Game");
  const gameRef = await gameQuery.get(gameID);
+ 
+ 
+ if(gameRef.get("author").id === request.user.id){
+   return {modes: ["results", "play", "review"]};
+ }
  
  const endDate = await gameRef.get("endDate");
  
