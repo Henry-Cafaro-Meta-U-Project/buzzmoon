@@ -81,10 +81,17 @@ export default function Results(props) {
         <Heading>Changes</Heading>
         {changes.length === 0 ? <Text>No changes so far.</Text> : 
         (changes.map((e, idx) => (
-          <VStack key={idx.toString() + e.questionNumber.toString() + e.answer.toString() + e.ruling}>
-            <Text>
+          <VStack align={'end'} w={'100%'}
+            key={idx.toString() + e.questionNumber.toString() + e.answer.toString() + e.ruling}>
+            <Flex w={'100%'}>
               Q{e.questionNumber} {' '} {e.answer} {' -> '} {e.ruling === "correct" ? "Correct" : "Incorrect"}
-            </Text>
+            </Flex>
+            <Button size={'xs'} color={'white'} bg={'black'} _hover={{color:"black", bg: "white"}}
+              onClick={() => {
+                setChanges(changes.filter((x) => (x !== e)));
+              }}>
+              Remove
+            </Button>
           </VStack>
         )))}
       </VStack>
