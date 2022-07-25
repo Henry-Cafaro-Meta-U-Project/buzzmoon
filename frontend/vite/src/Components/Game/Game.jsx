@@ -7,7 +7,7 @@ import { VStack, Box, Heading, Flex, Center, Button, Input, HStack, Progress} fr
 import {usePrompt} from '../../Hooks/routerBlocks.js'
 
 const gameConfig = {
-  timeAfterBuzz: 6
+  timeAfterBuzz: 8
 }
 
 export default function Game(props) {
