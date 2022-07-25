@@ -22,9 +22,9 @@ export default function Results(props) {
   const {gameID} = useParams();
   const [gameData, setGameData] = React.useState();
   const [results, setResults] = React.useState([]);
-  console.log("🚀 ~ file: Review.jsx ~ line 25 ~ Results ~ results", results)
   const [selectedQuestion, setSelectedQuestion] = React.useState(1);
   const [changes, setChanges] = React.useState([]);
+  console.log("🚀 ~ file: Review.jsx ~ line 27 ~ Results ~ changes", changes)
 
   const addChange = (change) => {
     setChanges(changes.concat([change]));
@@ -54,7 +54,7 @@ export default function Results(props) {
   return (
     <Flex mt={'20'} mx={'5%'} direction={'row'} wrap={'wrap'} justify={'space-between'}>
       <VStack align={'start'} width={{sm:"100%", md:"70%"}}>
-        <VStack align={'start'}>
+        <VStack align={'start'} w={{sm:'100%', md:"80%"}}>
         <Heading>{gameData.title}</Heading>
         <Heading size={'sm'}>Review Answers</Heading>
         <HStack>
@@ -69,6 +69,7 @@ export default function Results(props) {
             </Select>
         </HStack>
         <AnswerReviewBoard 
+          changes={changes}
           gameData={gameData} 
           questionNumber={parseInt(selectedQuestion)} 
           results={results}
@@ -78,7 +79,14 @@ export default function Results(props) {
       <VStack mt={{base:"0", sm:"10", md:"0"}} align={{sm:"start", md:"end"}} width={{sm:"100%", md:"30%"}}>
       <VStack align={'start'} bg={'gray.200'} padding={'10px'} >
         <Heading>Changes</Heading>
-        {changes.length === 0 ? <Text>No changes so far.</Text> : null}
+        {changes.length === 0 ? <Text>No changes so far.</Text> : 
+        (changes.map((e, idx) => (
+          <VStack key={idx.toString() + e.questionNumber.toString() + e.answer.toString() + e.ruling}>
+            <Text>
+              Q{e.questionNumber} {' '} {e.answer} {' -> '} {e.ruling === "correct" ? "Correct" : "Incorrect"}
+            </Text>
+          </VStack>
+        )))}
       </VStack>
       </VStack>
     </Flex>
@@ -87,6 +95,7 @@ export default function Results(props) {
 
 
 function AnswerReviewBoard(props) {
+  console.log("🚀 ~ file: Review.jsx ~ line 96 ~ AnswerReviewBoard ~ props", props)
   const initialAnswers = props.gameData.questions[props.questionNumber-1].answers;
   const givenAnswers = props.results.map((res) => (res.answers.find((q) => (q.questionNumber === props.questionNumber))))
                                     .filter((e) => (e ? true : false))
@@ -112,18 +121,35 @@ function AnswerReviewBoard(props) {
         <Heading size={'md'}>Question #{props.questionNumber}</Heading>
         <Heading size={'sm'}>Initial Answers: {initialAnswers.join(", ")}</Heading>
         <Heading size={'xs'}>For Review</Heading>
-        <VStack align={'start'} spacing={'10px'}>
+        <VStack align={'start'} spacing={'10px'} w={'100%'}>
           {answersToReview.map((a, idx) => (
-            <VStack 
+            <Flex
+              justify={'space-between'}
               key={idx}
               w={'100%'}
-              align={'start'} 
               border={'1px solid black'}
               padding={'5px'}
               bg={'gray.200'}>
-              <Heading size={'xs'}>Answer: "{truncateString(a.givenAnswer, 50)}"</Heading>
-              <Heading size={'xs'}>Ruling: {a.isCorrect ? "Correct" : "Incorrect"}</Heading>
-            </VStack>
+              <VStack align={'start'}  maxW={'70%'}>
+                <Text textOverflow={'clip'} maxW={'100%'} size={'xs'}>Answer: "{truncateString(a.givenAnswer, 50)}"</Text>
+                <Text size={'xs'}>Automatic Ruling: {a.isCorrect ? "Correct" : "Incorrect"}</Text>
+              </VStack>
+              <Flex wrap={'wrap'} justify={'end'} align={'space-around'}> 
+                <Button size={'xs'} colorScheme={'green'}
+                isDisabled={(props.changes.find((e) => (e.answer === a.givenAnswer)) ? true : false)}
+                onClick={() => {
+                  props.addChange({questionNumber:props.questionNumber, 
+                                  answer:a.givenAnswer, 
+                                  ruling:"correct"});}}>
+                  Mark As Correct</Button>
+                <Button size={'xs'} colorScheme={'red'}
+                isDisabled={(props.changes.find((e) => (e.answer === a.givenAnswer)) ? true : false)}
+                onClick={() => {
+                  props.addChange({questionNumber:props.questionNumber, 
+                                  answer:a.givenAnswer, 
+                                  ruling:"incorrect"});}}>Mark As Incorrect</Button>
+              </Flex>
+            </Flex>
           ))}
 
         </VStack>
