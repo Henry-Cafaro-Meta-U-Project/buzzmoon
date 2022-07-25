@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { useBreakpointValue, IconButton, Text, VStack, Flex, Icon, Center, Textarea, HStack} from '@chakra-ui/react';
-import {AiOutlineClose} from 'react-icons/ai'
+import { useBreakpointValue, IconButton, Text, VStack, Flex, Icon, Tooltip, Textarea, Box} from '@chakra-ui/react';
+import {AiOutlineClose, AiOutlineQuestionCircle} from 'react-icons/ai'
 
 
 export default function CreateQuestion(props) {
@@ -48,6 +48,7 @@ export default function CreateQuestion(props) {
           }}
           icon={<Icon fontSize={'32'} as={AiOutlineClose}></Icon>}/>
       </Flex>
+      
       <Flex w={'100%'} justify={'space-between'} align={'center'}>
       {questionAudio
             && (playingMode === 'paused'
@@ -72,7 +73,14 @@ export default function CreateQuestion(props) {
                   icon={<i className="fa-solid fa-pause"/>} />
               )
             )}
-    <input type="file" name="audio-file" accept=".mp3, .m4a" onChange={handleUploadFile} title="Choose an .mp3 or .m4a" />
+      <Flex>
+        <Tooltip hasArrow
+          label='Upload an .mp3 or .m4a audio file'
+          bg='gray.300' color='black'>
+          <Box mx={'2'} as={'span'}><Icon as={AiOutlineQuestionCircle}></Icon></Box>
+        </Tooltip>
+        <input type="file" name="audio-file" accept=".mp3, .m4a" onChange={handleUploadFile} title="Choose an .mp3 or .m4a" />
+      </Flex>
     </Flex>
 
       <Textarea

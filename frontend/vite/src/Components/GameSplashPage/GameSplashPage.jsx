@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import {BackendActor} from '../../Server/BackendActor/backend-actor';
+import GlobalFormatter from '../../Logic/GlobalFormatter';
+
 
 import { VStack, Box, Heading, Flex, Center, Button, Text, Spinner} from '@chakra-ui/react';
 
@@ -8,13 +10,13 @@ export default function GameSplashPage() {
   const {gameID} = useParams();
   const navigate = useNavigate();
 
-  const [enterMode, setEnterMode] = React.useState("loading");
+  const [enterModes, setEnterModes] = React.useState([]);
   const [gameData, setGameData] = React.useState(undefined);
 
   React.useEffect(() => {
     const checkEntryMode= async () => {
       const response = await BackendActor.checkEntryMode(gameID);
-      setEnterMode(response.mode);
+      setEnterModes(response.modes);
     }
 
     const getGameData = async () => {
@@ -38,6 +40,9 @@ export default function GameSplashPage() {
             <VStack spacing={'2'} align={'start'}>
               <Heading size={'sm'}>Created by {gameData.authorName}</Heading>
               <Heading size={'sm'}>{gameData.createdAt.toLocaleDateString("en-US")}</Heading>
+              {gameData.endDate &&
+                <Heading size={'sm'}>{GlobalFormatter.gameEndDateBlurb(gameData.endDate)}</Heading>
+              }
             </VStack>
             <VStack spacing={'2'} align={'end'}>
               <Heading size={'sm'}>{gameData.numQuestions} Questions</Heading>
@@ -48,25 +53,28 @@ export default function GameSplashPage() {
           </Text>
         </VStack>
         }
-        {enterMode === "loading" && <Spinner />}
-        {enterMode === "play" &&
-          <Button
-            onClick={async () => {
-              try {
-                const response = await BackendActor.registerGameEntry(gameID);
-                navigate(`./play/${response.resultKey}`);
-              } catch (error) {
-                alert(error);
-              }}}>
-                Enter
-          </Button>}
-        {enterMode === "results" &&
-          <Button
-            onClick={() => {
-              navigate("./results");}}>
-            Results
-          </Button>}
-          </VStack>
+        <Center><Flex>
+          {enterModes.length === 0 && <Spinner />}
+          {enterModes.includes("play") &&
+            <Button
+              onClick={async () => {
+                try {
+                  const response = await BackendActor.registerGameEntry(gameID);
+                  navigate(`./play/${response.resultKey}`);
+                } catch (error) {
+                  alert(error);
+                }}}>
+                  Enter
+            </Button>}
+          {enterModes.includes("results") &&
+            <Button
+              onClick={() => {
+                navigate("./results");}}>
+              Results
+            </Button>}
+        </Flex></Center>
+        
+        </VStack>
     </Center>
   )
 }
