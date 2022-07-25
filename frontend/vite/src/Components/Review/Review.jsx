@@ -22,8 +22,13 @@ export default function Results(props) {
   const {gameID} = useParams();
   const [gameData, setGameData] = React.useState();
   const [results, setResults] = React.useState([]);
+  console.log("🚀 ~ file: Review.jsx ~ line 25 ~ Results ~ results", results)
   const [selectedQuestion, setSelectedQuestion] = React.useState(1);
   const [changes, setChanges] = React.useState([]);
+
+  const addChange = (change) => {
+    setChanges(changes.concat([change]));
+  }
 
 
   React.useEffect(() => {
@@ -55,7 +60,6 @@ export default function Results(props) {
         <HStack>
             <Text>Question:</Text>
             <Select
-                placeholder="Select Question"
                 value={selectedQuestion}
                 onChange={(event) => {setSelectedQuestion(event.target.value);}}>
                   {gameData.questions.map((e) => (
@@ -64,13 +68,17 @@ export default function Results(props) {
                 
             </Select>
         </HStack>
-        <AnswerReviewBoard gameData={gameData} questionNumber={parseInt(selectedQuestion)} results={results}/>
+        <AnswerReviewBoard 
+          gameData={gameData} 
+          questionNumber={parseInt(selectedQuestion)} 
+          results={results}
+          addChange={addChange}/>
         </VStack>
       </VStack>
       <VStack mt={{base:"0", sm:"10", md:"0"}} align={{sm:"start", md:"end"}} width={{sm:"100%", md:"30%"}}>
       <VStack align={'start'} bg={'gray.200'} padding={'10px'} >
         <Heading>Changes</Heading>
-        {changes.length === 0 ? <Text>nothing yet</Text> : null}
+        {changes.length === 0 ? <Text>No changes so far.</Text> : null}
       </VStack>
       </VStack>
     </Flex>
@@ -79,11 +87,21 @@ export default function Results(props) {
 
 
 function AnswerReviewBoard(props) {
-  console.log("🚀 ~ file: Review.jsx ~ line 75 ~ AnswerReviewBoard ~ props", props)
   const initialAnswers = props.gameData.questions[props.questionNumber-1].answers;
   const givenAnswers = props.results.map((res) => (res.answers.find((q) => (q.questionNumber === props.questionNumber))))
-                                    .filter((e) => (e ? true : false));
-  console.log("🚀 ~ file: Review.jsx ~ line 77 ~ AnswerReviewBoard ~ givenAnswers", givenAnswers)
+                                    .filter((e) => (e ? true : false))
+                                    .sort((a,b) => {
+                                      if(a.isFinal && !b.isFinal){
+                                        return 1;
+                                      }
+                                      if(!a.isFinal && b.isFinal){
+                                        return -1;
+                                      }
+                                      return 0;
+                                    });
+
+  const answersToReview = givenAnswers.filter((e) => (! e.isFinal));
+  const finalAnwers = givenAnswers.filter((e) => (e.isFinal));
 
   return (
       <VStack 
@@ -93,14 +111,32 @@ function AnswerReviewBoard(props) {
         w={'100%'} align={'start'}>
         <Heading size={'md'}>Question #{props.questionNumber}</Heading>
         <Heading size={'sm'}>Initial Answers: {initialAnswers.join(", ")}</Heading>
+        <Heading size={'xs'}>For Review</Heading>
         <VStack align={'start'} spacing={'10px'}>
-          {givenAnswers.map((a) => (
+          {answersToReview.map((a, idx) => (
             <VStack 
+              key={idx}
               w={'100%'}
               align={'start'} 
               border={'1px solid black'}
               padding={'5px'}
-              bg={'gray.300'}>
+              bg={'gray.200'}>
+              <Heading size={'xs'}>Answer: "{truncateString(a.givenAnswer, 50)}"</Heading>
+              <Heading size={'xs'}>Ruling: {a.isCorrect ? "Correct" : "Incorrect"}</Heading>
+            </VStack>
+          ))}
+
+        </VStack>
+        <Heading size={'xs'}>Finalized</Heading>
+        <VStack align={'start'} spacing={'10px'}>
+          {finalAnwers.map((a, idx) => (
+            <VStack 
+              key={idx}
+              w={'100%'}
+              align={'start'} 
+              border={'1px solid black'}
+              padding={'5px'}
+              bg={'gray.200'}>
               <Heading size={'xs'}>Answer: "{truncateString(a.givenAnswer, 50)}"</Heading>
               <Heading size={'xs'}>Ruling: {a.isCorrect ? "Correct" : "Incorrect"}</Heading>
             </VStack>

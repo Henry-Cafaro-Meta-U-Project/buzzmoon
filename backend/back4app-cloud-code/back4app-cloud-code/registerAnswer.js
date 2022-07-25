@@ -1,4 +1,4 @@
-
+const CheckAnswerEngine = require("./CheckAnswer.js");
 
 Parse.Cloud.define("getQuestionResults", async (request) => {
   const {gameID, resultKey, questionNumber, buzzTimings, givenAnswer} = request.params;
@@ -6,14 +6,14 @@ Parse.Cloud.define("getQuestionResults", async (request) => {
   query.equalTo('gameID', gameID).equalTo('questionNumber', parseInt(questionNumber));
 
   const question = await query.first();
-  const answers = question.get("answers");
+  const accAnswers = question.get("acceptableAnswers");
   
   const celerity = Math.max(
       0.0,
       1.0 - (buzzTimings.buzz - buzzTimings.play) / (1000 * buzzTimings.duration),
     );
   
-  const isCorrect = checkAnswerCorrectness(givenAnswer, answers);
+  const {isCorrect, isFinal} = CheckAnswerEngine.checkAnswerList(givenAnswer, accAnswers);
   
   const resultQuery = new Parse.Query("GameResult");
   const resultRef = await resultQuery.get(resultKey);
@@ -25,7 +25,7 @@ Parse.Cloud.define("getQuestionResults", async (request) => {
   
   if(resultRef.get("player").id === request.user.id){
     if(resultRef.get("game").id === gameRef.id){
-      registerQuestionResult({questionNumber, givenAnswer, buzzTimings, points, celerity, isCorrect}, resultKey);
+      registerQuestionResult({questionNumber, givenAnswer, buzzTimings, points, celerity, isCorrect, isFinal}, resultKey);
     }
   }
 
@@ -59,11 +59,6 @@ async function registerQuestionResult(resultData, resultKey) {
   resultRef.save(null, { useMasterKey: true });
 }
 
-// checks the correctness of a given answer by comparing to a list of acceptable answers
-function checkAnswerCorrectness(givenAnswer, acceptableAnswers) {
-  let answerChecks = acceptableAnswers.map((ans) => (ans.toLowerCase() == givenAnswer.toLowerCase()));
-  return answerChecks.reduce((acc, elem) => (acc || elem), false);
-}
 
 // determines how many points a user earns by the percentage of the question that was read at the time they buzzed
 function pointsFromCelerity(celerity) {

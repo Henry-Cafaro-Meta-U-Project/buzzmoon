@@ -11,7 +11,6 @@ export default function GameSplashPage() {
   const navigate = useNavigate();
 
   const [enterModes, setEnterModes] = React.useState([]);
-  console.log("🚀 ~ file: GameSplashPage.jsx ~ line 14 ~ GameSplashPage ~ enterModes", enterModes)
   const [gameData, setGameData] = React.useState(undefined);
 
   React.useEffect(() => {

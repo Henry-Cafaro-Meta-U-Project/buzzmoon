@@ -24,6 +24,7 @@ Parse.Cloud.define("getAuthorResults", async (request) => {
               (result.get("answers").map((ans) => 
                                           ({givenAnswer: ans.givenAnswer,
                                             isCorrect: ans.isCorrect,
+                                            isFinal: ans.isFinal,
                                             questionNumber: ans.questionNumber})))};
   });
   
