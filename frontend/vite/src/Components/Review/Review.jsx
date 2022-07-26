@@ -185,7 +185,7 @@ function AnswerReviewBoard(props) {
               padding={'5px'}
               bg={'gray.200'}>
             <Text textOverflow={'clip'} maxW={'100%'} size={'xs'}>Answer: "{truncateString(a.givenAnswer, 50)}"</Text>
-            <Text size={'xs'}>Automatic Ruling: {a.isCorrect ? "Correct" : "Incorrect"}</Text>
+            <Text size={'xs'}>Final Ruling: {a.isCorrect ? "Correct" : "Incorrect"}</Text>
           </VStack>
           ))}
 

@@ -77,8 +77,6 @@ Parse.Cloud.define("createGame", async (request) => {
     newQuestion.set("acceptableAnswers", q.answers);
     newQuestion.set("blockedAnswers", []);
     
-   // console.log("game", createdGame);
-   // console.log("gameid", createdGame.objectId);
     newQuestion.set("gameID", createdGame.id);
     
     await newQuestion.save(null, { useMasterKey: true });
