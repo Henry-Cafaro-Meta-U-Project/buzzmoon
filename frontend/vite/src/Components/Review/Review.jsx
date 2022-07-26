@@ -1,15 +1,11 @@
 import * as React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {BackendActor} from '../../Server/BackendActor/backend-actor';
-import ResultsEngine from '../../Logic/ResultsEngine';
 
-import { Spinner, Center, Select, Heading, Flex, Icon,
-        TabList, Tabs, Tab, TabPanels, TabPanel, VStack, Box, HStack, Text, Button,
-        Popover, PopoverBody, PopoverContent, PopoverTrigger, PopoverArrow,
-         PopoverCloseButton} from '@chakra-ui/react';
-import {AiFillTrophy, AiOutlineQuestionCircle, AiOutlineCheck, AiOutlineClose, AiOutlineDash} from 'react-icons/ai'
 
-import { TiEquals } from "react-icons/ti";
+import { Spinner, Center, Select, Heading, Flex, VStack, HStack, Text, Button} from '@chakra-ui/react';
+
+
 
 const formatConfig = {
   minimumFractionDigits: 3,
