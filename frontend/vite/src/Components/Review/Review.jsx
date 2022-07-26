@@ -77,21 +77,27 @@ export default function Results(props) {
         </VStack>
       </VStack>
       <VStack mt={{base:"0", sm:"10", md:"0"}} align={{sm:"start", md:"end"}} width={{sm:"100%", md:"30%"}}>
-      <VStack align={'start'} bg={'gray.200'} padding={'10px'} >
+      <VStack align={'start'} bg={'gray.200'} padding={'10px'} spacing={'5'}>
         <Heading>Changes</Heading>
         {changes.length === 0 ? <Text>No changes so far.</Text> : 
         (changes.map((e, idx) => (
           <VStack align={'end'} w={'100%'}
             key={idx.toString() + e.questionNumber.toString() + e.answer.toString() + e.ruling}>
-            <Flex w={'100%'}>
-              Q{e.questionNumber} {' '} {e.answer} {' -> '} {e.ruling === "correct" ? "Correct" : "Incorrect"}
-            </Flex>
-            <Button size={'xs'} color={'white'} bg={'black'} _hover={{color:"black", bg: "white"}}
-              onClick={() => {
-                setChanges(changes.filter((x) => (x !== e)));
-              }}>
-              Remove
-            </Button>
+            <VStack w={'100%'} align={'start'}>
+              <Text>
+              Q{e.questionNumber} {' given answer: '} {truncateString(e.answer, 20)} 
+              </Text> 
+              <Flex w={'100%'} justify={'space-between'}>
+                <Text>{"new ruling: "} {e.ruling === "correct" ? "Correct" : "Incorrect"} </Text>
+                  <Button size={'xs'} color={'white'} bg={'black'} _hover={{color:"black", bg: "white"}}
+                  onClick={() => {
+                    setChanges(changes.filter((x) => (x !== e)));
+                  }}>
+                  Remove
+                </Button>
+              </Flex>
+            </VStack>
+            
           </VStack>
         )))}
       </VStack>
@@ -102,7 +108,6 @@ export default function Results(props) {
 
 
 function AnswerReviewBoard(props) {
-  console.log("🚀 ~ file: Review.jsx ~ line 96 ~ AnswerReviewBoard ~ props", props)
   const initialAnswers = props.gameData.questions[props.questionNumber-1].answers;
   const givenAnswers = props.results.map((res) => (res.answers.find((q) => (q.questionNumber === props.questionNumber))))
                                     .filter((e) => (e ? true : false))
@@ -163,16 +168,10 @@ function AnswerReviewBoard(props) {
         <Heading size={'xs'}>Finalized</Heading>
         <VStack align={'start'} spacing={'10px'}>
           {finalAnwers.map((a, idx) => (
-            <VStack 
-              key={idx}
-              w={'100%'}
-              align={'start'} 
-              border={'1px solid black'}
-              padding={'5px'}
-              bg={'gray.200'}>
-              <Heading size={'xs'}>Answer: "{truncateString(a.givenAnswer, 50)}"</Heading>
-              <Heading size={'xs'}>Ruling: {a.isCorrect ? "Correct" : "Incorrect"}</Heading>
-            </VStack>
+            <VStack align={'start'}  maxW={'70%'} key={idx}>
+            <Text textOverflow={'clip'} maxW={'100%'} size={'xs'}>Answer: "{truncateString(a.givenAnswer, 50)}"</Text>
+            <Text size={'xs'}>Automatic Ruling: {a.isCorrect ? "Correct" : "Incorrect"}</Text>
+          </VStack>
           ))}
 
         </VStack>
