@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {BackendActor} from '../../Server/BackendActor/backend-actor';
 import ResultsEngine from '../../Logic/ResultsEngine';
 
@@ -24,7 +24,9 @@ export default function Results(props) {
   const [results, setResults] = React.useState([]);
   const [selectedQuestion, setSelectedQuestion] = React.useState(1);
   const [changes, setChanges] = React.useState([]);
-  console.log("🚀 ~ file: Review.jsx ~ line 27 ~ Results ~ changes", changes)
+  const [isUploading, setIsUploading] = React.useState(false);
+
+  const navigate = useNavigate();
 
   const addChange = (change) => {
     setChanges(changes.concat([change]));
@@ -80,10 +82,14 @@ export default function Results(props) {
       <VStack align={'start'} bg={'gray.200'} padding={'10px'} spacing={'5'}>
         <VStack spacing={'5'} align={'start'}>
         <Heading>Changes</Heading>
-        {changes.length === 0 ? null : (
+        {(changes.length === 0 && !isUploading) ? null : (
           <Button colorScheme={'blue'} size={'xs'}
-            onClick={() => {BackendActor.pushAuthorChanges(gameID, changes)}}>Push Changes</Button>
+            onClick={async () => {
+              setIsUploading(true);
+              await BackendActor.pushAuthorChanges(gameID, changes);
+              navigate(0)}}>Push Changes</Button>
         )}
+        {isUploading && <Spinner />}
         </VStack>
         {changes.length === 0 ? <Text>No changes so far.</Text> : 
         (changes.map((e, idx) => (

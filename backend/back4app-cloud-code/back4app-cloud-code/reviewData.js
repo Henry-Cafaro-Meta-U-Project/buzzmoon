@@ -1,5 +1,5 @@
 const {getEntryModes} = require ("./validation.js");
-
+const CheckAnswerEngine = require("./CheckAnswer.js");
 
 
 
@@ -109,6 +109,8 @@ Parse.Cloud.define("updateRulings", async (request) => {
     
   }));
   
+  await regrade(gameID);
+  
 }, async (request) => {
   const {gameID} = request.params;
   const entryModes = await getEntryModes(request, gameID);
@@ -119,3 +121,49 @@ Parse.Cloud.define("updateRulings", async (request) => {
   
   throw "You can't take this action";
 })
+
+// this recalculates scores for every result for a given game
+const regrade = async (gameID) => {
+  const gameQuery = new Parse.Query("Game");
+  const gameRef = await gameQuery.get(gameID);
+  
+  const resQuery = new Parse.Query("GameResult");
+  resQuery.equalTo("game", gameRef);
+  const results = await resQuery.find();
+  
+  const questionQuery = new Parse.Query("Question");
+  questionQuery.equalTo("gameID", gameID);
+  const questions = await questionQuery.find();
+  
+  await Promise.all(results.map(async (res) => {
+    let newAnswers = [];
+    res.get("answers").map((ans) => {
+      const {questionNumber, givenAnswer, buzzTimings, points, celerity, isCorrect, isFinal} = ans;
+      
+    
+      const question = questions.find((e) => (e.get("questionNumber") === questionNumber));
+      const accAnswers = question.get("acceptableAnswers");
+      const blockAnswers = question.get("blockedAnswers");
+      
+      const newRuling = CheckAnswerEngine.checkAnswerList(givenAnswer, accAnswers, blockAnswers);
+      const newIsCorrect = newRuling.isCorrect;
+      const newIsFinal = newRuling.isFinal;
+      const newPoints = (newIsCorrect ? pointsFromCelerity(celerity) : 0);
+      
+      newAnswers.push({questionNumber, givenAnswer, buzzTimings, points:newPoints, celerity,
+                        isCorrect:newIsCorrect, isFinal:newIsFinal});
+      });
+    
+    res.set("answers", newAnswers);
+    await res.save(null, {useMasterKey: true});
+      
+      
+      
+    }));
+  }
+
+
+// determines how many points a user earns by the percentage of the question that was read at the time they buzzed
+function pointsFromCelerity(celerity) {
+  return 10 + Math.floor(Math.sqrt(celerity) / 0.1);
+}

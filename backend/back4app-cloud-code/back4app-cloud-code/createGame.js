@@ -35,7 +35,7 @@
   })
   
   const currDate = new Date();
-   if(request.params.endDate < currDate){
+   if(request.params.endDate && request.params.endDate < currDate){
      throw `The deadline of the game cannot be before today's date`;
    }
   
@@ -75,6 +75,7 @@ Parse.Cloud.define("createGame", async (request) => {
     newQuestion.set("questionNumber", q.questionNumber);
     newQuestion.set("answers", q.answers);
     newQuestion.set("acceptableAnswers", q.answers);
+    newQuestion.set("blockedAnswers", []);
     
    // console.log("game", createdGame);
    // console.log("gameid", createdGame.objectId);

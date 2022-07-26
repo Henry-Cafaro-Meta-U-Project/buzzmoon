@@ -108,7 +108,7 @@ export class BackendActor {
   // prepares an object to be the argument for a POST request to the server
   // the object represents contains all the metadata, question anwers, and audio to create the game on the backend
   static prepareGameData(title, description, questions, endDate) {
-    const fixedDate = new Date(Date.UTC(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()+1, 7, 59, 59, 0));
+    const fixedDate = (endDate ? new Date(Date.UTC(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()+1, 7, 59, 59, 0)) : null);
     return {
       title: title.trim(),
       description: description.trim(),
@@ -157,7 +157,7 @@ export class BackendActor {
     });
 
     const currDate = new Date();
-    if(gameData.endDate < currDate){
+    if(gameData.endDate && gameData.endDate < currDate){
       throw `The deadline of the game cannot be before today's date`;
     }
 
