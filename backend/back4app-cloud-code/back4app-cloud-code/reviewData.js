@@ -73,3 +73,49 @@ Parse.Cloud.define("getAuthorGameData", async (request) => {
   
   throw "You can't access this data";
 });
+
+
+// this function updates the acceptable answers for a set of questions given the author's 
+// desired changes
+Parse.Cloud.define("updateRulings", async (request) => {
+  const {gameID, changes} = request.params;
+  
+  const gameQuery = new Parse.Query("Game");
+  const gameRef = await gameQuery.get(gameID);
+  
+  const questionQuery = new Parse.Query("Question");
+  questionQuery.equalTo("gameID", gameID);
+  
+  const questionRefs = await questionQuery.find();
+  
+  await Promise.all(changes.map(async (change) => {
+    const {questionNumber, answer, ruling} = change;
+    const qRef = questionRefs.find((e) => (e.get("questionNumber") === questionNumber));
+    
+    if(ruling === "correct"){
+      const accAnswers = qRef.get("acceptableAnswers");
+      if(! accAnswers.find((x) => (x === answer))){
+        qRef.set("acceptableAnswers", accAnswers.concat([answer]));
+        await qRef.save(null, {useMasterKey: true});
+      }
+    } else if (ruling === "incorrect") {
+      const blockAnswers = qRef.get("blockedAnswers");
+      if(! blockAnswers.find((x) => (x === answer))){
+        qRef.set("blockedAnswers", blockAnswers.concat([answer]));
+        await qRef.save(null, {useMasterKey: true});
+      }
+    }
+    
+    
+  }));
+  
+}, async (request) => {
+  const {gameID} = request.params;
+  const entryModes = await getEntryModes(request, gameID);
+  const modes = entryModes.modes;
+  if(modes.includes("review")){
+    return;
+  }
+  
+  throw "You can't take this action";
+})

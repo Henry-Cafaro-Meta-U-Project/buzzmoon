@@ -78,7 +78,13 @@ export default function Results(props) {
       </VStack>
       <VStack mt={{base:"0", sm:"10", md:"0"}} align={{sm:"start", md:"end"}} width={{sm:"100%", md:"30%"}}>
       <VStack align={'start'} bg={'gray.200'} padding={'10px'} spacing={'5'}>
+        <VStack spacing={'5'} align={'start'}>
         <Heading>Changes</Heading>
+        {changes.length === 0 ? null : (
+          <Button colorScheme={'blue'} size={'xs'}
+            onClick={() => {BackendActor.pushAuthorChanges(gameID, changes)}}>Push Changes</Button>
+        )}
+        </VStack>
         {changes.length === 0 ? <Text>No changes so far.</Text> : 
         (changes.map((e, idx) => (
           <VStack align={'end'} w={'100%'}

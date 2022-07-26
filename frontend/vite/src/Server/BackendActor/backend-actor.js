@@ -233,5 +233,11 @@ export class BackendActor {
     return response;
   }
 
+  // pushes desired changes in answer rulings to the server
+  static async pushAuthorChanges(gameID, changes) {
+    await Parse.Cloud.run("updateRulings", {gameID, changes});
+    return;
+  }
+
 }
 
