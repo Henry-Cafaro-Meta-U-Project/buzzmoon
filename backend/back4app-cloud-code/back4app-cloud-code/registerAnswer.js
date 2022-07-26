@@ -7,13 +7,14 @@ Parse.Cloud.define("getQuestionResults", async (request) => {
 
   const question = await query.first();
   const accAnswers = question.get("acceptableAnswers");
+  const blockAnswers = question.get("blockedAnswers");
   
   const celerity = Math.max(
       0.0,
       1.0 - (buzzTimings.buzz - buzzTimings.play) / (1000 * buzzTimings.duration),
     );
   
-  const {isCorrect, isFinal} = CheckAnswerEngine.checkAnswerList(givenAnswer, accAnswers);
+  const {isCorrect, isFinal} = CheckAnswerEngine.checkAnswerList(givenAnswer, accAnswers, blockAnswers);
   
   const resultQuery = new Parse.Query("GameResult");
   const resultRef = await resultQuery.get(resultKey);

@@ -174,7 +174,10 @@ function AnswerReviewBoard(props) {
         <Heading size={'xs'}>Finalized</Heading>
         <VStack align={'start'} spacing={'10px'}>
           {finalAnwers.map((a, idx) => (
-            <VStack align={'start'}  maxW={'70%'} key={idx}>
+            <VStack align={'start'}  w={'100%'} key={idx}
+              border={'1px solid black'}
+              padding={'5px'}
+              bg={'gray.200'}>
             <Text textOverflow={'clip'} maxW={'100%'} size={'xs'}>Answer: "{truncateString(a.givenAnswer, 50)}"</Text>
             <Text size={'xs'}>Automatic Ruling: {a.isCorrect ? "Correct" : "Incorrect"}</Text>
           </VStack>

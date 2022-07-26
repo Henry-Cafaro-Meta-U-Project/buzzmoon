@@ -1,13 +1,18 @@
 class CheckAnswerEngine {
 
   // checks the correctness of a given answer by comparing to a list of acceptable answers
-  static checkAnswerList(givenAnswer, acceptableAnswers) {
-    let answerChecks = acceptableAnswers.map((ans) => (this.checkAnswer(givenAnswer, ans)));
+  static checkAnswerList(givenAnswer, acceptableAnswers, blockAnswers) {
+    
+    const answerChecks = acceptableAnswers.map((ans) => (this.checkAnswer(givenAnswer, ans)));
     if(answerChecks.includes("correct,final")){
       return {isCorrect: true, isFinal: true}
     }
     if(answerChecks.includes("correct")){
       return {isCorrect: true, isFinal: false}
+    }
+    const blockChecks = blockAnswers.map((ans) => (this.checkAnswer(givenAnswer, ans)));
+    if(blockChecks.includes("correct,final")){
+      return {isCorrect: false, isFinal: true}
     }
     return {isCorrect: false, isFinal: false}
   }
