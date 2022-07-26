@@ -134,7 +134,8 @@ function AnswerReviewBoard(props) {
                                     });
 
   const answersToReview = givenAnswers.filter((e) => (! e.isFinal));
-  const finalAnwers = givenAnswers.filter((e) => (e.isFinal));
+  let finalAnswers = givenAnswers.filter((e) => (e.isFinal))
+  finalAnswers = finalAnswers.filter((e, idx) => (idx === finalAnswers.findIndex((x) => (x.givenAnswer === e.givenAnswer))));
 
   return (
       <VStack 
@@ -179,7 +180,7 @@ function AnswerReviewBoard(props) {
         </VStack>
         <Heading size={'xs'}>Finalized</Heading>
         <VStack align={'start'} spacing={'10px'}>
-          {finalAnwers.map((a, idx) => (
+          {finalAnswers.map((a, idx) => (
             <VStack align={'start'}  w={'100%'} key={idx}
               border={'1px solid black'}
               padding={'5px'}
