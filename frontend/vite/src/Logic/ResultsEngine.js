@@ -97,3 +97,4 @@ export default class ResultsEngine {
     return response.sort((a,b) => (a.percentage > b.percentage ? -1 : 1));
   }
 }
+

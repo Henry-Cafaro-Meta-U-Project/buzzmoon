@@ -15,6 +15,7 @@ Parse.Cloud.define("getQuestionResults", async (request) => {
     );
   
   const {isCorrect, isFinal} = CheckAnswerEngine.checkAnswerList(givenAnswer, accAnswers, blockAnswers);
+
   
   const resultQuery = new Parse.Query("GameResult");
   const resultRef = await resultQuery.get(resultKey);
