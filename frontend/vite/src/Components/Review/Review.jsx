@@ -60,7 +60,8 @@ export default function Results(props) {
             <Select
                 value={selectedQuestion}
                 onChange={(event) => {setSelectedQuestion(event.target.value);}}>
-                  {gameData.questions.map((e) => (
+                  {gameData.questions.sort((a,b) => ((a.questionNumber < b.questionNumber) ? -1 : 1))
+                                      .map((e) => (
                     <option key={e.questionNumber} value={e.questionNumber}>Question #{e.questionNumber}</option>
                   ))}
                 
@@ -157,14 +158,16 @@ function AnswerReviewBoard(props) {
               </VStack>
               <Flex wrap={'wrap'} justify={'end'} align={'space-around'}> 
                 <Button size={'xs'} colorScheme={'green'}
-                isDisabled={(props.changes.find((e) => (e.answer === a.givenAnswer)) ? true : false)}
+                isDisabled={(props.changes.find((e) => (e.answer === a.givenAnswer && e.questionNumber === props.questionNumber))
+                  ? true : false)}
                 onClick={() => {
                   props.addChange({questionNumber:props.questionNumber, 
                                   answer:a.givenAnswer, 
                                   ruling:"correct"});}}>
                   Mark As Correct</Button>
                 <Button size={'xs'} colorScheme={'red'}
-                isDisabled={(props.changes.find((e) => (e.answer === a.givenAnswer)) ? true : false)}
+                isDisabled={(props.changes.find((e) => (e.answer === a.givenAnswer && e.questionNumber === props.questionNumber))
+                  ? true : false)}
                 onClick={() => {
                   props.addChange({questionNumber:props.questionNumber, 
                                   answer:a.givenAnswer, 
