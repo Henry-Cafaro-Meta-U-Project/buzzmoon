@@ -55,18 +55,17 @@ export default function Results(props) {
 
   const userName = BackendActor.currentUser().attributes.realName;
   const userRowIndex = standardTable.findIndex((row) => (row.name === userName));
-  let stringToTweet = `\nI got ${ordinal_suffix_of(userRowIndex+1)} place in ${gameData.title}\n` + 
-                          AsciiRows(standardTable.map((obj, idx) => ({...obj, place:idx}))
+  let stringRows = AsciiRows(standardTable.map((obj, idx) => ({...obj, place:idx}))
                                                 .slice(Math.max(0,userRowIndex-1), Math.min(userRowIndex+2, standardTable.length)))
                           .split("\n")
                           .filter((e, idx) => (idx%2 == 1))
                           .map((e) => (e.substring(1,e.length-1)))
-                          .join("\n");
-  
-  stringToTweet = transformMonospace(stringToTweet);
-  console.log("🚀 ~ file: Results.jsx ~ line 63 ~ Results ~ stringToTweet", stringToTweet)
-  
-
+                          
+  const rowLen = stringRows[1].length;
+  stringRows = [stringRows[0]].concat(userRowIndex > 1 ? [(" " + String.fromCodePoint(8942)+" ").repeat(rowLen/3)] : []).concat(stringRows.slice(1));
+  let stringToTweet = stringRows.join("\n");
+  stringToTweet = `\nI got ${ordinal_suffix_of(userRowIndex+1)} place in ${gameData.title}!\n` 
+                  + transformMonospace(stringToTweet);  
 
   return (
     <Center mt={'20'}>
@@ -75,9 +74,9 @@ export default function Results(props) {
         <Heading borderBottom={'1px solid black'} mb={'10'}>
         {`${gameData.title}`}
         </Heading>
-        <Flex>
+        {userRowIndex > -1 && <Flex w={'100%'}>
           <Share url={stringToTweet}></Share>
-        </Flex>
+        </Flex>}
         <Tabs w={{base:"95vw", sm: "95vw", md:"100%"}} size='md' variant='enclosed' colorScheme={'black'}>
         <TabList>
           <Tab>
@@ -264,7 +263,7 @@ function trophyIcon(rank) {
 }
 
 function AsciiRows(rowArr){
-  const rows = [[' Place ', ' Name ']].concat(rowArr.map((e) => (
+  const rows = [['Place ', ' Name ']].concat(rowArr.map((e) => (
     [`${e.place+1} `, ` ${e.name} `]
   )));
   const res = AsciiTable.tableFromSerializedData(rows, 50);
