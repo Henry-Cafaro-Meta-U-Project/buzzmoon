@@ -6,7 +6,7 @@ import ResultsEngine from '../../Logic/ResultsEngine';
 import { Spinner, Center, Tooltip, Heading, Table, Thead, Tbody, Tr, Th, Td, Icon,
         TabList, Tabs, Tab, TabPanels, TabPanel, VStack, Box, HStack, Text, Button,
         Popover, PopoverBody, PopoverContent, PopoverTrigger, PopoverArrow,
-         PopoverCloseButton} from '@chakra-ui/react';
+         PopoverCloseButton, Flex} from '@chakra-ui/react';
 import {AiFillTrophy, AiOutlineQuestionCircle, AiOutlineCheck, AiOutlineClose, AiOutlineDash} from 'react-icons/ai'
 
 import { TiEquals } from "react-icons/ti";
@@ -51,6 +51,8 @@ export default function Results(props) {
     )
   }
 
+  const userName = BackendActor.currentUser().attributes.realName
+
   return (
     <Center mt={'20'}>
 
@@ -58,6 +60,11 @@ export default function Results(props) {
         <Heading borderBottom={'1px solid black'} mb={'10'}>
         {`${gameData.title}`}
         </Heading>
+        <Flex>
+          <a className="twitter-share-button"
+          href="https://twitter.com/intent/tweet">
+          Tweet</a>
+        </Flex>
         <Tabs w={{base:"95vw", sm: "95vw", md:"100%"}} size='md' variant='enclosed' colorScheme={'black'}>
         <TabList>
           <Tab>
