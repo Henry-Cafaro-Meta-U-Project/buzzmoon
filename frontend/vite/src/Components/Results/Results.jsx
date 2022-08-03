@@ -55,8 +55,9 @@ export default function Results(props) {
 
   const userName = BackendActor.currentUser().attributes.realName;
   const userRowIndex = standardTable.findIndex((row) => (row.name === userName));
-  const stringToTweet = '\n' + `I got ${ordinal_suffix_of(userRowIndex+1)} place in ${gameData.title}\n` + 
-                          AsciiRows(standardTable.map((obj, idx) => ({...obj, place:idx})).slice(userRowIndex-1, userRowIndex+2));
+  const stringToTweet = `\nI got ${ordinal_suffix_of(userRowIndex+1)} place in ${gameData.title}\n` + 
+                          AsciiRows(standardTable.map((obj, idx) => ({...obj, place:idx}))
+                                                .slice(Math.max(0,userRowIndex-1), Math.min(userRowIndex+2, standardTable.length)));
   
                           console.log("🚀 ~ file: Results.jsx ~ line 57 ~ Results ~ stringToTweet", stringToTweet)
 
@@ -69,7 +70,7 @@ export default function Results(props) {
         {`${gameData.title}`}
         </Heading>
         <Flex>
-          <Share url={'x'}></Share>
+          <Share url={stringToTweet}></Share>
         </Flex>
         <Tabs w={{base:"95vw", sm: "95vw", md:"100%"}} size='md' variant='enclosed' colorScheme={'black'}>
         <TabList>
@@ -270,14 +271,13 @@ function trophyEmoji(rank) {
 }
 
 function AsciiRows(rowArr){
-  const rows = [['', 'Name', 'Pts', "#Correct"]].concat(rowArr.map((e) => (
-    [`${trophyEmoji(e.place+1)}${e.place+1}`, `${e.name}`, `${e.points}`, `${e.numCorrect}`]
+  console.log("🚀 ~ file: Results.jsx ~ line 273 ~ AsciiRows ~ rowArr", rowArr)
+  const rows = [['Place', 'Name']].concat(rowArr.map((e) => (
+    [`${trophyEmoji(e.place+1)}${e.place+1}`, `${e.name}`]
   )));
   console.log("🚀 ~ file: Results.jsx ~ line 276 ~ AsciiRows ~ rows", rows)
-  const res = AsciiTable.table(rows);
+  const res = AsciiTable.tableFromSerializedData(rows, 50);
   return res;
-  return rowArr.map((e) => `${trophyEmoji(e.place+1)}${e.place+1} | ${e.name} | ${e.points} | ${e.numCorrect} \n`)
-              .join(`--------------------------------------------------`)
 }
 
 function ordinal_suffix_of(i) {
