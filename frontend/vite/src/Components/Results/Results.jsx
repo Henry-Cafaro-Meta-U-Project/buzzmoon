@@ -8,8 +8,10 @@ import { Spinner, Center, Tooltip, Heading, Table, Thead, Tbody, Tr, Th, Td, Ico
         Popover, PopoverBody, PopoverContent, PopoverTrigger, PopoverArrow,
          PopoverCloseButton, Flex} from '@chakra-ui/react';
 import {AiFillTrophy, AiOutlineQuestionCircle, AiOutlineCheck, AiOutlineClose, AiOutlineDash} from 'react-icons/ai'
-
 import { TiEquals } from "react-icons/ti";
+import { Share } from 'react-twitter-widgets'
+import AsciiTable from 'ascii-data-table'
+
 
 const formatConfig = {
   minimumFractionDigits: 3,
@@ -51,19 +53,23 @@ export default function Results(props) {
     )
   }
 
-  const userName = BackendActor.currentUser().attributes.realName
+  const userName = BackendActor.currentUser().attributes.realName;
+  const userRowIndex = standardTable.findIndex((row) => (row.name === userName));
+  const stringToTweet = '\n' + `I got ${ordinal_suffix_of(userRowIndex+1)} place in ${gameData.title}\n` + 
+                          AsciiRows(standardTable.map((obj, idx) => ({...obj, place:idx})).slice(userRowIndex-1, userRowIndex+2));
+  
+                          console.log("🚀 ~ file: Results.jsx ~ line 57 ~ Results ~ stringToTweet", stringToTweet)
+
 
   return (
     <Center mt={'20'}>
-
+      <script src="ascii-table.min.js"></script>
       <VStack w={{sm:"95vw", md: "75vw", lg:"60vw"}} align={'center'} overflowX={'auto'}>
         <Heading borderBottom={'1px solid black'} mb={'10'}>
         {`${gameData.title}`}
         </Heading>
         <Flex>
-          <a className="twitter-share-button"
-          href="https://twitter.com/intent/tweet">
-          Tweet</a>
+          <Share url={'x'}></Share>
         </Flex>
         <Tabs w={{base:"95vw", sm: "95vw", md:"100%"}} size='md' variant='enclosed' colorScheme={'black'}>
         <TabList>
@@ -112,6 +118,7 @@ export default function Results(props) {
       </Tabs>
       </VStack>
     </Center>
+    
   )
 }
 
@@ -247,4 +254,43 @@ function trophyIcon(rank) {
   if(rank == 3){
     return <Icon mx={'2'} fontSize={'xl'} color={'orange.500'} as={AiFillTrophy}></Icon>
   }
+}
+
+function trophyEmoji(rank) {
+  if(rank == 1){
+    return '🥇';
+  }
+  if(rank == 2){
+    return '🥈';
+  }
+  if(rank == 3){
+    return '🥉';
+  }
+  return ""
+}
+
+function AsciiRows(rowArr){
+  const rows = [['', 'Name', 'Pts', "#Correct"]].concat(rowArr.map((e) => (
+    [`${trophyEmoji(e.place+1)}${e.place+1}`, `${e.name}`, `${e.points}`, `${e.numCorrect}`]
+  )));
+  console.log("🚀 ~ file: Results.jsx ~ line 276 ~ AsciiRows ~ rows", rows)
+  const res = AsciiTable.table(rows);
+  return res;
+  return rowArr.map((e) => `${trophyEmoji(e.place+1)}${e.place+1} | ${e.name} | ${e.points} | ${e.numCorrect} \n`)
+              .join(`--------------------------------------------------`)
+}
+
+function ordinal_suffix_of(i) {
+  var j = i % 10,
+      k = i % 100;
+  if (j == 1 && k != 11) {
+      return i + "st";
+  }
+  if (j == 2 && k != 12) {
+      return i + "nd";
+  }
+  if (j == 3 && k != 13) {
+      return i + "rd";
+  }
+  return i + "th";
 }
