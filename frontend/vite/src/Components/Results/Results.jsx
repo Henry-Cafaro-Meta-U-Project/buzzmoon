@@ -55,11 +55,17 @@ export default function Results(props) {
 
   const userName = BackendActor.currentUser().attributes.realName;
   const userRowIndex = standardTable.findIndex((row) => (row.name === userName));
-  const stringToTweet = `\nI got ${ordinal_suffix_of(userRowIndex+1)} place in ${gameData.title}\n` + 
+  let stringToTweet = `\nI got ${ordinal_suffix_of(userRowIndex+1)} place in ${gameData.title}\n` + 
                           AsciiRows(standardTable.map((obj, idx) => ({...obj, place:idx}))
-                                                .slice(Math.max(0,userRowIndex-1), Math.min(userRowIndex+2, standardTable.length)));
+                                                .slice(Math.max(0,userRowIndex-1), Math.min(userRowIndex+2, standardTable.length)))
+                          .split("\n")
+                          .filter((e, idx) => (idx%2 == 1))
+                          .map((e) => (e.substring(1,e.length-1)))
+                          .join("\n");
   
-                          console.log("🚀 ~ file: Results.jsx ~ line 57 ~ Results ~ stringToTweet", stringToTweet)
+  stringToTweet = transformMonospace(stringToTweet);
+  console.log("🚀 ~ file: Results.jsx ~ line 63 ~ Results ~ stringToTweet", stringToTweet)
+  
 
 
   return (
@@ -257,25 +263,10 @@ function trophyIcon(rank) {
   }
 }
 
-function trophyEmoji(rank) {
-  if(rank == 1){
-    return '🥇';
-  }
-  if(rank == 2){
-    return '🥈';
-  }
-  if(rank == 3){
-    return '🥉';
-  }
-  return ""
-}
-
 function AsciiRows(rowArr){
-  console.log("🚀 ~ file: Results.jsx ~ line 273 ~ AsciiRows ~ rowArr", rowArr)
-  const rows = [['Place', 'Name']].concat(rowArr.map((e) => (
-    [`${trophyEmoji(e.place+1)}${e.place+1}`, `${e.name}`]
+  const rows = [[' Place ', ' Name ']].concat(rowArr.map((e) => (
+    [`${e.place+1} `, ` ${e.name} `]
   )));
-  console.log("🚀 ~ file: Results.jsx ~ line 276 ~ AsciiRows ~ rows", rows)
   const res = AsciiTable.tableFromSerializedData(rows, 50);
   return res;
 }
@@ -293,4 +284,34 @@ function ordinal_suffix_of(i) {
       return i + "rd";
   }
   return i + "th";
+}
+
+function transformMonospace(str){
+  
+  const monospace = (char) => {
+    const code = char.charCodeAt(0);
+    if(65 <= code && code <= 90){
+      const newCode = parseInt('1d670', 16) + code - 65;
+      return String.fromCodePoint(newCode);
+    }
+    if(97 <= code && code <= 122){
+      const newCode = parseInt('1d68a', 16) + code - 97;
+      return String.fromCodePoint(newCode);
+    }
+    if(48 <= code && code <= 57){
+      const newCode = parseInt('1d7f6', 16) + code -48;
+      return String.fromCodePoint(newCode);
+    }
+    if(char === ' '){
+      const newCode = parseInt('2000', 16);
+      return String.fromCodePoint(newCode);
+    }
+    return char
+  }
+
+  let newString = ""
+  for(let idx = 0; idx < str.length; idx++){
+    newString += monospace(str[idx]);
+  }
+  return newString;
 }
