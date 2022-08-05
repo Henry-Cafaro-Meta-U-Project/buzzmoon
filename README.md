@@ -56,13 +56,18 @@ As a creator, I want to be able to manually review answers by competitors in my 
 
 ### 2. Screen Archetypes
 
-* Login
-* Compete View: View list of available games to play
+* Login - Authorization Screen
+
+* Compete View: View list of available games to play, search for games by title or author
+* Game Splash Page: Before entering a game, users can view a splash page with a little bit of metadata about the game, as well as options to play the game, review answers, or view results - depending on which options are authorized for the user
 * Game View: For each question, view the audio controls, navigate between questions, and view your current score and the results of your current game.
-* Game Leaderboard: View the global statistics of how people did on the game and see how you compare to others. 
+* Game Leaderboard: View the global statistics of how people did on the game and see how you compare to others; view the results in the framework of different formats, including standard, head to head, and "best buzzes" (A buzzer is how a player would answer a question if it were being read in real life, so the noun "buzz" also refers to answering a question online)
 
 * Create View: View list of games you've created, (editing is a stretch feature), create new game
 * Create Game View: View data for the game you're currently working on, title, description, etc, and view a list of questions with audio widget to record audio for each question, list of acceptable answers, etc.
+* (Answer) Review View: Game authors can view lists of answers for their games, and make rulings on answers which have only been tentatively checked by the algorithm-after updating the ruling for a given answer and question, that ruling is saved and automatically applied in the future
+
+* Developer Dashboard- Available only to root users on the site, the Dev Dashboard allows for accessing and deleting database elements through the site, saving time in development and avoiding unnecessary interaction with Back4app. 
 
 
 ### 3. Navigation
@@ -77,9 +82,9 @@ As a creator, I want to be able to manually review answers by competitors in my 
 
 **Tab Navigation** (Tab to Screen)
 
-* Compete {arena icon}
-* Create  {pen icon}
-* Profile {head icon}
+* Compete 
+* Create  
+* Exit
 
 **Flow Navigation** (Screen to Screen)
 
