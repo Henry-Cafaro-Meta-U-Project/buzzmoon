@@ -6,10 +6,12 @@ import ResultsEngine from '../../Logic/ResultsEngine';
 import { Spinner, Center, Tooltip, Heading, Table, Thead, Tbody, Tr, Th, Td, Icon,
         TabList, Tabs, Tab, TabPanels, TabPanel, VStack, Box, HStack, Text, Button,
         Popover, PopoverBody, PopoverContent, PopoverTrigger, PopoverArrow,
-         PopoverCloseButton} from '@chakra-ui/react';
+         PopoverCloseButton, Flex} from '@chakra-ui/react';
 import {AiFillTrophy, AiOutlineQuestionCircle, AiOutlineCheck, AiOutlineClose, AiOutlineDash} from 'react-icons/ai'
-
 import { TiEquals } from "react-icons/ti";
+import { Share } from 'react-twitter-widgets'
+import AsciiTable from 'ascii-data-table'
+
 
 const formatConfig = {
   minimumFractionDigits: 3,
@@ -51,13 +53,20 @@ export default function Results(props) {
     )
   }
 
+  const userName = BackendActor.currentUser().attributes.realName;
+  const userRowIndex = standardTable.findIndex((row) => (row.name === userName));
+  const stringToTweet = tweetString(standardTable, userRowIndex, gameData); 
+
   return (
     <Center mt={'20'}>
-
+      <script src="ascii-table.min.js"></script>
       <VStack w={{sm:"95vw", md: "75vw", lg:"60vw"}} align={'center'} overflowX={'auto'}>
         <Heading borderBottom={'1px solid black'} mb={'10'}>
         {`${gameData.title}`}
         </Heading>
+        {userRowIndex > -1 && <Flex w={'100%'}>
+          <Share url={stringToTweet}></Share>
+        </Flex>}
         <Tabs w={{base:"95vw", sm: "95vw", md:"100%"}} size='md' variant='enclosed' colorScheme={'black'}>
         <TabList>
           <Tab>
@@ -105,6 +114,7 @@ export default function Results(props) {
       </Tabs>
       </VStack>
     </Center>
+    
   )
 }
 
@@ -240,4 +250,72 @@ function trophyIcon(rank) {
   if(rank == 3){
     return <Icon mx={'2'} fontSize={'xl'} color={'orange.500'} as={AiFillTrophy}></Icon>
   }
+}
+
+function tweetString(standardTable, userRowIndex, gameData){
+  let stringRows = AsciiRows(standardTable.map((obj, idx) => ({...obj, place:idx}))
+                                                .slice(Math.max(0,userRowIndex-1), Math.min(userRowIndex+2, standardTable.length)))
+                          .split("\n")
+                          .filter((e, idx) => (idx%2 == 1))
+                          .map((e) => (e.substring(1,e.length-1)))
+                          
+  const rowLen = stringRows[1].length;
+  stringRows = [stringRows[0]].concat(userRowIndex > 1 ? [(" " + String.fromCodePoint(8942)+" ").repeat(rowLen/3)] : []).concat(stringRows.slice(1));
+  const stringToTweet = stringRows.join("\n");
+  return `\nI got ${ordinal_suffix_of(userRowIndex+1)} place in ${gameData.title}!\n` 
+                  + transformMonospace(stringToTweet);  
+}
+
+function AsciiRows(rowArr){
+  const rows = [['Place ', ' Name ']].concat(rowArr.map((e) => (
+    [`${e.place+1} `, ` ${e.name} `]
+  )));
+  const res = AsciiTable.tableFromSerializedData(rows, 50);
+  return res;
+}
+
+
+function ordinal_suffix_of(i) {
+  var j = i % 10,
+      k = i % 100;
+  if (j == 1 && k != 11) {
+      return i + "st";
+  }
+  if (j == 2 && k != 12) {
+      return i + "nd";
+  }
+  if (j == 3 && k != 13) {
+      return i + "rd";
+  }
+  return i + "th";
+}
+
+function transformMonospace(str){
+  
+  const monospace = (char) => {
+    const code = char.charCodeAt(0);
+    if(65 <= code && code <= 90){
+      const newCode = parseInt('1d670', 16) + code - 65;
+      return String.fromCodePoint(newCode);
+    }
+    if(97 <= code && code <= 122){
+      const newCode = parseInt('1d68a', 16) + code - 97;
+      return String.fromCodePoint(newCode);
+    }
+    if(48 <= code && code <= 57){
+      const newCode = parseInt('1d7f6', 16) + code -48;
+      return String.fromCodePoint(newCode);
+    }
+    if(char === ' '){
+      const newCode = parseInt('2000', 16);
+      return String.fromCodePoint(newCode);
+    }
+    return char
+  }
+
+  let newString = ""
+  for(let idx = 0; idx < str.length; idx++){
+    newString += monospace(str[idx]);
+  }
+  return newString;
 }

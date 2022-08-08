@@ -3,7 +3,12 @@ import Parse from 'parse/dist/parse.min.js'
 Parse.initialize('nUrzDufzLEaJ3sjzvcvNHvw1hD46jOt4yEipaWHs', 'juaO5lbdY5jTtDXGpzEr2mGtggC0wf2Es11cEruf');
 Parse.serverURL = 'https://parseapi.back4app.com/';
 
+
 export class BackendActor {
+  // returns an object representing the currently logged in user
+  static currentUser(){
+    return Parse.User.current();
+  }
   // handles the user login in the Auth component
   static async handleLogin(username, password, setCurrentUser) {
     try {
@@ -54,6 +59,7 @@ export class BackendActor {
       console.log('error: ', error);
     }
   }
+
 
   // fetches the audio url of a question from the server
   static async getServerAudioURL(gameID, questionNumber) {
