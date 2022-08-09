@@ -36,7 +36,7 @@ export default function CreateGame() {
 
   const deleteQuestion = (questionNumber) => {
     setQuestions(questions.filter((e) => (e.number !== questionNumber))
-      .map((e, idx) => ({ e, number: idx + 1 })));
+      .map((e, idx) => ({ ...e, number: idx + 1 })));
   };
 
   const modifyQuestion = (questionNumber, newQuestion) => {

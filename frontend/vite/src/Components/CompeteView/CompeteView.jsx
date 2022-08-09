@@ -54,6 +54,7 @@ function CompeteView() {
 
     fetchGames();
   }, []);
+  
 
   const screenType = useBreakpointValue({base:"small", md:"medium", lg:"large"});
 
