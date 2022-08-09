@@ -53,7 +53,7 @@ export default function GameSplashPage() {
           </Text>
         </VStack>
         }
-        <Flex w={{base:"100%", md:"80%"}} justifyContent={'space-around'}>
+        <Flex w={{base:"100%", md:"90%"}} justifyContent={'space-around'}>
           {enterModes.length === 0 && <Spinner />}
           {enterModes.includes("play") &&
             <Button
@@ -65,21 +65,21 @@ export default function GameSplashPage() {
                 } catch (error) {
                   alert(error);
                 }}}>
-                  <Heading size={{base:'xs', md:'sm'}}>Enter</Heading>
+                  <Text fontSize={{base:'xs', md:'sm'}}>Enter</Text>
             </Button>}
           {enterModes.includes("results") &&
             <Button
               width={{base:"30%", md:'25%'}}
               onClick={() => {
                 navigate("./results");}}>
-              <Heading size={{base:'xs', md:'sm'}}>Results</Heading>
+              <Text fontSize={{base:'xs', md:'sm'}}>Results</Text>
             </Button>}
           {enterModes.includes("review") &&
             <Button
               width={{base:"30%", md:'25%'}}
               onClick={() => {
                 navigate("./review");}}>
-              <Heading size={{base:'xs', md:'sm'}}>Review Answers</Heading>
+              <Text fontSize={{base:'xs', md:'sm'}}>Review Answers</Text>
             </Button>}
         </Flex>
         
