@@ -53,7 +53,7 @@ export default function GameSplashPage() {
           </Text>
         </VStack>
         }
-        <Center><Flex>
+        <Flex w={{base:"100%", md:"80%"}} justifyContent={'space-around'}>
           {enterModes.length === 0 && <Spinner />}
           {enterModes.includes("play") &&
             <Button
@@ -78,7 +78,7 @@ export default function GameSplashPage() {
                 navigate("./review");}}>
               Review Answers
             </Button>}
-        </Flex></Center>
+        </Flex>
         
         </VStack>
     </Center>
