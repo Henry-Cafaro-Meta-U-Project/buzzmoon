@@ -21,6 +21,9 @@ export default function Game(props) {
   const [cumulativeScore, setCumulativeScore] = React.useState(0);
 
   const [buzzTimer, setBuzzTimer] = React.useState(0);
+  const [buzzTimerTimeouts, setBuzzTimerTimeouts] = React.useState([]);
+  console.log(buzzTimerTimeouts);
+
   const [buzzTimeout, setBuzzTimeout] = React.useState();
 
   const [answerInputText, setAnswerInputText] = React.useState('');
@@ -47,9 +50,12 @@ export default function Game(props) {
   const startBuzzTimer = () => {
     setBuzzTimer(0);
     const {timeAfterBuzz} = gameConfig;
+    let timeoutArr = []
     for(let i = 1; i <= timeAfterBuzz; i++){
-      setTimeout(() => {setBuzzTimer(i)}, i*1000);
+      
+      timeoutArr.push(setTimeout(() => {setBuzzTimer(i)}, i*1000));
     }
+    setBuzzTimerTimeouts(timeoutArr);
     setBuzzTimeout(setTimeout(handleAnswerSubmit, timeAfterBuzz*1000));
   }
 
@@ -74,6 +80,8 @@ export default function Game(props) {
         clearTimeout(buzzTimeout);
         setBuzzTimeout(0);
       }
+      buzzTimerTimeouts.map((e) => {clearTimeout(e);});
+      setBuzzTimerTimeouts([]);
       processAnswer();
       setAnswerInputText('');
       setReadingMode('waitfornxt');
