@@ -29,10 +29,10 @@ export default function GameSplashPage() {
   }, []);
 
   return (
-    <Center mt={{base:'20', md:'20'}} minW={'400px'}>
+    <Center mt={{base:'20', md:'20'}}>
         <VStack spacing={{base:'60px', md:'60px'}}>
         {!gameData ? <Spinner/ > :
-        <VStack spacing={'8'} bg={'gray.200'} p={'5'} borderRadius={'md'} shadow={'md'}>
+        <VStack spacing={'8'} bg={'gray.200'} p={'5'} borderRadius={'md'} shadow={'md'} maxW={'96%'}>
           <Center>
             <Heading size={'xl'} borderBottom={'1px solid black'} mx={{base: '0', md: '20'}}>{gameData.title}</Heading>
           </Center>
@@ -53,10 +53,11 @@ export default function GameSplashPage() {
           </Text>
         </VStack>
         }
-        <Center><Flex>
+        <Flex w={{base:"100%", md:"90%"}} justifyContent={'space-around'}>
           {enterModes.length === 0 && <Spinner />}
           {enterModes.includes("play") &&
             <Button
+              width={{base:"30%", md:'25%'}}
               onClick={async () => {
                 try {
                   const response = await BackendActor.registerGameEntry(gameID);
@@ -64,21 +65,23 @@ export default function GameSplashPage() {
                 } catch (error) {
                   alert(error);
                 }}}>
-                  Enter
+                  <Text fontSize={{base:'xs', md:'sm'}}>Enter</Text>
             </Button>}
           {enterModes.includes("results") &&
             <Button
+              width={{base:"30%", md:'25%'}}
               onClick={() => {
                 navigate("./results");}}>
-              Results
+              <Text fontSize={{base:'xs', md:'sm'}}>Results</Text>
             </Button>}
           {enterModes.includes("review") &&
             <Button
+              width={{base:"30%", md:'25%'}}
               onClick={() => {
                 navigate("./review");}}>
-              Review Answers
+              <Text fontSize={{base:'xs', md:'sm'}}>Review Answers</Text>
             </Button>}
-        </Flex></Center>
+        </Flex>
         
         </VStack>
     </Center>
