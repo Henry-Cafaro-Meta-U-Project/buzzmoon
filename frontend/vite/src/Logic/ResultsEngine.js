@@ -21,11 +21,16 @@ export default class ResultsEngine {
 
   // takes an array of gameresults and returns a table of best buzzes for a given game
   static resultsToBestBuzzesTable(results) {
+    console.log(results);
     if(results.length === 0){
       return [];
     }
 
-    const flatAnswerArray = results.map((e) => (e.answers.map((a) => ({...a, player:(e.name)})))).flat();
+    const flatAnswerArray = results.filter((e) => (e.answers.length > 0)).map((e) => (e.answers.map((a) => ({...a, player:(e.name)})))).flat();
+
+    if(flatAnswerArray.length === 0){
+      return [];
+    }
 
     const maxQuestionIndex = Math.max(...flatAnswerArray.map((e) => (e.questionNumber)));
 
